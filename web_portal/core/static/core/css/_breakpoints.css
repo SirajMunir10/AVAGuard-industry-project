@@ -1,0 +1,29 @@
+/**
+ * AVAGuard — Breakpoint Tokens
+ * =========================================================
+ * Centralized responsive design tokens.
+ *
+ * Media Query Ranges:
+ * 480px  — mobile portrait
+ * 768px  — tablet / mobile landscape
+ * 1024px — small laptop
+ * 1280px — standard desktop
+ * 1536px — large monitor
+ * 1920px — full HD
+ * 2560px — 2K / ultrawide
+ */
+
+:root {
+    --bp-mobile: 480px;
+    --bp-tablet: 768px;
+    --bp-laptop: 1024px;
+    --bp-desktop: 1280px;
+    --bp-wide: 1536px;
+    --bp-fhd: 1920px;
+    --bp-2k: 2560px;
+    
+    /* Layout constants */
+    --max-content-width: 1536px;
+    --sidebar-width: 280px;
+    --sidebar-collapsed-width: 80px;
+}

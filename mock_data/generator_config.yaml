@@ -1,0 +1,32 @@
+generation:
+  app_count: 25
+  audit_log_count: 50
+  device_ratio: 1.5
+  failure_injection_rate: 0.15
+  guest_user_ratio: 0.13
+  privileged_user_ratio: 0.08
+  risk_event_count: 15
+  signin_log_count: 100
+  user_count: 1000
+profiles:
+  environments:
+    production:
+      failure_rate: 0.08
+    staging:
+      failure_rate: 0.15
+    testing:
+      failure_rate: 0.35
+security:
+  device_compliance_enforcement: true
+  legacy_auth_blocked: true
+  mfa_enforcement: selective
+  min_password_length: 12
+  password_expiry_days: 90
+  security_defaults_enabled: false
+  session_timeout_hours: 12
+  zero_trust_enabled: true
+tenant:
+  domain: mockcorp.com
+  name: MockCorp
+  region: US
+  tenant_id: b2ba9a0f-5838-4215-bcd6-6b955811e7c7

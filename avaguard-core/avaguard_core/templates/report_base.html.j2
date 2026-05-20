@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAGuard Compliance Report</title>
+    <style>
+
+        :root {
+    --primary: {{ theme.primary }};
+    --accent: {{ theme.accent }};
+    --success: {{ theme.success }};
+    --warning: {{ theme.warning }};
+    --danger: {{ theme.danger }};
+    --bg: {{ theme.bg }};
+    --card-bg: {{ theme.card_bg }};
+    --text: {{ theme.text }};
+    --border: #e2e8f0;
+}
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+            background: var(--bg); 
+            padding: 40px; 
+            color: var(--text); 
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 12px; 
+            text-align: center; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .score { 
+            font-size: 3em; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 5px;
+        }
+        
+        .check-item { 
+            background: var(--card-bg); 
+            margin-bottom: 15px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border); 
+            overflow: hidden; 
+        }
+        
+        .check-head { 
+            padding: 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            cursor: pointer; 
+            background: #fff;
+            transition: background 0.2s;
+            border-left: 5px solid transparent;
+        }
+        
+        .check-head:hover { background: #f1f5f9; }
+        .check-head.PASS { border-left-color: var(--success); }
+        .check-head.FAIL { border-left-color: var(--danger); }
+        .check-head.WARNING { border-left-color: var(--warning); }
+        .check-head.ERROR { border-left-color: #94a3b8; }
+        .check-head.SKIPPED { border-left-color: #cbd5e1; }
+        
+        .check-body { 
+            padding: 25px; 
+            display: none; 
+            background: #fafafa; 
+            border-top: 1px solid var(--border); 
+        }
+        
+        .check-body.open { display: block; }
+        
+        .badge { 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-weight: 600; 
+            font-size: 0.85em; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        .badge.PASS { background: #dcfce7; color: #166534; }
+        .badge.FAIL { background: #fee2e2; color: #991b1b; }
+        .badge.WARNING { background: #fef3c7; color: #92400e; }
+        .badge.ERROR { background: #e2e8f0; color: #475569; }
+        .badge.SKIPPED { background: #f1f5f9; color: #64748b; }
+        
+        .check-info {
+            flex: 1;
+            min-width: 0;
+            margin-right: 15px;
+        }
+        
+        .check-id {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .check-title {
+            font-weight: 500;
+            margin-top: 4px;
+            font-size: 1.05rem;
+        }
+        
+        .check-stats {
+            font-size: 0.9em;
+            color: #64748b;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 15px; 
+            font-size: 0.9em; 
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        th { 
+            background: #f1f5f9; 
+            text-align: left; 
+            padding: 12px 15px; 
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+        
+        td { 
+            padding: 12px 15px; 
+            border-bottom: 1px solid var(--border); 
+        }
+        
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #f8fafc; }
+        
+        .remediation-box {
+            margin-top: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            border-radius: 6px;
+            color: #1e3a8a;
+            font-size: 0.95rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        .meta-value {
+            opacity: 0.95;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 20px; }
+            .header h1 { font-size: 1.75rem; }
+            .summary-grid { grid-template-columns: 1fr; }
+            .score { font-size: 2rem; }
+            .check-head { flex-wrap: wrap; }
+            .check-stats { display: none; }
+            .meta-grid { grid-template-columns: 1fr; }
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🛡️ AVAGuard Compliance Report</h1>
+            <p class="subtitle">{{ metadata.scope }} Assessment - {{ metadata.tier.value.upper() }}</p>
+            <div class="meta-grid">
+                <div class="meta-item"><span class="meta-label">Scan ID:</span><span class="meta-value">{{ metadata.scan_id }}</span></div>
+                <div class="meta-item"><span class="meta-label">Environment:</span><span class="meta-value">{{ metadata.environment }}</span></div>
+                <div class="meta-item"><span class="meta-label">Tier:</span><span class="meta-value">{{ metadata.tier.value.upper() }}</span></div>
+                <div class="meta-item"><span class="meta-label">Scope:</span><span class="meta-value">{{ metadata.scope }}</span></div>
+                <div class="meta-item"><span class="meta-label">Generated:</span><span class="meta-value">{{ metadata.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</span></div>
+                <div class="meta-item"><span class="meta-label">Initiated By:</span><span class="meta-value">{{ metadata.initiated_by }}</span></div>
+            </div>
+        </header>
+
+        <div class="summary-grid">
+            <div class="card">
+                <span class="score" style="color:{{ score_color }}">{{ score }}%</span>
+                Overall Compliance
+            </div>
+            <div class="card">
+                <span class="score" style="color:var(--success)">{{ passed }}</span>
+                Passed Controls
+            </div>
+            <div class="card">
+                <span class="score" style="color:var(--danger)">{{ failed }}</span>
+                Failed Controls
+            </div>
+            <div class="card">
+                <span class="score" style="color:var(--warning)">{{ warning }}</span>
+                Warnings
+            </div>
+        </div>
+
+        {% include "report_findings.html.j2" %}
+        
+        <div class="footer">
+            Generated by AVAGuard v{{ metadata.version }}
+        </div>
+    </div>
+    
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle check details
+            document.querySelectorAll('.check-head').forEach(el => {
+                el.addEventListener('click', function() {
+                    const body = this.nextElementSibling;
+                    body.classList.toggle('open');
+                    
+                    // Toggle icon if exists
+                    const icon = this.querySelector('.toggle-icon');
+                    if (icon) {
+                        icon.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                });
+            });
+            
+            // Auto-expand failed checks
+            const autoExpand = true; // Can be configurable
+            if (autoExpand) {
+                document.querySelectorAll('.check-head.FAIL, .check-head.WARNING, .check-head.ERROR').forEach(el => {
+                    el.nextElementSibling.classList.add('open');
+                });
+            }
+        });
+    
+    </script>
+</body>
+</html>

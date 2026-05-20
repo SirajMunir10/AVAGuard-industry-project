@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Up Two-Factor Authentication - AVAGuard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+    <script src="{% static 'core/js/theme.js' %}"></script>
+</head>
+<body class="avag-auth-body">
+    <div class="avag-auth-card avag-auth-card--wide" style="position: relative;">
+        <button id="avag-theme-toggle" onclick="AVAToggleTheme()" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--avag-text-secondary); cursor: pointer; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;"></button>
+        <div class="avag-auth-logo">
+            <div class="avag-auth-logo-icon avag-auth-logo-icon--green">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="14" y="3" rx="1"/><path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3"/></svg>
+            </div>
+            <h1>Set Up 2FA</h1>
+            <p>Secure your account with an authenticator app</p>
+        </div>
+
+        <div class="avag-auth-step-indicator">
+            <span class="avag-auth-step avag-auth-step--active">① Scan QR Code</span>
+            <span class="avag-auth-step avag-auth-step--inactive">② Enter Code</span>
+            <span class="avag-auth-step avag-auth-step--inactive">③ Done</span>
+        </div>
+
+        {% if messages %}
+        <div class="avag-auth-messages">
+            {% for message in messages %}
+            <div class="avag-auth-message {% if message.tags == 'error' %}avag-auth-message--error{% elif message.tags == 'success' %}avag-auth-message--success{% else %}avag-auth-message--info{% endif %}">
+                {% if message.tags == 'error' %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                {% elif message.tags == 'success' %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                {% endif %}
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="avag-auth-instructions">
+            <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avag-icon-align-3-6"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>How to set up</h3>
+            <ol>
+                <li>Download <strong>Google Authenticator</strong> or <strong>Microsoft Authenticator</strong></li>
+                <li>Scan the QR code below with your app</li>
+                <li>Enter the 6-digit code shown in your app</li>
+            </ol>
+        </div>
+
+        <div class="avag-auth-qr-section">
+            <div class="avag-auth-qr-wrapper">
+                <img src="data:image/png;base64,{{ qr_code_base64 }}" alt="TOTP QR Code">
+            </div>
+        </div>
+
+        <div class="avag-auth-secret-key">
+            <label>Manual Entry Key</label>
+            <code>{{ secret_key }}</code>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="avag-auth-form-group">
+                <label for="code">Enter the 6-digit code from your app</label>
+                <input type="text" id="code" name="code" class="avag-auth-totp-code-input avag-auth-input--green-focus"
+                       placeholder="000000" maxlength="6" pattern="\d{6}"
+                       autocomplete="one-time-code" autofocus required>
+            </div>
+            <button type="submit" class="avag-auth-btn avag-auth-btn--green">Verify & Activate 2FA</button>
+        </form>
+
+        <div class="avag-auth-compatible-apps">
+            <span>Compatible with: Google Authenticator · Microsoft Authenticator · Authy</span>
+        </div>
+    </div>
+</body>
+</html>

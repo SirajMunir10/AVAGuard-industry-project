@@ -1,0 +1,723 @@
+/**
+ * AVAGuard — Active Sessions Page Styles
+ * Template: admin/sessions.html
+ * =========================================================
+ */
+
+/* ── Stats Bar ── */
+.sessions-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.session-stat {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.session-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-stat-icon.primary {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--avag-accent-primary);
+}
+
+.session-stat-icon.success {
+    background: rgba(0, 255, 136, 0.15);
+    color: var(--avag-accent-success);
+}
+
+.session-stat-icon.warning {
+    background: rgba(255, 217, 61, 0.15);
+    color: var(--avag-accent-warning);
+}
+
+.session-stat-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.session-stat-info {
+    flex: 1;
+}
+
+.session-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--avag-text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.session-stat-label {
+    font-size: 13px;
+    color: var(--avag-text-secondary);
+}
+
+/* ── Filters Section ── */
+.sessions-filters {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.filters-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--avag-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group input,
+.filter-group select {
+    padding: 10px 14px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--avag-accent-primary);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* ── Bulk Actions ── */
+.bulk-bar {
+    display: none;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.08) 0%, rgba(255, 217, 61, 0.08) 100%);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.bulk-bar.visible {
+    display: flex;
+}
+
+.bulk-bar .selected-count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--avag-accent-danger);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.bulk-bar .bulk-actions {
+    margin-left: auto;
+}
+
+/* ── Sessions Table Card ── */
+.sessions-card {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sessions-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+
+.sessions-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--avag-text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sessions-title svg {
+    color: var(--avag-accent-primary);
+}
+
+.session-count-badge {
+    background: var(--avag-bg-input);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+}
+
+/* ── Sessions Table ── */
+.sessions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sessions-table th,
+.sessions-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+
+.sessions-table th {
+    background: var(--avag-bg-input);
+    color: var(--avag-text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* ── Sortable Column Headers ── */
+.sortable-header {
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s;
+}
+
+.sortable-header:hover {
+    color: var(--avag-accent-primary);
+}
+
+.sortable-header .sort-icon {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    margin-left: 6px;
+    vertical-align: middle;
+    opacity: 0.4;
+    transition: opacity 0.15s;
+}
+
+.sortable-header .sort-icon svg {
+    width: 10px;
+    height: 10px;
+    display: block;
+}
+
+.sortable-header:hover .sort-icon {
+    opacity: 0.8;
+}
+
+.sortable-header.sort-asc .sort-icon,
+.sortable-header.sort-desc .sort-icon {
+    opacity: 1;
+    color: var(--avag-accent-primary);
+}
+
+.sortable-header.sort-asc .sort-icon svg.up { opacity: 1; }
+.sortable-header.sort-asc .sort-icon svg.down { opacity: 0.25; }
+.sortable-header.sort-desc .sort-icon svg.down { opacity: 1; }
+.sortable-header.sort-desc .sort-icon svg.up { opacity: 0.25; }
+
+.sessions-table td {
+    color: var(--avag-text-primary);
+    font-size: 14px;
+}
+
+.sessions-table tbody tr {
+    transition: background 0.2s;
+}
+
+.sessions-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.03);
+}
+
+.sessions-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ── User Cell (sessions context) ── */
+.sessions-table .user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sessions-table .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--avag-accent-primary) 0%, var(--avag-accent-success) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--avag-text-inverse);
+    flex-shrink: 0;
+}
+
+.sessions-table .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sessions-table .user-name {
+    font-weight: 500;
+    color: var(--avag-text-primary);
+}
+
+.sessions-table .user-email {
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+}
+
+.sessions-table .user-role {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--avag-accent-primary);
+    margin-left: 8px;
+}
+
+/* ── Device Cell ── */
+.device-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.device-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--avag-bg-input);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--avag-text-secondary);
+}
+
+.device-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.device-name {
+    font-weight: 500;
+    color: var(--avag-text-primary);
+}
+
+.device-ip {
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+    font-family: monospace;
+}
+
+/* ── Status Badge ── */
+.status-active {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(0, 255, 136, 0.12);
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--avag-accent-success);
+}
+
+.status-active .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    animation: avag-pulse 2s infinite;
+}
+
+@keyframes avag-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ── Stale Session Badge ── */
+.status-stale {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 217, 61, 0.12);
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--avag-accent-warning);
+}
+
+.dot-warn {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* ── Revoke Button ── */
+.revoke-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 6px;
+    color: var(--avag-accent-danger);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.revoke-btn:hover {
+    background: rgba(255, 107, 107, 0.15);
+    border-color: var(--avag-accent-danger);
+}
+
+.revoke-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Checkbox ── */
+.session-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--avag-accent-primary);
+}
+
+/* ── Pagination ── */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    border-top: 1px solid var(--avag-border-color);
+}
+
+.btn-page {
+    padding: 8px 14px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 6px;
+    color: var(--avag-text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-page:hover {
+    background: var(--avag-accent-primary);
+    border-color: var(--avag-accent-primary);
+    color: var(--avag-text-inverse);
+}
+
+.page-info {
+    padding: 8px 16px;
+    color: var(--avag-text-secondary);
+    font-size: 13px;
+}
+
+/* ── Empty State (sessions scope) ── */
+.sessions-table .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--avag-text-secondary);
+}
+
+.sessions-table .empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* ── Status Filter Tabs ── */
+.session-status-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 16px 20px 0;
+    border-bottom: 1px solid var(--avag-border-color);
+    background: var(--avag-bg-card);
+}
+
+.session-status-tab {
+    padding: 8px 18px;
+    border: none;
+    background: transparent;
+    color: var(--avag-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+
+.session-status-tab:hover {
+    color: var(--avag-text-primary);
+    background: var(--avag-bg-input);
+}
+
+.session-status-tab.active {
+    color: var(--avag-accent-primary);
+    border-bottom-color: var(--avag-accent-primary);
+    background: transparent;
+}
+
+.tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 6px;
+    background: var(--avag-bg-input);
+    color: var(--avag-text-secondary);
+}
+
+.session-status-tab.active .tab-count {
+    background: rgba(0, 136, 204, 0.15);
+    color: var(--avag-accent-primary);
+}
+
+/* ── View Details Button ── */
+.view-details-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--avag-border-color);
+    border-radius: 6px;
+    color: var(--avag-text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin-right: 6px;
+    font-family: inherit;
+}
+
+.view-details-btn:hover {
+    background: var(--avag-bg-input);
+    border-color: var(--avag-accent-primary);
+    color: var(--avag-accent-primary);
+}
+
+.view-details-btn svg {
+    width: 13px;
+    height: 13px;
+}
+
+/* ── Session Detail Modal ── */
+.session-detail-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.session-detail-backdrop.open {
+    display: flex;
+}
+
+.session-detail-modal {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modal-slide-in 0.2s ease;
+}
+
+@keyframes modal-slide-in {
+    from { opacity: 0; transform: translateY(-16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.session-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--avag-border-color);
+    background: var(--avag-bg-input);
+}
+
+.session-detail-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--avag-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.session-detail-close {
+    background: transparent;
+    border: none;
+    color: var(--avag-text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+
+.session-detail-close:hover {
+    background: var(--avag-bg-input);
+    color: var(--avag-text-primary);
+}
+
+.session-detail-body {
+    padding: 24px;
+}
+
+.session-detail-section {
+    margin-bottom: 20px;
+}
+
+.session-detail-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--avag-text-secondary);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+
+.session-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.session-detail-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.session-detail-field-label {
+    font-size: 11px;
+    color: var(--avag-text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.session-detail-field-value {
+    font-size: 14px;
+    color: var(--avag-text-primary);
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.session-detail-field-value.mono {
+    font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
+    font-size: 12px;
+}
+
+.session-detail-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--avag-border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: var(--avag-bg-input);
+}
+
+/* ── User Profile Modal (used from users page) ── */
+.user-profile-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9998;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.user-profile-backdrop.open {
+    display: flex;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .avag-sessions-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .avag-session-list { flex-direction: column; }
+    .avag-session-card { width: 100%; }
+    .avag-session-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .session-detail-grid { grid-template-columns: 1fr; }
+    .session-detail-modal { margin: 16px; max-width: calc(100vw - 32px); }
+}

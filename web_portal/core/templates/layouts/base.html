@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAGuard | Cyber-Sentry</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <span style="color: var(--accent-safe);">🛡️</span> AVAGUARD
+        </div>
+        
+        <nav>
+            <a href="{% url 'dashboard' %}" class="nav-link active">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="#" class="nav-link">
+                <span>radar</span> Live Scan
+            </a>
+            <a href="#" class="nav-link">
+                <span>history</span> Audit Logs
+            </a>
+            <a href="#" class="nav-link">
+                <span>settings</span> Configuration
+            </a>
+        </nav>
+
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="font-size: 0.8rem; color: #64748b;">
+                System Status: <span style="color: var(--accent-safe);">ONLINE</span><br>
+                v1.0.0
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div>
+                <h2 style="font-size: 1.5rem;">{% block title %}Overview{% endblock %}</h2>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">{% block subtitle %}Welcome back, Admin{% endblock %}</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button class="theme-toggle" onclick="toggleTheme()">🌗 Switch Theme</button>
+                <div style="width: 40px; height: 40px; background: var(--accent-safe); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000;">
+                    A
+                </div>
+            </div>
+        </header>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Simple Theme Toggler
+        function toggleTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const newTheme = current === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+        // Load saved theme
+        if(localStorage.getItem('theme') === 'light') {
+            document.body.setAttribute('data-theme', 'light');
+        }
+    </script>
+</body>
+</html>

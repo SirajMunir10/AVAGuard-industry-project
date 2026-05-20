@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAGuard Compliance Report — {{ scan.scan_timestamp|date:"M d, Y" }}</title>
+    <style>
+        /* Print-optimized CSS for Save-as-PDF */
+        @page { size: A4; margin: 20mm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif; color: #1a1a2e; line-height: 1.6; font-size: 12px; }
+
+        .report-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 2px solid #0f0f23; margin-bottom: 24px;
+        }
+        .report-title { font-size: 20px; font-weight: 700; color: #0f0f23; }
+        .report-subtitle { font-size: 12px; color: #666; margin-top: 4px; }
+        .report-logo { font-size: 18px; font-weight: 800; color: #0099cc; }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-bottom: 24px;
+        }
+        .summary-card {
+            border: 1px solid #ddd; border-radius: 8px; padding: 16px; text-align: center;
+        }
+        .summary-label { font-size: 10px; text-transform: uppercase; font-weight: 600; color: #888; }
+        .summary-value { font-size: 24px; font-weight: 700; margin: 4px 0; }
+        .summary-value.pass { color: #22c55e; }
+        .summary-value.fail { color: #ef4444; }
+        .summary-value.score { color: #0099cc; }
+
+        h2 { font-size: 14px; font-weight: 700; margin: 20px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+
+        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px; }
+        thead th { background: #f8f9fa; padding: 8px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #ddd; }
+        tbody td { padding: 8px 12px; border-bottom: 1px solid #eee; }
+
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+        .badge-pass { background: #dcfce7; color: #166534; }
+        .badge-fail { background: #fee2e2; color: #991b1b; }
+        .badge-warning { background: #fef9c3; color: #854d0e; }
+
+        .footer {
+            margin-top: 32px; padding-top: 12px; border-top: 1px solid #ddd;
+            font-size: 10px; color: #999; display: flex; justify-content: space-between;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+<!-- Print Button (hidden in print) -->
+<div class="no-print" style="text-align: right; padding: 12px;">
+    <button onclick="window.print()" style="padding: 10px 24px; background: #0099cc; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+        Print / Save as PDF
+    </button>
+    <button onclick="window.close()" style="padding: 10px 24px; background: #eee; color: #333; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-left: 8px;">
+        Close
+    </button>
+</div>
+
+<!-- Report Header -->
+<div class="report-header">
+    <div>
+        <div class="report-title">Compliance Scan Report</div>
+        <div class="report-subtitle">
+            Generated {{ now|date:"M d, Y H:i" }} by {{ generated_by }} ·
+            Scan Date: {{ scan.scan_timestamp|date:"M d, Y H:i" }} ·
+            Scope: {{ scan.scope }}
+        </div>
+    </div>
+    <div class="report-logo">AVAGuard</div>
+</div>
+
+<!-- Summary Cards -->
+<div class="summary-grid">
+    <div class="summary-card">
+        <div class="summary-label">Overall Score</div>
+        <div class="summary-value score">{{ scan.overall_score|floatformat:1 }}%</div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-label">Passed</div>
+        <div class="summary-value pass">{{ scan.passed_count }}</div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-label">Failed</div>
+        <div class="summary-value fail">{{ scan.failed_count }}</div>
+    </div>
+    <div class="summary-card">
+        <div class="summary-label">Warnings</div>
+        <div class="summary-value" style="color: #eab308;">{{ scan.warning_count }}</div>
+    </div>
+</div>
+
+<!-- Scan Metadata -->
+<h2>Scan Details</h2>
+<table>
+    <tbody>
+        <tr><td style="font-weight: 600; width: 180px;">Scan ID</td><td>{{ scan.id }}</td></tr>
+        <tr><td style="font-weight: 600;">Tier</td><td>{{ scan.tier }}</td></tr>
+        <tr><td style="font-weight: 600;">Environment</td><td>{{ scan.environment }}</td></tr>
+        <tr><td style="font-weight: 600;">Target Tenant</td><td>{{ scan.target_tenant|default:"N/A" }}</td></tr>
+        <tr><td style="font-weight: 600;">Duration</td><td>{{ scan.duration_seconds|floatformat:1 }}s</td></tr>
+        <tr><td style="font-weight: 600;">Uploaded By</td><td>{{ scan.uploaded_by.email|default:"—" }}</td></tr>
+    </tbody>
+</table>
+
+{% if failed.count > 0 %}
+<h2>Failed Checks ({{ failed.count }})</h2>
+<table>
+    <thead><tr><th>Check ID</th><th>Name</th><th>Status</th></tr></thead>
+    <tbody>
+        {% for r in failed %}
+        <tr>
+            <td style="font-family: monospace;">{{ r.check_id }}</td>
+            <td>{{ r.check_name }}</td>
+            <td><span class="badge badge-fail">FAIL</span></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if warnings.count > 0 %}
+<h2>Warnings ({{ warnings.count }})</h2>
+<table>
+    <thead><tr><th>Check ID</th><th>Name</th><th>Status</th></tr></thead>
+    <tbody>
+        {% for r in warnings %}
+        <tr>
+            <td style="font-family: monospace;">{{ r.check_id }}</td>
+            <td>{{ r.check_name }}</td>
+            <td><span class="badge badge-warning">WARNING</span></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+{% if passed.count > 0 %}
+<h2>Passed Checks ({{ passed.count }})</h2>
+<table>
+    <thead><tr><th>Check ID</th><th>Name</th><th>Status</th></tr></thead>
+    <tbody>
+        {% for r in passed %}
+        <tr>
+            <td style="font-family: monospace;">{{ r.check_id }}</td>
+            <td>{{ r.check_name }}</td>
+            <td><span class="badge badge-pass">PASS</span></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<!-- Footer -->
+<div class="footer">
+    <span>AVAGuard Compliance Platform — Confidential</span>
+    <span>Page 1</span>
+</div>
+
+</body>
+</html>

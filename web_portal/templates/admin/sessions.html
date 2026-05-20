@@ -1,0 +1,379 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Active Sessions - AVAGuard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/avag-sessions.css' %}">
+{% endblock %}
+
+{% block page_title %}Active Sessions{% endblock %}
+
+{% block header_actions %}
+<div class="header-actions" style="display: flex; gap: 12px; align-items: center; margin-right: 16px;">
+    <button class="navbar-item" id="revokeAllBtn" onclick="revokeAllSessions()" {% if not users_page %}disabled{% endif %} title="Revoke All Connected Sessions">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+        </svg>
+    </button>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Stats Bar -->
+<div class="sessions-stats">
+    <div class="session-stat">
+        <div class="session-stat-icon primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="20" height="14" x="2" y="3" rx="2"/>
+                <line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+            </svg>
+        </div>
+        <div class="session-stat-info">
+            <div class="session-stat-value">{{ users_page.paginator.count|default:0 }}</div>
+            <div class="session-stat-label">Active Users</div>
+        </div>
+    </div>
+    <div class="session-stat">
+        <div class="session-stat-icon success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        </div>
+        <div class="session-stat-info">
+            <div class="session-stat-value">{{ unique_users|default:0 }}</div>
+            <div class="session-stat-label">Unique Users</div>
+        </div>
+    </div>
+    <div class="session-stat">
+        <div class="session-stat-icon warning">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 8v4l3 3"/>
+                <circle cx="12" cy="12" r="10"/>
+            </svg>
+        </div>
+        <div class="session-stat-info">
+            <div class="session-stat-value">{{ avg_duration|default:"--" }}</div>
+            <div class="session-stat-label">Avg Session Duration</div>
+        </div>
+    </div>
+</div>
+
+<!-- Filters Section -->
+<div class="sessions-filters">
+    <form method="get" class="filters-row">
+        <div class="filter-group">
+            <label>Search</label>
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search by user, email, device or IP...">
+        </div>
+        
+        <div class="filter-group">
+            <label>Role</label>
+            <select name="role">
+                <option value="">All Roles</option>
+                <option value="SUPER_ADMIN" {% if role_filter == 'SUPER_ADMIN' %}selected{% endif %}>Super Admin</option>
+                <option value="IT_ADMIN" {% if role_filter == 'IT_ADMIN' %}selected{% endif %}>IT Admin</option>
+                <option value="AUDITOR" {% if role_filter == 'AUDITOR' %}selected{% endif %}>Auditor</option>
+                <option value="VIEWER" {% if role_filter == 'VIEWER' %}selected{% endif %}>Viewer</option>
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label>Date Range</label>
+            <select name="date_range" onchange="toggleCustomDates(this)">
+                <option value="today" {% if date_range == 'today' %}selected{% endif %}>Today</option>
+                <option value="7" {% if date_range == '7' %}selected{% endif %}>Last 7 Days</option>
+                <option value="30" {% if date_range == '30' %}selected{% endif %}>Last 30 Days</option>
+                <option value="all" {% if date_range == 'all' or not date_range %}selected{% endif %}>All Time</option>
+                <option value="custom" {% if date_range == 'custom' %}selected{% endif %}>Custom Range</option>
+            </select>
+        </div>
+        
+        <div class="filter-group custom-dates" id="customDates" style="{% if date_range != 'custom' %}display: none;{% else %}display: flex;{% endif %} min-width: 320px;">
+            <label>From - To</label>
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                <input type="date" name="date_from" value="{{ date_from }}" class="form-input" style="flex: 1; min-width: 130px;">
+                <span style="color: var(--avag-text-secondary); flex-shrink: 0;">to</span>
+                <input type="date" name="date_to" value="{{ date_to }}" class="form-input" style="flex: 1; min-width: 130px;">
+            </div>
+        </div>
+        
+        <div class="filter-buttons" style="display: flex; align-items: flex-end; gap: 12px; height: 100%;">
+            <div class="filter-group" style="flex: 0 0 auto; margin-bottom: 0;">
+                <label style="visibility: hidden;">Apply</label>
+                <button type="submit" class="btn btn-primary" style="height: 42px; padding: 0 24px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                    </svg>
+                    Apply
+                </button>
+            </div>
+            {% if search_query or role_filter or date_range != 'all' %}
+            <div class="filter-group" style="flex: 0 0 auto; margin-bottom: 0;">
+                <label style="visibility: hidden;">Clear</label>
+                <a href="{% url 'active_sessions' %}" class="btn btn-secondary" style="height: 42px; display: flex; align-items: center; padding: 0 24px;">Clear</a>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<!-- Bulk Actions Bar -->
+<div class="bulk-bar" id="bulkBar">
+    <div class="selected-count">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect width="20" height="14" x="2" y="3" rx="2"/>
+            <line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+        </svg>
+        <span id="selectedCount">0</span> users selected
+    </div>
+    <div class="bulk-actions">
+        <button class="btn btn-danger" onclick="bulkRevoke()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+            </svg>
+            Revoke Selected
+        </button>
+    </div>
+</div>
+
+<!-- Sessions Table -->
+<div class="sessions-card">
+    <div class="sessions-card-header">
+        <h3 class="sessions-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="20" height="14" x="2" y="3" rx="2"/>
+                <line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+            </svg>
+            Active Users
+            <span class="session-count-badge" id="visibleCount">{{ users_page.paginator.count }} active</span>
+        </h3>
+    </div>
+
+    <!-- Status Filter Tabs -->
+    <div class="session-status-tabs">
+        <button class="session-status-tab active" onclick="filterSessionTab('all', this)">
+            All <span class="tab-count" id="tabAll">{{ users_page.paginator.count }}</span>
+        </button>
+        <button class="session-status-tab" onclick="filterSessionTab('active', this)">
+            Healthy <span class="tab-count" id="tabActive">0</span>
+        </button>
+        <button class="session-status-tab" onclick="filterSessionTab('stale', this)">
+            Stale <span class="tab-count" id="tabStale">0</span>
+        </button>
+    </div>
+
+    <table class="sessions-table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll" class="session-checkbox" onchange="toggleSelectAll()"></th>
+                <th class="sortable-header" onclick="sortSessionsTable(1, 'text', this)">
+                    User
+                    <span class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </th>
+                <th class="sortable-header" onclick="sortSessionsTable(2, 'text', this)">
+                    Primary Device
+                    <span class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </th>
+                <th class="sortable-header" onclick="sortSessionsTable(3, 'number', this)">
+                    Sessions
+                    <span class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </th>
+                <th class="sortable-header" onclick="sortSessionsTable(4, 'date', this)">
+                    Last Active
+                    <span class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </th>
+                <th class="sortable-header" onclick="sortSessionsTable(5, 'text', this)">
+                    Status
+                    <span class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </th>
+                <th>Investigate</th>
+            </tr>
+        </thead>
+        <tbody id="sessionsTable">
+            {% for u in users_page %}
+            <tr data-user-id="{{ u.id }}"
+                data-user-name="{{ u.full_name }}"
+                data-user-email="{{ u.email }}"
+                data-device-name="{{ u.primary_device_name }}"
+                data-ip-address="{{ u.primary_ip }}"
+                data-last-activity="{{ u.latest_activity|date:'c' }}"
+                data-last-activity-display="{{ u.latest_activity|timesince }} ago"
+                data-is-stale="{% if u.is_stale %}true{% else %}false{% endif %}"
+                data-user-role="{{ u.get_role_display }}">
+                <td>
+                    {% if u.can_revoke %}
+                    <input type="checkbox" class="session-checkbox" name="user_ids" value="{{ u.id }}" onchange="updateBulkBar()">
+                    {% else %}
+                    <input type="checkbox" disabled title="Cannot select a higher role or yourself">
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="user-cell">
+                        <div class="user-avatar">
+                            {{ u.first_name|slice:":1"|upper }}{{ u.last_name|slice:":1"|upper }}
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                {{ u.full_name }}
+                                <span class="user-role">{{ u.get_role_display }}</span>
+                            </span>
+                            <span class="user-email">{{ u.email }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="device-cell">
+                        <div class="device-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="20" height="14" x="2" y="3" rx="2"/>
+                                <line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+                            </svg>
+                        </div>
+                        <div class="device-info">
+                            <span class="device-name">{{ u.primary_device_name }}</span>
+                            <span class="device-ip">{{ u.primary_ip }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td data-sort-value="{{ u.active_session_count }}">
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="font-weight: 600; font-size: 14px;">{{ u.active_session_count }}</span>
+                        {% if u.stale_count > 0 %}
+                        <span style="font-size: 11px; color: var(--avag-accent-warning); background: rgba(245, 158, 11, 0.1); padding: 2px 6px; border-radius: 4px;">{{ u.stale_count }} Stale</span>
+                        {% endif %}
+                    </div>
+                </td>
+                <td data-sort-value="{{ u.latest_activity|date:'c' }}">
+                    {{ u.latest_activity|timesince }} ago
+                </td>
+                <td data-sort-value="{% if u.is_stale %}1{% else %}0{% endif %}">
+                    {% if u.is_stale %}
+                    <span class="status-stale" title="No heartbeat for 30+ minutes">
+                        <span class="dot dot-warn"></span>
+                        Stale
+                    </span>
+                    {% else %}
+                    <span class="status-active">
+                        <span class="dot"></span>
+                        Healthy
+                    </span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'user_sessions_detail' u.id %}" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        Investigate
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect width="20" height="14" x="2" y="3" rx="2"/>
+                            <line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>
+                        </svg>
+                        <p>No active users found</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Pagination -->
+    {% if users_page.has_other_pages %}
+    <div class="pagination">
+        {% if users_page.has_previous %}
+        <a href="?page=1{% if search_query %}&q={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if date_range %}&date_range={{ date_range }}{% endif %}" class="btn-page">« First</a>
+        <a href="?page={{ users_page.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if date_range %}&date_range={{ date_range }}{% endif %}" class="btn-page">Previous</a>
+        {% endif %}
+        
+        <span class="page-info">
+            Page {{ users_page.number }} of {{ users_page.paginator.num_pages }}
+        </span>
+        
+        {% if users_page.has_next %}
+        <a href="?page={{ users_page.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if date_range %}&date_range={{ date_range }}{% endif %}" class="btn-page">Next</a>
+        <a href="?page={{ users_page.paginator.num_pages }}{% if search_query %}&q={{ search_query }}{% endif %}{% if role_filter %}&role={{ role_filter }}{% endif %}{% if date_range %}&date_range={{ date_range }}{% endif %}" class="btn-page">Last »</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    window.AVA = window.AVA || {};
+    window.AVA.csrfToken = '{{ csrf_token }}';
+    window.AVA.totalSessionsCount = parseInt('{{ users_page.paginator.count|default:0 }}', 10);
+
+    // ── Tab counts on load ──
+    document.addEventListener('DOMContentLoaded', function () {
+        const rows = document.querySelectorAll('#sessionsTable tr[data-user-id]');
+        let active = 0, stale = 0;
+        rows.forEach(r => { r.dataset.isStale === 'true' ? stale++ : active++; });
+        document.getElementById('tabAll').textContent = active + stale;
+        document.getElementById('tabActive').textContent = active;
+        document.getElementById('tabStale').textContent = stale;
+    });
+
+    // ── Status Filter Tabs ──
+    function filterSessionTab(filter, btn) {
+        document.querySelectorAll('.session-status-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        const rows = document.querySelectorAll('#sessionsTable tr[data-user-id]');
+        let visible = 0;
+        rows.forEach(row => {
+            const isStale = row.dataset.isStale === 'true';
+            const show = filter === 'all' || (filter === 'active' && !isStale) || (filter === 'stale' && isStale);
+            row.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        document.getElementById('visibleCount').textContent = visible + ' shown';
+    }
+
+    // ── Column Sorting ──
+    let _sortCol = -1, _sortDir = 'asc';
+    function sortSessionsTable(colIdx, type, th) {
+        const tbody = document.getElementById('sessionsTable');
+        const rows = Array.from(tbody.querySelectorAll('tr[data-user-id]'));
+        const dir = (_sortCol === colIdx && _sortDir === 'asc') ? 'desc' : 'asc';
+        _sortCol = colIdx; _sortDir = dir;
+
+        document.querySelectorAll('.sessions-table .sortable-header').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+        th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
+
+        rows.sort((a, b) => {
+            const av = a.cells[colIdx] ? (a.cells[colIdx].dataset.sortValue || a.cells[colIdx].textContent.trim()) : '';
+            const bv = b.cells[colIdx] ? (b.cells[colIdx].dataset.sortValue || b.cells[colIdx].textContent.trim()) : '';
+            if (type === 'date') { return dir === 'asc' ? new Date(av||0) - new Date(bv||0) : new Date(bv||0) - new Date(av||0); }
+            if (type === 'number') { return dir === 'asc' ? (parseInt(av)||0) - (parseInt(bv)||0) : (parseInt(bv)||0) - (parseInt(av)||0); }
+            return dir === 'asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+    }
+</script>
+<script src="{% static 'core/js/pages/avag-sessions.js' %}"></script>
+{% endblock %}

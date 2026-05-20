@@ -1,0 +1,165 @@
+/**
+ * AVAGuard — Authorize Device Page Styles
+ * Template: auth/authorize_device.html
+ * =========================================================
+ */
+
+.authorize-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 20px;
+}
+
+.authorize-card {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.authorize-card .icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.authorize-card h1 {
+    color: var(--avag-text-primary);
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.token-display {
+    background: var(--avag-bg-input);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid var(--avag-border-color);
+}
+
+.token-display .label {
+    color: var(--avag-text-muted);
+    font-size: 12px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.token-display code {
+    color: var(--avag-accent-primary);
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.description {
+    color: var(--avag-text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.authorize-form {
+    margin-bottom: 20px;
+}
+
+.authorize-form .form-group {
+    margin-bottom: 20px;
+}
+
+.authorize-form-input {
+    width: 100%;
+    padding: 12px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    color: var(--avag-text-primary);
+    border-radius: 8px;
+    font-family: monospace;
+}
+
+.authorize-form-input:focus {
+    outline: none;
+    border-color: var(--avag-accent-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+}
+
+.authorize-form-btn-full {
+    width: 100%;
+}
+
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 16px;
+}
+
+/* .btn-primary styles are inherited from main.css — no local override needed */
+
+.warning {
+    color: var(--avag-accent-warning);
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+
+.success-message {
+    color: var(--avag-accent-success);
+    margin-bottom: 20px;
+}
+
+.error-message {
+    color: var(--avag-accent-danger);
+    margin-bottom: 20px;
+}
+
+.approved-info {
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.approved-info p {
+    color: var(--avag-text-muted);
+    margin: 4px 0;
+}
+
+.approved-info strong {
+    color: var(--avag-text-primary);
+}
+
+.back-link {
+    color: var(--avag-text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.back-link:hover {
+    color: var(--avag-accent-primary);
+}
+
+.alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.alert-error {
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--avag-accent-danger);
+}
+
+.alert-success {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--avag-accent-success);
+}
+
+.alert-info {
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--avag-accent-primary);
+}

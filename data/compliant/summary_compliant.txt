@@ -1,0 +1,39 @@
+ENTERPRISE AZURE & INTUNE DATA GENERATION REPORT
+================================================
+
+Generated: 2026-05-14T17:14:47Z
+Tenant: Agencyva
+Seed: 613478
+
+SUMMARY STATISTICS
+------------------
+Total Users: 1000
+Total Devices: 1500
+Total Applications: 18
+MFA Adoption Rate: 54.6%
+Overall Compliance Rate: 35.3%
+
+USER DISTRIBUTION
+-----------------
+  Active: 741 users
+  Onboarding: 49 users
+  Offboarding: 82 users
+  Terminated: 105 users
+  Suspended: 12 users
+  OnLeave: 11 users
+
+DEVICE COMPLIANCE BY OS
+------------------------
+  iOS: 46.6% compliant (145/311)
+  Windows: 21.2% compliant (124/585)
+  macOS: 41.5% compliant (148/357)
+  Android: 45.2% compliant (90/199)
+  Linux: 45.8% compliant (22/48)
+
+RISK DISTRIBUTION
+-----------------
+Users:
+  none: 546 users (54.6%)
+  high: 169 users (16.9%)
+  low: 182 users (18.2%)
+  critical: 103 users (10.3%)

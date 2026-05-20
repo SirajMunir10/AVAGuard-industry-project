@@ -1,0 +1,40 @@
+ENTERPRISE AZURE & INTUNE DATA GENERATION REPORT
+================================================
+
+Generated: 2025-12-22T01:53:15Z
+Tenant: MockCorp
+Seed: 820776
+
+SUMMARY STATISTICS
+------------------
+Total Users: 1000
+Total Devices: 1500
+Total Applications: 18
+MFA Adoption Rate: 46.9%
+Overall Compliance Rate: 0.0%
+
+USER DISTRIBUTION
+-----------------
+  Active: 733 users
+  Terminated: 115 users
+  Suspended: 7 users
+  Offboarding: 82 users
+  Onboarding: 52 users
+  OnLeave: 11 users
+
+DEVICE COMPLIANCE BY OS
+------------------------
+  Windows: 0.0% compliant (0/583)
+  macOS: 0.0% compliant (0/352)
+  iOS: 0.0% compliant (0/301)
+  Linux: 0.0% compliant (0/55)
+  Android: 0.0% compliant (0/209)
+
+RISK DISTRIBUTION
+-----------------
+Users:
+  low: 267 users (26.7%)
+  none: 423 users (42.3%)
+  critical: 69 users (6.9%)
+  high: 192 users (19.2%)
+  medium: 49 users (4.9%)

@@ -1,0 +1,1171 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Management - AVAGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ==========================================
+   User Management - Enterprise Styles
+   ========================================== */
+
+/* Header with Search & Filters */
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.users-header h1 {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Left side: Search + Add Button */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Search Bar */
+.search-box {
+    position: relative;
+    flex: 1;
+    max-width: 360px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 44px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+.search-box input::placeholder {
+    color: var(--text-secondary);
+}
+
+.search-box .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
+/* Right side: Status Toggle */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Status Toggle (Segmented Control) */
+.status-toggle {
+    display: flex;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.status-toggle button {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.status-toggle button:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 25%;
+    height: 50%;
+    width: 1px;
+    background: var(--border-color);
+}
+
+.status-toggle button.active {
+    background: var(--accent-primary);
+    color: #000;
+    font-weight: 600;
+}
+
+.status-toggle button:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+/* Bulk Actions Bar */
+.bulk-actions-bar {
+    display: none;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08) 0%, rgba(0, 255, 136, 0.08) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.bulk-actions-bar.visible {
+    display: flex;
+}
+
+.bulk-actions-bar .selected-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-primary);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.bulk-actions-bar .selected-info svg {
+    width: 18px;
+    height: 18px;
+}
+
+.bulk-actions-bar .bulk-btns {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+/* Users Table Container */
+.users-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.users-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.users-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.users-count {
+    background: var(--bg-tertiary);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* Data Table */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.users-table th {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.users-table td {
+    color: #e8e8e8;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.users-table tbody tr {
+    transition: background 0.2s;
+}
+
+.users-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.03);
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Checkbox Column */
+.checkbox-cell {
+    width: 50px;
+}
+
+.checkbox-cell input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent-primary);
+}
+
+/* User Info Cell */
+.user-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-success) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Role Badge */
+.role-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.role-super_admin { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; }
+.role-it_admin { background: rgba(255, 217, 61, 0.15); color: #ffd93d; }
+.role-auditor { background: rgba(0, 212, 255, 0.15); color: #00d4ff; }
+.role-viewer { background: rgba(136, 136, 136, 0.15); color: #999; }
+
+/* Security Score Badge */
+.security-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.security-badge.green {
+    background: rgba(0, 255, 136, 0.12);
+    color: #00ff88;
+}
+
+.security-badge.yellow {
+    background: rgba(255, 217, 61, 0.12);
+    color: #ffd93d;
+}
+
+.security-badge.red {
+    background: rgba(255, 107, 107, 0.12);
+    color: #ff6b6b;
+}
+
+.security-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Status Badge */
+.user-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.user-status .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.user-status.active .status-dot { background: #00ff88; }
+.user-status.active { color: #00ff88; }
+.user-status.disabled .status-dot { background: #666; }
+.user-status.disabled { color: #666; }
+.user-status.expired .status-dot { background: #ffd93d; }
+.user-status.expired { color: #ffd93d; }
+
+/* Manage Button */
+.manage-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.manage-btn:hover {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: #000;
+}
+
+.manage-btn svg {
+    flex-shrink: 0 !important;
+    min-width: 20px !important;
+    min-height: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 60px 20px !important;
+}
+
+.empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .users-table th:nth-child(4),
+    .users-table td:nth-child(4),
+    .users-table th:nth-child(6),
+    .users-table td:nth-child(6) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .users-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header-left {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        max-width: none;
+    }
+    
+    .header-right {
+        justify-content: center;
+    }
+    
+    .status-toggle {
+        width: 100%;
+    }
+    
+    .status-toggle button {
+        flex: 1;
+    }
+    
+    .users-table th:nth-child(3),
+    .users-table td:nth-child(3) {
+        display: none;
+    }
+    
+    .user-avatar {
+        display: none;
+    }
+}
+
+/* ==========================================
+   Side-Drawer (Phase 2)
+   ========================================== */
+.drawer-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1050;
+    backdrop-filter: blur(2px);
+}
+.drawer-overlay.active { display: block; }
+
+.side-drawer {
+    position: fixed;
+    top: 0; right: -500px;
+    width: 480px;
+    max-width: 90vw;
+    height: 100vh;
+    background: var(--bg-secondary, #1a1a2e);
+    border-left: 1px solid var(--border-color, #2a2a4a);
+    z-index: 1060;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+}
+.side-drawer.open { right: 0; }
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color, #2a2a4a);
+    flex-shrink: 0;
+}
+.drawer-header-content {
+    display: flex; align-items: center; gap: 14px;
+}
+.drawer-avatar {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 255, 136, 0.2));
+    display: flex; align-items: center; justify-content: center;
+    color: #00d4ff; font-weight: 700; font-size: 18px;
+}
+.drawer-header-info { display: flex; flex-direction: column; gap: 2px; }
+.drawer-title { color: #fff; font-size: 16px; font-weight: 600; margin: 0; }
+.drawer-subtitle { color: var(--text-secondary, #a0a0c0); font-size: 13px; }
+.drawer-close {
+    background: none; border: none; color: var(--text-secondary, #a0a0c0);
+    font-size: 28px; cursor: pointer; padding: 4px 8px;
+    border-radius: 6px; transition: all 0.2s;
+}
+.drawer-close:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+.drawer-body {
+    flex: 1; overflow-y: auto; padding: 0;
+}
+
+.drawer-status-bar {
+    display: flex; gap: 10px; align-items: center;
+    padding: 12px 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--border-color, #2a2a4a);
+}
+.score-green { color: #00ff88; }
+.score-yellow { color: #ffd93d; }
+.score-red { color: #ff6b6b; }
+
+.drawer-section {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border-color, #2a2a4a);
+}
+.drawer-section-title {
+    color: #fff; font-size: 14px; font-weight: 600;
+    margin: 0 0 16px 0;
+}
+.drawer-field-group {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    margin-bottom: 16px;
+}
+.drawer-field { display: flex; flex-direction: column; gap: 4px; }
+.drawer-field-label {
+    color: var(--text-secondary, #a0a0c0); font-size: 11px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.drawer-field-input {
+    padding: 10px 12px;
+    background: var(--bg-tertiary, #16213e);
+    border: 1px solid var(--border-color, #2a2a4a);
+    border-radius: 6px; color: #fff; font-size: 13px;
+    font-family: inherit; transition: border-color 0.2s;
+}
+.drawer-field-input:focus {
+    outline: none; border-color: #00d4ff;
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+}
+.drawer-field-value { color: #fff; font-size: 13px; }
+
+.drawer-control-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 8px;
+    border-bottom: 1px solid rgba(42, 42, 74, 0.4);
+}
+.drawer-control-row:last-child { border-bottom: none; }
+.drawer-control-info { display: flex; flex-direction: column; gap: 2px; }
+.drawer-control-label { color: var(--text-secondary, #a0a0c0); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+.drawer-control-value { color: #fff; font-size: 13px; }
+.drawer-control-destructive { margin-top: 8px; padding-top: 16px; border-top: 1px solid rgba(255, 107, 107, 0.2); }
+
+.drawer-btn {
+    padding: 8px 16px; border: none; border-radius: 6px;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: all 0.2s;
+}
+.drawer-btn-sm { padding: 6px 12px; font-size: 12px; }
+.drawer-btn-primary { background: linear-gradient(135deg, #00d4ff, #0099cc); color: #000; }
+.drawer-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3); }
+.drawer-btn-danger { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3); }
+.drawer-btn-danger:hover { background: rgba(255, 107, 107, 0.3); }
+.drawer-btn-warning { background: rgba(255, 217, 61, 0.2); color: #ffd93d; border: 1px solid rgba(255, 217, 61, 0.3); }
+.drawer-btn-warning:hover { background: rgba(255, 217, 61, 0.3); }
+.drawer-btn-success { background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+.drawer-btn-success:hover { background: rgba(0, 255, 136, 0.3); }
+.drawer-btn-outline { background: transparent; color: var(--text-secondary, #a0a0c0); border: 1px solid var(--border-color, #2a2a4a); }
+.drawer-btn-outline:hover { border-color: #00d4ff; color: #00d4ff; }
+
+.mfa-badge {
+    display: inline-flex; padding: 3px 10px; border-radius: 10px;
+    font-size: 11px; font-weight: 600;
+}
+.mfa-badge.totp { background: rgba(0, 255, 136, 0.15); color: #00ff88; }
+.mfa-badge.email { background: rgba(255, 217, 61, 0.15); color: #ffd93d; }
+.mfa-badge.off { background: rgba(136, 136, 136, 0.15); color: #888; }
+
+.drawer-metadata { }
+.drawer-meta-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; font-size: 13px;
+    border-bottom: 1px solid rgba(42, 42, 74, 0.3);
+}
+.drawer-meta-row:last-child { border-bottom: none; }
+.drawer-meta-row span:first-child { color: var(--text-secondary, #a0a0c0); }
+.drawer-meta-row span:last-child { color: #fff; }
+
+.text-red { color: #ff6b6b; font-weight: 600; }
+
+/* Sudo Dialog Overlay */
+.ava-sudo-overlay {
+    display: none; position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 2000;
+    align-items: center; justify-content: center;
+}
+.ava-sudo-overlay.active { display: flex; }
+.ava-sudo-dialog {
+    background: var(--bg-secondary, #1a1a2e);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 12px; padding: 28px;
+    width: 100%; max-width: 400px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.ava-sudo-dialog h3 { color: #fff; font-size: 18px; margin: 0 0 8px 0; }
+.ava-sudo-dialog p { color: var(--text-secondary, #a0a0c0); font-size: 13px; margin: 0 0 20px 0; }
+.sudo-form-group { margin-bottom: 16px; }
+.sudo-form-group label {
+    display: block; color: var(--text-secondary, #a0a0c0);
+    font-size: 12px; font-weight: 600; margin-bottom: 6px;
+}
+.sudo-form-group input {
+    width: 100%; padding: 12px 14px;
+    background: var(--bg-tertiary, #16213e);
+    border: 1px solid var(--border-color, #2a2a4a);
+    border-radius: 6px; color: #fff; font-size: 14px;
+    font-family: inherit;
+}
+.sudo-form-group input:focus {
+    outline: none; border-color: #ff6b6b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.15);
+}
+.sudo-error { color: #ff6b6b; font-size: 12px; min-height: 16px; margin-bottom: 12px; }
+.sudo-actions { display: flex; gap: 10px; }
+.sudo-actions .drawer-btn { flex: 1; }
+
+@media (max-width: 640px) {
+    .side-drawer { width: 100%; max-width: none; }
+    .drawer-field-group { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header with Search & Filters -->
+<div class="users-header">
+    <div class="header-left">
+        <h1>User Management</h1>
+        
+        <!-- Search Bar -->
+        <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="Search by name or email..." 
+                   autocomplete="off"
+                   onkeyup="filterUsers()">
+        </div>
+        
+        <!-- Add User Button -->
+        <button class="btn btn-primary" onclick="openModal('createUserModal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>
+            </svg>
+            Add User
+        </button>
+    </div>
+    
+    <div class="header-right">
+        <!-- Status Toggle -->
+        <div class="status-toggle">
+            <button type="button" id="filterAll" onclick="setFilter('all')">All</button>
+            <button type="button" id="filterActive" class="active" onclick="setFilter('active')">Active</button>
+            <button type="button" id="filterDisabled" onclick="setFilter('disabled')">Disabled</button>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="messages" style="margin-bottom: 20px;">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" style="padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; 
+         {% if message.tags == 'success' %}background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3);
+         {% elif message.tags == 'error' %}background: rgba(255, 107, 107, 0.1); color: #ff6b6b; border: 1px solid rgba(255, 107, 107, 0.3);
+         {% else %}background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.3);{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Bulk Actions Bar -->
+<div class="bulk-actions-bar" id="bulkActionsBar">
+    <div class="selected-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span><span id="selectedCount">0</span> users selected</span>
+    </div>
+    <div class="bulk-btns">
+        <button class="btn btn-secondary btn-sm" onclick="bulkAction('force_reset')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Force Reset
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="bulkAction('enable_2fa')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            </svg>
+            Enable 2FA
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="bulkAction('deactivate')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+            </svg>
+            Deactivate
+        </button>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="users-card">
+    <div class="users-card-header">
+        <h3 class="users-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Organization Users
+            <span class="users-count" id="usersCount">{{ users|length }}</span>
+        </h3>
+    </div>
+    
+    <div class="table-container">
+        <table class="users-table">
+            <thead>
+            <tr>
+                <th class="checkbox-cell">
+                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" title="Select all">
+                </th>
+                <th>User</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>MFA</th>
+                <th>Security</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody id="usersTableBody">
+            {% for user in users %}
+            <tr data-user-id="{{ user.id }}" 
+                data-user-name="{{ user.full_name }}"
+                data-user-email="{{ user.email }}"
+                data-user-first="{{ user.first_name }}"
+                data-user-last="{{ user.last_name }}"
+                data-user-role="{{ user.role }}"
+                data-user-role-display="{{ user.get_role_display }}"
+                data-user-department="{{ user.department }}"
+                data-user-mfa="{{ user.mfa_enabled|yesno:'true,false' }}"
+                data-user-totp="{{ user.mfa_secret|yesno:'true,false' }}"
+                data-user-active="{{ user.is_active|yesno:'true,false' }}"
+                data-user-security="{{ user.security_score }}"
+                data-user-expires="{{ user.expires_at|date:'Y-m-d'|default:'' }}"
+                data-user-force-change="{{ user.password_change_required|yesno:'true,false' }}"
+                data-user-created="{{ user.created_at|date:'c' }}"
+                data-user-lastlogin="{{ user.last_login|date:'c'|default:'' }}"
+                class="{% if not user.is_active %}user-disabled{% endif %}">
+                <td class="checkbox-cell">
+                    {% if user.id != request.user.id %}
+                    <input type="checkbox" class="user-checkbox" value="{{ user.id }}" onchange="updateBulkBar()">
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="user-cell">
+                        <div class="user-avatar">
+                            {{ user.first_name|slice:":1"|upper|default:user.email|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name">{{ user.full_name }}</span>
+                            <span class="user-email">{{ user.email }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="role-badge role-{{ user.role|lower }}">
+                        {{ user.get_role_display }}
+                    </span>
+                </td>
+                <td style="color: var(--text-secondary); font-size: 13px;">
+                    {{ user.department|default:"ΓÇö" }}
+                </td>
+                <td>
+                    {% if user.mfa_enabled %}
+                    <span class="mfa-badge totp" title="MFA Enabled">
+                        Enabled
+                    </span>
+                    {% else %}
+                    <span class="mfa-badge off" title="MFA Disabled">Off</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="security-badge {{ user.security_score }}">
+                        <span class="dot"></span>
+                        {% if user.security_score == 'green' %}Secure
+                        {% elif user.security_score == 'yellow' %}Moderate
+                        {% else %}At Risk{% endif %}
+                    </span>
+                </td>
+                <td>
+                    {% if user.is_expired %}
+                    <span class="user-status expired">
+                        <span class="status-dot"></span> Expired
+                    </span>
+                    {% elif user.is_active %}
+                    <span class="user-status active">
+                        <span class="status-dot"></span> Active
+                    </span>
+                    {% else %}
+                    <span class="user-status disabled">
+                        <span class="status-dot"></span> Disabled
+                    </span>
+                    {% endif %}
+                </td>
+                <td style="color: var(--text-secondary); font-size: 13px;">
+                    {% if user.last_login %}
+                    {{ user.last_login|timesince }} ago
+                    {% else %}
+                    Never
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.id != request.user.id %}
+                    <button class="manage-btn" onclick="openUserDrawer(this.closest('tr'))">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                        Manage
+                    </button>
+                    {% else %}
+                    <span style="color: var(--text-secondary); font-size: 12px; font-style: italic;">You</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <p style="font-size: 16px; font-weight: 500; margin-bottom: 6px;">No users found</p>
+                    <p>Add your first user to get started.</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Create User Modal -->
+<div id="createUserModal" class="modal">
+    <div class="modal-content" style="max-width: 520px;">
+        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); margin-bottom: 24px;">
+            <h2 style="font-size: 18px; margin: 0; color: #fff;">Create New User</h2>
+            <button class="close-btn" onclick="closeModal('createUserModal')" style="background: none; border: none; color: var(--text-secondary); font-size: 24px; cursor: pointer;">&times;</button>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create">
+            
+            <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" name="email" class="form-input" required>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-input">
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                    <label class="form-label">Role *</label>
+                    <select name="role" class="form-select" required>
+                        {% for value, label in role_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <input type="text" name="department" class="form-input">
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group">
+                    <label class="form-label">Password *</label>
+                    <input type="password" name="password" class="form-input" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password *</label>
+                    <input type="password" name="confirm_password" class="form-input" required minlength="8">
+                </div>
+            </div>
+            
+            <div style="background: rgba(255, 217, 61, 0.08); border: 1px solid rgba(255, 217, 61, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 24px;">
+                <p style="color: #ffd93d; font-size: 13px; margin: 0;">
+                    <strong>Note:</strong> User will be prompted to change this password on first login.
+                </p>
+            </div>
+            
+            <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('createUserModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Side-Drawer (Phase 2) -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="userDrawer" class="side-drawer" role="dialog" aria-modal="true" aria-label="User Management Drawer">
+    <div class="drawer-body"></div>
+</div>
+
+<!-- Account Expiry Modal -->
+<div id="expiryModal" class="modal">
+    <div class="modal-content" style="max-width: 400px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="font-size: 18px; margin: 0; color: #fff;">Set Account Expiry</h2>
+            <button class="btn btn-icon" onclick="closeModal('expiryModal')" aria-label="Close" style="background:none; border:none; color:var(--text-secondary); cursor:pointer;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+            </button>
+        </div>
+        
+        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">
+            Set an expiration date for <strong id="expiryUserEmail" style="color:#fff;"></strong>. The account will automatically lose access at midnight (UTC) on the selected date.
+        </p>
+        
+        <div class="form-group" style="margin-bottom: 24px;">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" id="expiryDate" class="form-input" style="width: 100%; color-scheme: dark;">
+        </div>
+        
+        <div style="display: flex; justify-content: space-between;">
+            <button type="button" class="btn btn-secondary" onclick="clearExpiry()" id="btnClearExpiry" style="display: none;">Remove Expiry</button>
+            <div style="margin-left: auto; display: flex; gap: 12px;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('expiryModal')">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="setExpiry()">Save Expiry</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 35, 0.8);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+</style>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/user_management.js' %}"></script>
+<script>
+// Toast compatibility shim (inline JS uses Toast.success/error/warning)
+var Toast = {
+    success: function(msg) { showToast(msg, 'success'); },
+    error: function(msg) { showToast(msg, 'error'); },
+    warning: function(msg) { showToast(msg, 'info'); },
+    info: function(msg) { showToast(msg, 'info'); }
+};
+// Modal compatibility shim
+var Modal = {
+    confirmBulk: function(opts) {
+        if (confirm(opts.action + ' ' + opts.count + ' users?')) {
+            opts.onConfirm();
+        }
+    }
+};
+
+// CSRF Token
+const csrfToken = '{{ csrf_token }}';
+
+// Current filter state
+let currentFilter = 'active';
+let selectedUsers = new Set();
+
+// Filter functions
+function setFilter(filter) {
+    currentFilter = filter;
+    
+    // Update button states
+    document.querySelectorAll('.status-toggle button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('filter' + filter.charAt(0).toUpperCase() + filter.slice(1)).classList.add('active');
+    
+    filterUsers();
+}
+
+function filterUsers() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const rows = document.querySelectorAll('#usersTableBody tr[data-user-id]');
+    let visibleCount = 0;
+    
+    rows.forEach(row => {
+        const name = row.dataset.userName.toLowerCase();
+        const email = row.dataset.userEmail.toLowerCase();
+        const isActive = row.dataset.userActive === 'true';
+        
+        const matchesSearch = !query || name.includes(query) || email.includes(query);
+        let matchesFilter = true;
+        
+        if (currentFilter === 'active') matchesFilter = isActive;
+        else if (currentFilter === 'disabled') matchesFilter = !isActive;
+        
+        if (matchesSearch && matchesFilter) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    document.getElementById('usersCount').textContent = visibleCount;
+}
+
+// Bulk selection
+function toggleSelectAll() {
+    const selectAll = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.user-checkbox');
+    
+    checkboxes.forEach(cb => {
+        const row = cb.closest('tr');
+        if (row.style.display !== 'none') {
+            cb.checked = selectAll.checked;
+        }
+    });
+    
+    updateBulkBar();
+}
+
+function updateBulkBar() {
+    const checkboxes = document.querySelectorAll('.user-checkbox:checked');
+    selectedUsers.clear();
+    checkboxes.forEach(cb => selectedUsers.add(cb.value));
+    
+    document.getElementById('selectedCount').textContent = selectedUsers.size;
+    document.getElementById('bulkActionsBar').classList.toggle('visible', selectedUsers.size > 0);
+}
+
+// Bulk actions
+function bulkAction(action) {
+    if (selectedUsers.size === 0) {
+        Toast.warning('No users selected');
+        return;
+    }
+    
+    const actionNames = {
+        'deactivate': 'Deactivate',
+        'activate': 'Activate',
+        'force_reset': 'Force Password Reset',
+        'enable_2fa': 'Enable 2FA',
+        'disable_2fa': 'Disable 2FA'
+    };
+    
+    Modal.confirmBulk({
+        action: actionNames[action] || action,
+        count: selectedUsers.size,
+        onConfirm: function() {
+            fetch('/api/users/bulk-action/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    user_ids: Array.from(selectedUsers),
+                    action: action
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    Toast.success(data.message);
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    Toast.error(data.error || 'Action failed');
+                }
+            })
+            .catch(() => Toast.error('Network error'));
+        }
+    });
+}
+
+// Modal functions
+function openModal(id) {
+    document.getElementById(id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Open User Management Drawer (Phase 2 ΓÇö API-based)
+function openUserDrawer(row) {
+    var userId = row.dataset.userId;
+    openDrawer(userId);
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    // Escape key to close modals
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal.active').forEach(m => m.classList.remove('active'));
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
+{% endblock %}

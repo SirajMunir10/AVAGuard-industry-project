@@ -1,0 +1,67 @@
+
+{% for r in results %}
+    {% set status = r.status.value if r.status.value is defined else r.status|string %}
+    {% set severity = r.cis_severity.value if r.cis_severity and r.cis_severity.value is defined else (r.cis_severity|string if r.cis_severity else '') %}
+    {% set severity_lower = severity|lower if severity else '' %}
+    
+    <div class="check-item">
+        <div class="check-head {{ status }}">
+            <span class="badge {{ status }}">{{ status }}</span>
+            <div class="check-info">
+                <div class="check-id">{{ getattr(r, 'check_id', getattr(r, 'cis_control_id', 'unknown')) }} 
+                    {% if severity %}
+                        <span class="severity-badge severity-{{ severity_lower }}">{{ severity }}</span>
+                    {% endif %}
+                </div>
+                <div class="check-title">{{ r.title }}</div>
+                {% if r.duration_seconds is defined and r.duration_seconds %}
+                <div style="font-size: 0.85em; color: #64748b; margin-top: 5px;">
+                    <strong>Performance:</strong> {{ "%.2f"|format(r.duration_seconds) }}s
+                </div>
+                {% endif %}
+            </div>
+            <div class="check-stats">
+                {{ r.compliant_count }}/{{ r.total_count }} Compliant
+            </div>
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
+                 style="width: 20px; height: 20px; transition: transform 0.3s; flex-shrink: 0;">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="check-body">
+            <p><strong>Details:</strong> {{ getattr(r, 'details', '') }}</p>
+            {% if r.non_compliant_resources and status != "PASS" %}
+                <div style="margin-top: 15px;">
+                    <strong>Non-Compliant Resources ({{ r.non_compliant_resources|length }}):</strong>
+                    <table>
+                        <thead>
+                            <tr>
+                                {% for h in r.non_compliant_resources[0].keys() %}
+                                    <th>{{ h|replace('_',' ')|title }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in r.non_compliant_resources[:10] %}
+                                <tr>
+                                    {% for v in item.values() %}
+                                        <td>{{ v|default('-', true) }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                            {% if r.non_compliant_resources|length > 10 %}
+                                <tr>
+                                    <td colspan="{{ r.non_compliant_resources[0]|length }}" style="text-align:center; color:#888; font-style:italic;">... {{ r.non_compliant_resources|length - 10 }} more items</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            <div class="remediation-box">
+                <strong>🔧 Remediation:</strong><br>
+                {{ getattr(r, 'remediation', 'No remediation available.') }}
+            </div>
+        </div>
+    </div>
+{% endfor %}

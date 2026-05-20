@@ -1,0 +1,1 @@
+# AVAGuard Core - Test Configuration

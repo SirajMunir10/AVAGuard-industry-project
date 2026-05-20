@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class='row'>
+    <h2>API Rate Limits</h2>
+    <p>Estimated Quota Remaining: {{ remaining }}</p>
+    <table class='table'>
+        <tr><th>Endpoint</th><th>Calls</th><th>Timestamp</th></tr>
+        {% for log in logs %}
+        <tr><td>{{ log.endpoint }}</td><td>{{ log.calls }}</td><td>{{ log.timestamp }}</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

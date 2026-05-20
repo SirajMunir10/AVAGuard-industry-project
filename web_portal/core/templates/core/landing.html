@@ -1,0 +1,515 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVAGuard | Unified Azure Security Assessment Platform</title>
+    <meta name="description" content="Continuously map your Microsoft Entra ID tenant, detect CIS misconfigurations, and prioritize remediation with weighted risk scoring.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/landing.css' %}?v=2">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body class="landing-body">
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="noise-overlay"></div>
+
+    <!-- ═══════════════════════════════════════════
+         NAVIGATION
+    ═══════════════════════════════════════════ -->
+    <nav class="landing-nav" id="mainNav">
+        <a href="#hero" class="nav-logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>AVAGuard</span>
+        </a>
+        <div class="nav-links" id="navLinks">
+            <a href="#platform" class="nav-link">Platform</a>
+            <a href="#capabilities" class="nav-link">Capabilities</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="{% url 'login' %}" class="nav-cta">Login <span>&rarr;</span></a>
+        </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 1: HERO
+    ═══════════════════════════════════════════ -->
+    <section class="hero-section" id="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="trust-badges">
+                    <span class="badge gs-reveal">CIS Benchmark Aligned</span>
+                    <span class="badge gs-reveal">Agentless Architecture</span>
+                    <span class="badge gs-reveal">NIST 800-53 Mapped</span>
+                </div>
+                <h1 class="hero-headline">
+                    See Your Azure Security —<br><span class="text-glow">Clearly, Instantly.</span>
+                </h1>
+                <p class="hero-sub">
+                    Continuously map your Microsoft Entra ID tenant, detect CIS misconfigurations, and prioritize remediation with weighted risk scoring — all without deploying agents.
+                </p>
+                <div class="hero-ctas">
+                    <a href="{% url 'login' %}" class="btn-primary btn-lg">Get Started</a>
+                    <a href="#platform" class="btn-ghost btn-lg">Explore Platform</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-mock" id="dashMock">
+                    <div class="mock-bar">
+                        <div class="mock-dots"><span></span><span></span><span></span></div>
+                        <div class="mock-title">avaguard-scan-engine</div>
+                    </div>
+                    <div class="mock-body">
+                        <div class="mock-ring-wrap">
+                            <svg viewBox="0 0 36 36" class="ring-svg">
+                                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path class="ring-fill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <text x="18" y="20" class="ring-text">85%</text>
+                            </svg>
+                            <span class="mock-label">Compliance Score</span>
+                        </div>
+                        <div class="mock-stats">
+                            <div class="stat-row"><span class="stat-label">Passed</span><div class="stat-bar"><div class="stat-fill pass" style="width:0%"></div></div><span class="stat-val">8/10</span></div>
+                            <div class="stat-row"><span class="stat-label">Failed</span><div class="stat-bar"><div class="stat-fill fail" style="width:0%"></div></div><span class="stat-val">1/10</span></div>
+                            <div class="stat-row"><span class="stat-label">Warning</span><div class="stat-bar"><div class="stat-fill warn" style="width:0%"></div></div><span class="stat-val">1/10</span></div>
+                            <div class="skel"></div>
+                            <div class="skel short"></div>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="nodesCanvas"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 2: PLATFORM OVERVIEW
+    ═══════════════════════════════════════════ -->
+    <section class="platform-section" id="platform">
+        <div class="section-header">
+            <span class="eyebrow">THE PLATFORM</span>
+            <h2>Unified Security Assessment Platform</h2>
+            <p class="section-sub">A single intelligence layer that connects securely to your Azure tenant, analyzes configurations, scores risk, and delivers actionable compliance insights.</p>
+        </div>
+        <div class="platform-grid">
+            <div class="platform-node center-node" data-label="Core Intelligence">
+                <div class="node-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                </div>
+                <h3>Core Intelligence</h3>
+                <p>10 CIS benchmark checks executed concurrently with severity-weighted risk scoring and multi-framework compliance mapping.</p>
+            </div>
+            <div class="platform-connectors">
+                <div class="connector-line line-1"></div>
+                <div class="connector-line line-2"></div>
+                <div class="connector-line line-3"></div>
+            </div>
+            <div class="platform-pillars">
+                <div class="platform-node" data-label="Access Interfaces">
+                    <div class="node-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3>Access Interfaces</h3>
+                    <p>Secure multi-surface access — command line, desktop GUI, web dashboard — all powered by the same core engine.</p>
+                </div>
+                <div class="platform-node" data-label="Security Controls">
+                    <div class="node-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+                    </div>
+                    <h3>Security Controls</h3>
+                    <p>Enterprise-grade security: TOTP/Email MFA, device authorization, sudo mode, immutable hash-chained audit logs.</p>
+                </div>
+                <div class="platform-node" data-label="Reporting & Insights">
+                    <div class="node-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <h3>Reporting & Insights</h3>
+                    <p>Professional compliance reports in HTML, PDF, CSV, JSON. Scan comparison. Role-based dashboards for every stakeholder.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 3: SCROLL STORY
+    ═══════════════════════════════════════════ -->
+    <section class="story-section" id="story">
+        <div class="story-panel" id="story-chaos">
+            <div class="story-inner">
+                <h2 class="story-word" data-text="CHAOS.">CHAOS.</h2>
+                <p class="story-desc">Cloud environments are expanding faster than security teams can audit them. Shadow identities, legacy protocols, and misconfigured policies create invisible attack surfaces.</p>
+            </div>
+        </div>
+        <div class="story-panel" id="story-risk">
+            <div class="story-inner">
+                <h2 class="story-word danger">RISK.</h2>
+                <p class="story-desc">A single misconfigured MFA policy. One legacy authentication bypass. That's all it takes. Silent misconfigurations lead to critical breaches overnight.</p>
+                <div class="score-drop"><span id="storyScore">98</span><span>%</span></div>
+            </div>
+        </div>
+        <div class="story-panel" id="story-complex">
+            <div class="story-inner">
+                <h2 class="story-word warning">COMPLEXITY.</h2>
+                <p class="story-desc">CIS benchmarks span hundreds of controls. NIST 800-53 mappings add layers. Manual auditing is slow, error-prone, and doesn't scale.</p>
+                <div class="flying-ids" id="flyingIds"></div>
+            </div>
+        </div>
+        <div class="story-panel" id="story-control">
+            <div class="story-inner">
+                <h2 class="story-word glow">CONTROL.</h2>
+                <p class="story-desc">Enter AVAGuard. Intelligent, agentless Azure assessment that maps your tenant, runs CIS benchmark checks concurrently, and delivers weighted risk scores — instantly.</p>
+                <div class="score-rise"><span id="storyScoreUp">32</span><span>%</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 4: CAPABILITIES SHOWCASE
+    ═══════════════════════════════════════════ -->
+    <section class="capabilities-section" id="capabilities">
+        <div class="section-header">
+            <span class="eyebrow">CAPABILITIES</span>
+            <h2>What AVAGuard Does</h2>
+            <p class="section-sub">Deep-dive into the features that power your compliance journey.</p>
+        </div>
+        <div class="cap-wrapper">
+            <div class="cap-visual-sticky">
+                <div class="cap-visual-container">
+                    <!-- Visual 1: CIS Checklist -->
+                    <div class="cap-vis active" id="capVis1">
+                        <div class="vis-checklist">
+                            <div class="vis-check-item"><span class="vis-check-box">✓</span> 1.1 — MFA for All Users</div>
+                            <div class="vis-check-item"><span class="vis-check-box">✓</span> 1.3 — Security Defaults</div>
+                            <div class="vis-check-item"><span class="vis-check-box">✓</span> 1.5 — Guest Role Restrictions</div>
+                            <div class="vis-check-item"><span class="vis-check-box">✓</span> 1.8 — Self-Service Password Reset</div>
+                            <div class="vis-check-item"><span class="vis-check-box">✓</span> 1.11 — Legacy Auth Blocked</div>
+                            <div class="vis-check-item"><span class="vis-check-box pending">⬤</span> 1.23 — Custom Admin Roles</div>
+                            <div class="vis-check-item"><span class="vis-check-box pending">⬤</span> 2.1 — Domain Validation</div>
+                            <div class="vis-check-item"><span class="vis-check-box pending">⬤</span> 3.1 — Sign-In Risk Policy</div>
+                        </div>
+                        <p class="vis-label">CIS Azure Foundations Benchmark</p>
+                    </div>
+                    <!-- Visual 2: Risk Dial -->
+                    <div class="cap-vis" id="capVis2">
+                        <div class="vis-dial">
+                            <div class="dial-arc"></div>
+                            <div class="dial-needle" id="dialNeedle"></div>
+                            <div class="dial-labels">
+                                <span class="dl critical">CRITICAL<br><small>10×</small></span>
+                                <span class="dl high">HIGH<br><small>7×</small></span>
+                                <span class="dl medium">MEDIUM<br><small>4×</small></span>
+                                <span class="dl low">LOW<br><small>1×</small></span>
+                            </div>
+                        </div>
+                        <p class="vis-label">Severity-Weighted Risk Scoring</p>
+                    </div>
+                    <!-- Visual 3: Framework Mapping -->
+                    <div class="cap-vis" id="capVis3">
+                        <div class="vis-frameworks">
+                            <div class="fw-card cis">CIS 1.1</div>
+                            <div class="fw-arrow">→</div>
+                            <div class="fw-card nist">NIST AC-2(1)<br>NIST IA-2(1)</div>
+                            <div class="fw-arrow">→</div>
+                            <div class="fw-card iso">ISO A.9.4.2<br>ISO A.9.2.1</div>
+                        </div>
+                        <p class="vis-label">Multi-Framework Compliance Mapping</p>
+                    </div>
+                    <!-- Visual 4: Reports -->
+                    <div class="cap-vis" id="capVis4">
+                        <div class="vis-reports">
+                            <div class="report-card r-html">HTML</div>
+                            <div class="report-card r-pdf">PDF</div>
+                            <div class="report-card r-csv">CSV</div>
+                            <div class="report-card r-json">JSON</div>
+                        </div>
+                        <p class="vis-label">Multi-Format Report Generation</p>
+                    </div>
+                    <!-- Visual 5: Tethered Security -->
+                    <div class="cap-vis" id="capVis5">
+                        <div class="vis-sequence">
+                            <div class="seq-node client">User Device</div>
+                            <div class="seq-line"><span class="seq-label">Auth Request</span></div>
+                            <div class="seq-node server">Web Portal</div>
+                            <div class="seq-line"><span class="seq-label">Issue JWT</span></div>
+                            <div class="seq-node client">User Device</div>
+                            <div class="seq-line"><span class="seq-label">Heartbeat ♥</span></div>
+                            <div class="seq-node server">Web Portal</div>
+                        </div>
+                        <p class="vis-label">Device Authorization Flow</p>
+                    </div>
+                    <!-- Visual 6: Audit Chain -->
+                    <div class="cap-vis" id="capVis6">
+                        <div class="vis-chain">
+                            <div class="chain-block"><small>LOGIN</small></div>
+                            <div class="chain-hash">sha256</div>
+                            <div class="chain-block"><small>SCAN</small></div>
+                            <div class="chain-hash">sha256</div>
+                            <div class="chain-block"><small>USER_EDIT</small></div>
+                            <div class="chain-hash">sha256</div>
+                            <div class="chain-block"><small>SESSION</small></div>
+                        </div>
+                        <p class="vis-label">Immutable Hash-Chained Audit Log</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cap-content">
+                <div class="cap-block" data-vis="capVis1">
+                    <h3>Automated CIS Benchmark Assessment</h3>
+                    <p>Run 10 automated checks against the CIS Microsoft Azure Foundations Benchmark. Each check evaluates specific Entra ID and Azure AD configurations — from MFA enforcement to legacy authentication blocking.</p>
+                </div>
+                <div class="cap-block" data-vis="capVis2">
+                    <h3>Severity-Weighted Risk Intelligence</h3>
+                    <p>Not all failures are equal. AVAGuard calculates organizational risk using severity-weighted scoring: Critical findings carry 10× weight while Low findings carry 1×. Your score reflects real risk, not just check counts.</p>
+                </div>
+                <div class="cap-block" data-vis="capVis3">
+                    <h3>CIS → NIST 800-53 → ISO 27001</h3>
+                    <p>Every CIS check is automatically cross-referenced to NIST 800-53 and ISO 27001 controls. Your compliance team sees exactly which regulatory requirements are at risk from a single scan.</p>
+                </div>
+                <div class="cap-block" data-vis="capVis4">
+                    <h3>Multi-Format Compliance Reports</h3>
+                    <p>Generate professional audit-ready reports in HTML, PDF, CSV, and JSON. Reports include compliance scores, per-check results, and remediation guidance — ready for stakeholder presentation.</p>
+                </div>
+                <div class="cap-block" data-vis="capVis5">
+                    <h3>Device Authorization & Session Control</h3>
+                    <p>Users authenticate through the web portal, which issues a secure device token. The platform polls for approval, receives a JWT, and maintains a heartbeat. Administrators can revoke any session in real-time.</p>
+                </div>
+                <div class="cap-block" data-vis="capVis6">
+                    <h3>Tamper-Proof Audit Logging</h3>
+                    <p>Every action — logins, scans, user changes, session revocations — is recorded in an immutable, SHA-256 hash-chained audit log. Entries cannot be modified or deleted, ensuring compliance forensics are always intact.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 5: HOW IT WORKS
+    ═══════════════════════════════════════════ -->
+    <section class="how-section" id="how-it-works">
+        <div class="section-header">
+            <span class="eyebrow">HOW IT WORKS</span>
+            <h2>From Connection to Control</h2>
+            <p class="section-sub">Five steps. One continuous security intelligence pipeline.</p>
+        </div>
+        <div class="how-pipeline">
+            <div class="how-step" data-step="1">
+                <div class="step-circle"><span>1</span></div>
+                <div class="step-line"></div>
+                <h4>Connect</h4>
+                <p>Securely authenticate to Microsoft Entra ID via MSAL — no agents, no installations required.</p>
+            </div>
+            <div class="how-step" data-step="2">
+                <div class="step-circle"><span>2</span></div>
+                <div class="step-line"></div>
+                <h4>Analyze</h4>
+                <p>Run 10 CIS benchmark checks concurrently across your tenant using ThreadPoolExecutor.</p>
+            </div>
+            <div class="how-step" data-step="3">
+                <div class="step-circle"><span>3</span></div>
+                <div class="step-line"></div>
+                <h4>Score</h4>
+                <p>Calculate weighted organizational risk based on severity levels: Critical 10×, High 7×, Medium 4×, Low 1×.</p>
+            </div>
+            <div class="how-step" data-step="4">
+                <div class="step-circle"><span>4</span></div>
+                <div class="step-line"></div>
+                <h4>Map</h4>
+                <p>Automatically cross-reference results to NIST 800-53 and ISO 27001 compliance frameworks.</p>
+            </div>
+            <div class="how-step" data-step="5">
+                <div class="step-circle"><span>5</span></div>
+                <div class="step-line last"></div>
+                <h4>Report</h4>
+                <p>Generate audit-ready reports in HTML, PDF, CSV, or JSON — ready for stakeholders.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 6: ABOUT
+    ═══════════════════════════════════════════ -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <span class="eyebrow">OUR MISSION</span>
+                <h2>Simplifying Azure Security</h2>
+                <p>AVAGuard was developed to address a fundamental gap in cloud security: organizations shouldn't need expensive enterprise CSPM tools to understand if their Azure tenant is configured correctly.</p>
+                <p>Built in response to real industry requirements for practical, accessible compliance assessment, AVAGuard provides:</p>
+                <ul class="about-list">
+                    <li><span class="check-icon">✓</span> Agentless scanning — zero deployment overhead</li>
+                    <li><span class="check-icon">✓</span> Transparent checks — open methodology, clear scoring</li>
+                    <li><span class="check-icon">✓</span> Multi-framework compliance — CIS, NIST 800-53, ISO 27001</li>
+                    <li><span class="check-icon">✓</span> Enterprise trust — immutable logs, hash-chained integrity</li>
+                </ul>
+                <p>Our mission is to deliver a focused, fast, and honest assessment of your Microsoft Entra ID security posture — empowering teams of all sizes to achieve compliance confidence.</p>
+            </div>
+            <div class="about-visual">
+                <div class="shield-anim">
+                    <svg viewBox="0 0 120 140" fill="none" class="shield-svg">
+                        <path d="M60 10 L110 30 L110 70 C110 100 60 130 60 130 C60 130 10 100 10 70 L10 30 Z" stroke="url(#shieldGrad)" stroke-width="2" fill="rgba(0,212,255,0.05)" class="shield-path"/>
+                        <path d="M45 70 L55 80 L78 55" stroke="#00ff88" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="shield-check"/>
+                        <defs><linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#00ff88"/></linearGradient></defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 7: TEAM
+    ═══════════════════════════════════════════ -->
+    <section class="team-section" id="team">
+        <div class="section-header">
+            <span class="eyebrow">THE TEAM</span>
+            <h2>Built for Modern Azure Security Challenges</h2>
+            <p class="section-sub">Developed in response to real-world enterprise security requirements, AVAGuard was created by a dedicated team focused on making cloud compliance assessment practical and accessible.</p>
+        </div>
+        <div class="team-grid">
+            <!-- Team Member 0: Usama Maqbool (Industry Supervisor) -->
+            <div class="team-card supervisor-card" style="transform: scale(1.05); border: 2px solid var(--cyan); box-shadow: 0 0 40px rgba(0, 212, 255, 0.25); z-index: 2;">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #00d4ff, #00ff88); width: 80px; height: 80px; font-size: 1.5rem;">UM</div>
+                <h4>Usama Maqbool</h4>
+                <span class="team-role team-role--senior" style="color: var(--cyan);">Industry Supervisor | Cybersecurity Specialist</span>
+                <p>Industry mentor providing high-level technical oversight and ensuring the platform aligns with professional cybersecurity assessment standards.</p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                </div>
+            </div>
+
+            <!-- Team Member 1: Ahmed Mujtaba -->
+            <div class="team-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #00d4ff, #00ff88);">AM</div>
+                <h4>Ahmed Mujtaba</h4>
+                <span class="team-role">Team Member</span>
+                <p>Designed and implemented the core compliance engine, security controls, and enterprise platform architecture.</p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="#" class="team-link" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                </div>
+            </div>
+
+            <!-- Team Member 2: Siraj Munir -->
+            <div class="team-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #8a2be2, #00d4ff);">SM</div>
+                <h4>Siraj Munir</h4>
+                <span class="team-role">Team Member</span>
+                <p>Focused on threat intelligence integration and automated misconfiguration detection logic for Azure AD.</p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="#" class="team-link" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                </div>
+            </div>
+
+            <!-- Team Member 3: Ms. Rana Khattak (Supervisor) -->
+            <div class="team-card supervisor-card">
+                <div class="team-avatar" style="background: linear-gradient(135deg, #ff6b6b, #ffd93d);">RK</div>
+                <h4>Ms. Rana Khattak</h4>
+                <span class="team-role team-role--senior">Supervisor</span>
+                <p>Oversees technical direction and compliance framework mapping, ensuring AVAGuard meets enterprise security standards.</p>
+                <div class="team-links">
+                    <a href="#" class="team-link" title="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                    <a href="#" class="team-link" title="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 8: CONTACT FORM
+    ═══════════════════════════════════════════ -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <span class="eyebrow">GET IN TOUCH</span>
+                <h2>Have questions?<br>Let's talk.</h2>
+                <p>Whether you're evaluating AVAGuard for your organization or need support with your security assessment, we'd love to hear from you.</p>
+            </div>
+            <div class="contact-form-wrap">
+                <form id="contactForm" novalidate>
+                    <div class="form-group">
+                        <input type="text" id="cfName" name="name" required placeholder=" ">
+                        <label for="cfName">Full Name</label>
+                        <span class="form-error" id="errName"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="cfEmail" name="email" required placeholder=" ">
+                        <label for="cfEmail">Email Address</label>
+                        <span class="form-error" id="errEmail"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="cfSubject" name="subject" required placeholder=" ">
+                        <label for="cfSubject">Subject</label>
+                        <span class="form-error" id="errSubject"></span>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="cfMessage" name="message" rows="5" required placeholder=" "></textarea>
+                        <label for="cfMessage">Message</label>
+                        <span class="form-error" id="errMessage"></span>
+                    </div>
+                    <button type="submit" class="btn-primary btn-lg btn-submit" id="contactBtn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-loader" style="display:none;">Sending...</span>
+                    </button>
+                    <div class="form-success" id="formSuccess" style="display:none;">
+                        <span class="success-icon">✓</span> Your message has been sent successfully!
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         SECTION 9: FOOTER
+    ═══════════════════════════════════════════ -->
+    <section class="final-cta">
+        <h2>Ready to assess your Azure security posture?</h2>
+        <p>Connect your tenant and run your first benchmark assessment in minutes.</p>
+        <a href="{% url 'login' %}" class="btn-primary btn-lg">Get Started Now</a>
+    </section>
+
+    <footer class="landing-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="f-logo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    AVAGuard
+                </div>
+                <p class="f-tagline">Unified Azure Security Assessment</p>
+            </div>
+            <div class="footer-col">
+                <h5>Platform</h5>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h5>Resources</h5>
+                <a href="https://www.cisecurity.org/benchmark/azure" target="_blank" rel="noopener">CIS Benchmarks</a>
+                <a href="https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final" target="_blank" rel="noopener">NIST 800-53</a>
+                <a href="https://www.iso.org/standard/27001" target="_blank" rel="noopener">ISO 27001</a>
+            </div>
+            <div class="footer-col">
+                <h5>Connect</h5>
+                <a href="#">GitHub</a>
+                <a href="#">LinkedIn</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 AVAGuard. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'core/js/landing.js' %}?v=2"></script>
+</body>
+</html>

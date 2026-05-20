@@ -1,0 +1,473 @@
+/**
+ * AVAGuard — Super Admin Dashboard Styles
+ * Template: dashboard/admin.html
+ * =========================================================
+ */
+
+.avag-dashboard-admin {
+    /* Main container (using existing admin-dashboard class) */
+}
+
+/* ── Header ── */
+.avag-dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.avag-dashboard-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--avag-text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avag-dashboard-subtitle {
+    color: var(--avag-text-muted);
+}
+
+.avag-dashboard-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.avag-btn-header {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.avag-btn-header:hover {
+    background: var(--avag-bg-input);
+    border-color: var(--avag-accent-primary);
+}
+
+/* ── Metrics Grid ── */
+.avag-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.avag-metric-card {
+    background: linear-gradient(135deg, var(--avag-bg-card), var(--avag-bg-input));
+    border: 1px solid var(--avag-border-color);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.avag-metric-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.avag-metric-label {
+    color: var(--avag-text-muted);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.avag-metric-value {
+    font-size: 36px;
+    font-weight: 700;
+}
+.avag-metric-value--primary { color: var(--avag-accent-primary); }
+.avag-metric-value--success { color: var(--avag-accent-success); }
+.avag-metric-value--danger { color: var(--avag-accent-danger); }
+.avag-metric-value--warning { color: var(--avag-accent-warning); }
+
+.avag-metric-icon {
+    padding: 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.avag-metric-icon--primary { background: rgba(0, 212, 255, 0.2); color: var(--avag-accent-primary); }
+.avag-metric-icon--success { background: rgba(0, 255, 136, 0.2); color: var(--avag-accent-success); }
+.avag-metric-icon--danger { background: rgba(255, 107, 107, 0.2); color: var(--avag-accent-danger); }
+.avag-metric-icon--warning { background: rgba(255, 217, 61, 0.2); color: var(--avag-accent-warning); }
+
+.avag-metric-trend {
+    font-size: 12px;
+    margin-top: 12px;
+}
+.avag-metric-trend--success { color: var(--avag-accent-success); }
+.avag-metric-trend--neutral { color: var(--avag-text-muted); }
+
+/* ── Layout & Panels ── */
+.avag-dashboard-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.avag-dashboard-panel {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.avag-dashboard-panel--full {
+    margin-top: 24px;
+}
+
+.avag-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avag-panel-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--avag-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avag-panel-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* ── Buttons ── */
+.avag-btn-add {
+    background: linear-gradient(135deg, var(--avag-accent-primary), var(--avag-accent-success));
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--avag-text-inverse);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.avag-btn-add:hover { transform: translateY(-1px); }
+
+.avag-btn-export {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-accent-primary);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--avag-accent-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+}
+.avag-btn-export:hover { background: rgba(0, 212, 255, 0.1); }
+
+/* ── Tables ── */
+.avag-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.avag-table th {
+    text-align: left;
+    padding: 12px 8px;
+    color: var(--avag-text-muted);
+    font-weight: 500;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+.avag-table th.avag-text-center { text-align: center; }
+
+.avag-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--avag-border-color);
+    color: var(--avag-text-primary);
+    font-size: 14px;
+}
+
+.avag-table td.avag-text-muted { color: var(--avag-text-muted); }
+.avag-table td.avag-text-small { font-size: 13px; }
+.avag-table td.avag-text-center { text-align: center; }
+
+/* ── Badges & Indicators ── */
+.avag-role-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+.avag-role-badge--super { background: var(--avag-accent-danger)33; color: var(--avag-accent-danger); }
+.avag-role-badge--admin { background: var(--avag-accent-primary)33; color: var(--avag-accent-primary); }
+.avag-role-badge--viewer { background: var(--avag-accent-success)33; color: var(--avag-accent-success); }
+
+.avag-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.avag-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.avag-status-dot--active { background: var(--avag-accent-success); }
+.avag-status-dot--inactive { background: var(--avag-accent-danger); }
+
+.avag-action-btn-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.avag-action-btn {
+    background: var(--avag-bg-input);
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+.avag-action-btn:hover { background: var(--avag-border-color); }
+.avag-action-btn--edit { color: var(--avag-accent-primary); }
+.avag-action-btn--reset { color: var(--avag-accent-warning); }
+.avag-action-btn--toggle-active { color: var(--avag-accent-danger); }
+.avag-action-btn--toggle-inactive { color: var(--avag-accent-success); }
+
+.avag-empty-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--avag-text-muted);
+}
+
+/* ── Active Sessions Panel ── */
+.avag-session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.avag-session-card {
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.avag-session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.avag-session-email {
+    color: var(--avag-text-primary);
+    font-weight: 500;
+}
+
+.avag-session-ip {
+    color: var(--avag-text-muted);
+    font-size: 12px;
+}
+
+.avag-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--avag-accent-success);
+    animation: avag-pulse 2s infinite;
+}
+
+@keyframes avag-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.avag-session-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.avag-session-time {
+    color: var(--avag-text-muted);
+    font-size: 11px;
+}
+
+.avag-btn-revoke {
+    background: var(--avag-accent-danger)22;
+    border: 1px solid var(--avag-accent-danger);
+    padding: 4px 12px;
+    border-radius: 6px;
+    color: var(--avag-accent-danger);
+    cursor: pointer;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.2s;
+}
+.avag-btn-revoke:hover { background: var(--avag-accent-danger)44; }
+.avag-form-inline { margin: 0; }
+
+/* ── Audit Logs ── */
+.avag-search-input {
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    width: 250px;
+}
+.avag-search-input:focus { outline: none; border-color: var(--avag-accent-primary); }
+
+/* ── Pagination ── */
+.avag-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.avag-page-link {
+    background: var(--avag-border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.avag-page-link:hover { background: #3a3a6a; }
+
+.avag-page-info {
+    padding: 8px 16px;
+    color: var(--avag-text-muted);
+}
+
+/* ── Add User Modal ── */
+.avag-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.avag-modal-content {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 16px;
+    padding: 32px;
+    width: 500px;
+    max-width: 90%;
+}
+
+.avag-modal-title {
+    color: var(--avag-text-primary);
+    margin-bottom: 24px;
+}
+
+.avag-form-group {
+    margin-bottom: 16px;
+}
+
+.avag-form-group--last {
+    margin-bottom: 24px;
+}
+
+.avag-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.avag-form-label {
+    color: var(--avag-text-muted);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.avag-form-control {
+    width: 100%;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.avag-form-control:focus { outline: none; border-color: var(--avag-accent-primary); }
+
+.avag-form-help {
+    color: var(--avag-text-muted);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.avag-modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.avag-btn-cancel {
+    background: var(--avag-border-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.avag-btn-cancel:hover { background: var(--avag-border-color); }
+
+.avag-btn-submit {
+    background: linear-gradient(135deg, var(--avag-accent-primary), var(--avag-accent-success));
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    color: var(--avag-text-inverse);
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.avag-btn-submit:hover { transform: translateY(-1px); }
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    /* Below 768px (mobile) */
+    .avag-dashboard-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .avag-dashboard-actions { width: 100%; justify-content: space-between; }
+    .avag-dashboard-layout { grid-template-columns: 1fr; }
+    .avag-metrics-grid { grid-template-columns: 1fr; }
+    
+    /* Dashboard Tabs */
+    .dashboard-tabs { flex-direction: column; gap: 8px; border-bottom: none; }
+    .dashboard-tabs button { width: 100%; text-align: left; }
+    
+    .chart-card { padding: 16px; margin-bottom: 16px; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* 768px to 1024px (tablet) */
+    .avag-dashboard-layout { grid-template-columns: 1fr; }
+    .avag-metrics-grid { grid-template-columns: 1fr 1fr; }
+    .dashboard-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 12px; }
+}

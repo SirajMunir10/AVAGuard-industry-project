@@ -1,0 +1,2267 @@
+[
+  {
+    "id": "app-0001",
+    "appId": "1bcb0562-5d56-43ea-82c7-edfbe0f1d546",
+    "objectId": "3c209616-7b91-4f4a-a373-aba522eceb07",
+    "displayName": "Microsoft 365",
+    "publisherName": "Microsoft",
+    "applicationCategory": "Productivity",
+    "homepage": "https://microsoft365.com",
+    "criticality": "Critical",
+    "dataClassification": "Internal",
+    "authType": "Legacy",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Microsoft 365 services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": true,
+    "blockLegacyAuth": false,
+    "riskLevel": "high",
+    "allowedIPRanges": [
+      "192.168.88.54",
+      "192.168.125.36"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "4650ceb1-71e4-486a-ae2d-e287d58cb07b",
+        "type": "Delegated",
+        "value": "User.ReadBasic.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-04-13T01:53:15Z"
+      },
+      {
+        "id": "3a3f1b05-769b-46d1-9b1f-c3ddb7ba7b28",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-07-11T01:53:15Z"
+      },
+      {
+        "id": "9be60bcc-a473-45ed-996f-f92ae7b0adea",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-09-17T01:53:15Z"
+      },
+      {
+        "id": "264c2bed-29bd-4924-846b-8906e15f687f",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-02-23T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "08818018-096e-41e8-924b-3590d2e4fc05",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-10-29T01:53:15Z"
+      },
+      {
+        "id": "6c92bdf1-e05b-422f-9279-bb357844ede9",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-15T01:53:15Z"
+      },
+      {
+        "id": "184042c2-4678-4d72-97d8-4998b076f900",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-07-18T01:53:15Z"
+      },
+      {
+        "id": "d483d7da-c580-4a35-8e6d-87791106f8d2",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-01-06T01:53:15Z"
+      },
+      {
+        "id": "45d18afa-391b-443a-bfca-3a7615a2186e",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-02-18T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 393,
+    "activeUserCount": 137,
+    "lastUsedDateTime": "2025-12-17T01:53:15Z",
+    "totalSignInCount": 2724,
+    "failedSignInCount": 102,
+    "ssoEnabled": false,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://microsoft365.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "69a96ee8-b5fa-4457-9883-d387c9742c28",
+        "displayName": "Certificate 1",
+        "thumbprint": "0a2c98f34cd10307856e2bad0d675304bcbc88c0",
+        "startDateTime": "2024-09-17T01:53:15Z",
+        "endDateTime": "2027-08-20T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "c3ffb52c-d64d-41d8-a304-d358532ffc58",
+        "displayName": "Certificate 2",
+        "thumbprint": "c796a45ed65d80231257af46c56f851e54dc48dc",
+        "startDateTime": "2024-02-18T01:53:15Z",
+        "endDateTime": "2027-09-23T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "f1d0a8a4-4bb0-42a1-9b12-a0bf5d73e01a",
+        "displayName": "Client Secret 1",
+        "hint": "***765",
+        "startDateTime": "2025-10-17T01:53:15Z",
+        "endDateTime": "2026-10-17T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 299
+      },
+      {
+        "secretId": "4afb1b2b-2d20-4def-b607-266d196bdc74",
+        "displayName": "Client Secret 2",
+        "hint": "***878",
+        "startDateTime": "2024-06-17T01:53:15Z",
+        "endDateTime": "2026-06-17T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 177
+      }
+    ],
+    "createdDateTime": "2024-03-02T01:53:15Z",
+    "modifiedDateTime": "2025-08-25T01:53:15Z",
+    "publisherDomain": "microsoft.com",
+    "notes": "Enterprise application for Productivity",
+    "lastAuditedDateTime": "2025-10-30T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0002",
+    "appId": "9fb32192-927c-4a20-b571-d176f2cecdaa",
+    "objectId": "56e76f91-cc5d-48fa-b194-39fff717919c",
+    "displayName": "Azure Portal",
+    "publisherName": "Microsoft",
+    "applicationCategory": "Cloud Management",
+    "homepage": "https://azureportal.com",
+    "criticality": "Critical",
+    "dataClassification": "Internal",
+    "authType": "OIDC",
+    "signInAudience": "AzureADandPersonalMicrosoftAccount",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Azure Portal services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": true,
+    "blockLegacyAuth": true,
+    "riskLevel": "high",
+    "allowedIPRanges": [
+      "10.38.56.174"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "de6b2d8d-27e8-4676-a74d-9a51458fe0f0",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-06-11T01:53:15Z"
+      },
+      {
+        "id": "81bf772c-3462-44e6-9ef9-92ed84845843",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2024-08-21T01:53:15Z"
+      },
+      {
+        "id": "cd0f902c-3e4b-4da0-8d84-aac606a6cb52",
+        "type": "Delegated",
+        "value": "User.ReadBasic.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-08-22T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "4d15030b-71a4-4376-a1df-35aa7d9451fc",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-03-15T01:53:15Z"
+      },
+      {
+        "id": "7f5c0c2b-234c-488d-9820-102a310c7534",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-05-07T01:53:15Z"
+      },
+      {
+        "id": "ff4e34b7-826a-4a81-950e-921aabf7cd79",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-11-02T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 743,
+    "activeUserCount": 347,
+    "lastUsedDateTime": "2025-12-22T01:53:15Z",
+    "totalSignInCount": 24624,
+    "failedSignInCount": 258,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://azureportal.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "4b63725f-ebf2-4ae0-ba1a-2d8353fdfb41",
+        "displayName": "Certificate 1",
+        "thumbprint": "1fc3c5b10df5127787c035c86751f9447244d52e",
+        "startDateTime": "2024-10-03T01:53:15Z",
+        "endDateTime": "2027-07-02T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "59bc24d9-c751-4df6-b0d4-1fb859a21af3",
+        "displayName": "Certificate 2",
+        "thumbprint": "cd832ca76001a32afe3bab12b909f80c63f78fc3",
+        "startDateTime": "2024-11-02T01:53:15Z",
+        "endDateTime": "2027-09-08T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "81e2c17d-fc8e-4b98-9b13-9559f6dd3048",
+        "displayName": "Client Secret 1",
+        "hint": "***174",
+        "startDateTime": "2025-02-20T01:53:15Z",
+        "endDateTime": "2026-02-20T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": -30
+      },
+      {
+        "secretId": "77b04cd5-87bd-46dc-89c9-3ce55fb95598",
+        "displayName": "Client Secret 2",
+        "hint": "***922",
+        "startDateTime": "2024-02-18T01:53:15Z",
+        "endDateTime": "2026-02-17T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": -30
+      },
+      {
+        "secretId": "7a3aa96e-838a-4258-93f0-7c19c30a3c9b",
+        "displayName": "Client Secret 3",
+        "hint": "***180",
+        "startDateTime": "2025-04-29T01:53:15Z",
+        "endDateTime": "2027-04-29T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": -30
+      }
+    ],
+    "createdDateTime": "2024-06-12T01:53:15Z",
+    "modifiedDateTime": "2025-10-29T01:53:15Z",
+    "publisherDomain": "microsoft.com",
+    "notes": "Enterprise application for Cloud Management",
+    "lastAuditedDateTime": "2025-10-07T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0003",
+    "appId": "94b33ddc-6c3b-4013-88be-27817c4a07fd",
+    "objectId": "bd634e07-02fe-45c3-b190-71904ed9164d",
+    "displayName": "SharePoint Online",
+    "publisherName": "Microsoft",
+    "applicationCategory": "Collaboration",
+    "homepage": "https://sharepointonline.com",
+    "criticality": "Critical",
+    "dataClassification": "Public",
+    "authType": "Legacy",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": false,
+    "consentDescription": "Access to SharePoint Online services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": true,
+    "blockLegacyAuth": false,
+    "riskLevel": "high",
+    "allowedIPRanges": [
+      "10.230.87.153",
+      "192.168.132.165"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "a5c4c72f-25c0-4092-90d9-aca55c475a9f",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-07-02T01:53:15Z"
+      },
+      {
+        "id": "48bca6c5-bec6-43dd-b1aa-520aa75b3d4c",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-06-24T01:53:15Z"
+      },
+      {
+        "id": "53fb6358-fec0-40f3-957a-a1b2adcd9898",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-02-23T01:53:15Z"
+      },
+      {
+        "id": "3d23452a-a95d-43f5-817f-8e18ebb92d87",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-02-27T01:53:15Z"
+      },
+      {
+        "id": "bd9b15ff-abf8-44cb-bb37-ce1eb4ec88f6",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2025-06-25T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "cef0321b-1984-4b81-8da3-8ad83c2a9795",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-02-15T01:53:15Z"
+      },
+      {
+        "id": "e833100a-d43f-4d76-bbb4-18321a002d11",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-09-14T01:53:15Z"
+      },
+      {
+        "id": "d2b0dc09-8a13-41d9-b057-d6ea309cdc3d",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-03-05T01:53:15Z"
+      },
+      {
+        "id": "bf69be63-9ff0-46d7-a897-c3ebb2a26415",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-02-10T01:53:15Z"
+      },
+      {
+        "id": "b906b57e-a6cf-4b6e-81d6-4d1bdcb67e6f",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-19T01:53:15Z"
+      },
+      {
+        "id": "b11d68bb-28cc-401f-a446-455b3b3dfff7",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-04-26T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 859,
+    "activeUserCount": 144,
+    "lastUsedDateTime": "2025-12-03T01:53:15Z",
+    "totalSignInCount": 94811,
+    "failedSignInCount": 933,
+    "ssoEnabled": false,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://sharepointonline.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "f9ba56eb-5932-428e-856d-82f895344b86",
+        "displayName": "Certificate 1",
+        "thumbprint": "2cbb98a65f7aa6618490635ba952a750c0982ccc",
+        "startDateTime": "2024-03-21T01:53:15Z",
+        "endDateTime": "2026-10-19T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "490632d7-6da8-4f02-8c09-662b8fcb5d5f",
+        "displayName": "Client Secret 1",
+        "hint": "***915",
+        "startDateTime": "2024-08-25T01:53:15Z",
+        "endDateTime": "2026-08-25T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 246
+      },
+      {
+        "secretId": "1bdd8abb-1e84-4329-846e-addfec9e1e33",
+        "displayName": "Client Secret 2",
+        "hint": "***547",
+        "startDateTime": "2025-04-21T01:53:15Z",
+        "endDateTime": "2025-10-18T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "f055b098-426e-4bb3-abd2-09d8e0d27e53",
+        "displayName": "Client Secret 3",
+        "hint": "***632",
+        "startDateTime": "2025-03-06T01:53:15Z",
+        "endDateTime": "2026-03-06T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 74
+      }
+    ],
+    "createdDateTime": "2025-11-01T01:53:15Z",
+    "modifiedDateTime": "2025-09-07T01:53:15Z",
+    "publisherDomain": "microsoft.com",
+    "notes": "Enterprise application for Collaboration",
+    "lastAuditedDateTime": "2025-09-30T01:53:15Z",
+    "complianceStatus": "NotReviewed",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0004",
+    "appId": "8ca60ff9-dd2a-44c7-b273-8e421d9ed56a",
+    "objectId": "d9487edf-4450-415b-b00c-e901b4613f53",
+    "displayName": "Microsoft Teams",
+    "publisherName": "Microsoft",
+    "applicationCategory": "Communication",
+    "homepage": "https://microsoftteams.com",
+    "criticality": "Critical",
+    "dataClassification": "Public",
+    "authType": "SAML",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Microsoft Teams services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "low",
+    "allowedIPRanges": [
+      "172.31.244.235",
+      "172.29.135.82"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "2dce6c31-0cb7-479a-8606-15ab102bbee0",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-06-29T01:53:15Z"
+      },
+      {
+        "id": "60faabf9-e4e2-4768-a96c-cb8605881d8f",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-04-17T01:53:15Z"
+      },
+      {
+        "id": "26ed614f-45fe-4b29-a817-fa3a622ec041",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2025-04-15T01:53:15Z"
+      },
+      {
+        "id": "eb5e383d-0881-4a27-9c6c-2a273e0c0a2e",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-02T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "65ddfb20-a5d2-4357-8906-752f12d1d910",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-08-24T01:53:15Z"
+      },
+      {
+        "id": "3e9cf5d0-6a3f-4429-866f-347927007da0",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-08-06T01:53:15Z"
+      },
+      {
+        "id": "092f2d96-9074-487e-abf1-5afe7601d895",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-08-30T01:53:15Z"
+      },
+      {
+        "id": "5aacf58d-a80b-47f1-aa92-9f20c1bacb55",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-11-11T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 309,
+    "activeUserCount": 365,
+    "lastUsedDateTime": "2025-12-04T01:53:15Z",
+    "totalSignInCount": 42633,
+    "failedSignInCount": 122,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://microsoftteams.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "847d64cd-aa7a-4edb-b576-8a27a42f03bd",
+        "displayName": "Certificate 1",
+        "thumbprint": "6b21a5985f6c431d0c8e17b07de99b5d80687e59",
+        "startDateTime": "2024-09-25T01:53:15Z",
+        "endDateTime": "2026-07-08T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "111ac921-40bd-4264-b07c-7cb2217c4e6e",
+        "displayName": "Certificate 2",
+        "thumbprint": "d64f2d1d388c05f90e895ef261d4290509af26d8",
+        "startDateTime": "2024-09-25T01:53:15Z",
+        "endDateTime": "2026-09-01T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "4d77ffc8-29cf-4e67-8a7d-31c476f38262",
+        "displayName": "Client Secret 1",
+        "hint": "***236",
+        "startDateTime": "2025-02-13T01:53:15Z",
+        "endDateTime": "2025-08-12T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "0f8f1fb0-f1dc-4c3c-812c-fbc9ff0e233b",
+        "displayName": "Client Secret 2",
+        "hint": "***942",
+        "startDateTime": "2024-02-11T01:53:15Z",
+        "endDateTime": "2024-08-09T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      }
+    ],
+    "createdDateTime": "2022-07-30T01:53:15Z",
+    "modifiedDateTime": "2025-11-14T01:53:15Z",
+    "publisherDomain": "microsoft.com",
+    "notes": "Enterprise application for Communication",
+    "lastAuditedDateTime": "2025-07-08T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0005",
+    "appId": "a08e94ee-00b7-4001-9939-4929d0c1c0ee",
+    "objectId": "92d81729-cf89-4ce4-a8f5-ff36a1046f27",
+    "displayName": "Exchange Online",
+    "publisherName": "Microsoft",
+    "applicationCategory": "Email",
+    "homepage": "https://exchangeonline.com",
+    "criticality": "Critical",
+    "dataClassification": "Highly Confidential",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Exchange Online services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "low",
+    "allowedIPRanges": [
+      "10.46.100.130",
+      "172.22.2.139"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "4337828a-41fe-4db4-8aa8-c6b6050c6ee8",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-10-16T01:53:15Z"
+      },
+      {
+        "id": "61ea7488-3810-451e-8ea3-dc1581a7ad62",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2024-08-09T01:53:15Z"
+      },
+      {
+        "id": "55c505b8-39ab-47c3-815a-f750513d737e",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-05-23T01:53:15Z"
+      },
+      {
+        "id": "96ce64bb-bfd8-4f29-b567-99aa2d713c0c",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-26T01:53:15Z"
+      },
+      {
+        "id": "a92e1064-745e-4c2e-b3d7-58a619685158",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-29T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "1bc08ad2-6641-4a95-9de1-594b628bf17f",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-07-23T01:53:15Z"
+      },
+      {
+        "id": "c212b841-60ef-4fe6-a60b-016671baff94",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-02-10T01:53:15Z"
+      },
+      {
+        "id": "012d3863-0971-48d8-8255-aab8304d3ea3",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-10-10T01:53:15Z"
+      },
+      {
+        "id": "51f4eb9e-5e43-4e25-8d44-cdacdef268af",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-08-06T01:53:15Z"
+      },
+      {
+        "id": "3837d990-88ed-4d2f-adbd-1e06d43fb592",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-06-23T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 191,
+    "activeUserCount": 224,
+    "lastUsedDateTime": "2025-12-22T01:53:15Z",
+    "totalSignInCount": 64614,
+    "failedSignInCount": 268,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://exchangeonline.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "bb4160cf-bc8a-41bf-8fbf-cfd34112ef98",
+        "displayName": "Certificate 1",
+        "thumbprint": "1d65765d6f8d97bc2ef4abc226b29d1bdc1746a9",
+        "startDateTime": "2024-08-19T01:53:15Z",
+        "endDateTime": "2027-07-26T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "f91668ff-3607-4fd4-8072-10ae0cb96b96",
+        "displayName": "Client Secret 1",
+        "hint": "***463",
+        "startDateTime": "2024-12-18T01:53:15Z",
+        "endDateTime": "2025-06-16T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "c5184543-1ac8-488a-bdd7-8eb3b63fad2f",
+        "displayName": "Client Secret 2",
+        "hint": "***479",
+        "startDateTime": "2025-06-20T01:53:15Z",
+        "endDateTime": "2026-06-20T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 180
+      }
+    ],
+    "createdDateTime": "2021-10-05T01:53:15Z",
+    "modifiedDateTime": "2025-03-14T01:53:15Z",
+    "publisherDomain": "microsoft.com",
+    "notes": "Enterprise application for Email",
+    "lastAuditedDateTime": "2025-10-22T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0006",
+    "appId": "36aee132-567f-413f-87b3-81cc6a46b935",
+    "objectId": "d510ad2c-568b-4344-9537-2c91f6c200c7",
+    "displayName": "Salesforce",
+    "publisherName": "Salesforce",
+    "applicationCategory": "CRM",
+    "homepage": "https://salesforce.com",
+    "criticality": "Critical",
+    "dataClassification": "Public",
+    "authType": "SAML",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": false,
+    "consentDescription": "Access to Salesforce services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": true,
+    "blockLegacyAuth": true,
+    "riskLevel": "medium",
+    "allowedIPRanges": [
+      "172.30.100.16"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "f3152388-d1ae-48b7-9dca-3094e8fa6617",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2025-07-23T01:53:15Z"
+      },
+      {
+        "id": "446fd1d9-3a0e-4389-95fb-0da3f0de0bbf",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-03-13T01:53:15Z"
+      },
+      {
+        "id": "c378ca7e-c5cb-45da-af12-f17f62a34430",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-08-18T01:53:15Z"
+      },
+      {
+        "id": "6b554705-3387-4fcf-aed5-388af552d29a",
+        "type": "Delegated",
+        "value": "User.ReadBasic.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-01-07T01:53:15Z"
+      },
+      {
+        "id": "f5aa1705-6482-4fc4-9d30-e99fd6828325",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-04-17T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "bddc6ef3-5b9a-47d4-8334-7addc32e4007",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-03-23T01:53:15Z"
+      },
+      {
+        "id": "a2715597-f1b6-4cd6-b28e-9909ee31c9fe",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-07-03T01:53:15Z"
+      },
+      {
+        "id": "d038bc4e-0194-4b14-92b0-f2a4c6d731a1",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-10-05T01:53:15Z"
+      },
+      {
+        "id": "0cb738f2-3d89-4e06-a024-bcd1ec8b110d",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-02-09T01:53:15Z"
+      },
+      {
+        "id": "ea2c320a-1c00-4d6c-a666-b0c3c9d98db0",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-05-18T01:53:15Z"
+      },
+      {
+        "id": "01afd136-9113-44a4-89ea-71e9ad65cbeb",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-06-27T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 638,
+    "activeUserCount": 386,
+    "lastUsedDateTime": "2025-12-13T01:53:15Z",
+    "totalSignInCount": 59204,
+    "failedSignInCount": 576,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://salesforce.com/auth/callback"
+    ],
+    "certificates": [],
+    "clientSecrets": [
+      {
+        "secretId": "7acc0f24-4fa2-45e4-9fd7-b3e3a12a3a6a",
+        "displayName": "Client Secret 1",
+        "hint": "***726",
+        "startDateTime": "2025-03-25T01:53:15Z",
+        "endDateTime": "2026-03-25T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 93
+      }
+    ],
+    "createdDateTime": "2021-03-11T01:53:15Z",
+    "modifiedDateTime": "2025-08-12T01:53:15Z",
+    "publisherDomain": "salesforce.com",
+    "notes": "Enterprise application for CRM",
+    "lastAuditedDateTime": "2025-12-13T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0007",
+    "appId": "f46d8867-b8b3-4281-aa72-6cb789cb2c95",
+    "objectId": "747185dc-664a-4eb1-bb50-08a18ad8c458",
+    "displayName": "ServiceNow",
+    "publisherName": "ServiceNow",
+    "applicationCategory": "ITSM",
+    "homepage": "https://servicenow.com",
+    "criticality": "Critical",
+    "dataClassification": "Confidential",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to ServiceNow services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": true,
+    "blockLegacyAuth": true,
+    "riskLevel": "low",
+    "allowedIPRanges": [
+      "172.23.99.174"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "a0542f27-25a3-4e4f-93ea-68bad55ec3b4",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-30T01:53:15Z"
+      },
+      {
+        "id": "afca2c7f-da85-417e-baa3-5ce938b0fa2e",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-10-30T01:53:15Z"
+      },
+      {
+        "id": "2967b0a0-d539-4e6f-adb8-5c5078ba0888",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-04-15T01:53:15Z"
+      },
+      {
+        "id": "d0699df5-62ce-43e1-bbb0-cfdb5c912e65",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-02-12T01:53:15Z"
+      },
+      {
+        "id": "d991016b-c37d-437a-88d9-b92c10349164",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-23T01:53:15Z"
+      },
+      {
+        "id": "4a484033-7015-4899-a1ff-5de351d5fcfc",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-26T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "6eb0c2af-ec28-4d64-a2fe-6a0f19a7a5c0",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-08-13T01:53:15Z"
+      },
+      {
+        "id": "233b7edb-dfc8-4bc4-9db3-e02d18882305",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-03-09T01:53:15Z"
+      },
+      {
+        "id": "4c8b4c28-0fbf-47c7-94d7-acb0ee83e8d8",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-09-22T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 340,
+    "activeUserCount": 540,
+    "lastUsedDateTime": "2025-12-12T01:53:15Z",
+    "totalSignInCount": 43302,
+    "failedSignInCount": 317,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://servicenow.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "dd71b4b3-1754-477a-982a-4f9502388bb9",
+        "displayName": "Certificate 1",
+        "thumbprint": "97e642debfbaea5994dfa7dff08236f3c17e86fd",
+        "startDateTime": "2024-02-03T01:53:15Z",
+        "endDateTime": "2027-11-30T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "583a55bf-81aa-4ab5-801b-30beb3672244",
+        "displayName": "Certificate 2",
+        "thumbprint": "bc8d74d9b1388ec0e34b410fbf821210527a703e",
+        "startDateTime": "2024-12-12T01:53:15Z",
+        "endDateTime": "2027-08-27T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "72d5be56-68ca-4edd-9787-0ac4713d1b32",
+        "displayName": "Client Secret 1",
+        "hint": "***507",
+        "startDateTime": "2024-08-07T01:53:15Z",
+        "endDateTime": "2026-08-07T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 228
+      },
+      {
+        "secretId": "55f589f1-b666-44b6-978f-ca3403c8944f",
+        "displayName": "Client Secret 2",
+        "hint": "***954",
+        "startDateTime": "2024-11-13T01:53:15Z",
+        "endDateTime": "2026-11-13T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 326
+      }
+    ],
+    "createdDateTime": "2022-06-08T01:53:15Z",
+    "modifiedDateTime": "2025-12-13T01:53:15Z",
+    "publisherDomain": "servicenow.com",
+    "notes": "Enterprise application for ITSM",
+    "lastAuditedDateTime": "2025-10-20T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0008",
+    "appId": "c1cea501-f6ac-4432-a954-a5b914761cac",
+    "objectId": "378745ca-a15a-44ff-9b69-ced3ec5f7a00",
+    "displayName": "Workday",
+    "publisherName": "Workday",
+    "applicationCategory": "HR",
+    "homepage": "https://workday.com",
+    "criticality": "Critical",
+    "dataClassification": "Highly Confidential",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADandPersonalMicrosoftAccount",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Workday services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "low",
+    "allowedIPRanges": [
+      "172.29.202.69"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "9ca1c25a-e9a7-4ecf-9520-5d4bc54a83db",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-06-01T01:53:15Z"
+      },
+      {
+        "id": "034864b5-a436-491d-89a0-6763213185b1",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2025-04-24T01:53:15Z"
+      },
+      {
+        "id": "f528ed92-732b-4404-b861-de0e540bf61b",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-07-26T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "db92141c-344e-4c88-b71e-2d1370fb134d",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-29T01:53:15Z"
+      },
+      {
+        "id": "30c5fc8e-1b61-4639-9d74-f9557900796b",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-09-28T01:53:15Z"
+      },
+      {
+        "id": "1fa80bdd-61a2-42fd-b293-6aefe6f58c75",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-28T01:53:15Z"
+      },
+      {
+        "id": "628f50b0-6505-43fa-8ce3-e205c54c03d0",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-04-24T01:53:15Z"
+      },
+      {
+        "id": "ff0bfa0d-4dbd-4a89-917f-20fe906e8f7e",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-05T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 928,
+    "activeUserCount": 449,
+    "lastUsedDateTime": "2025-12-02T01:53:15Z",
+    "totalSignInCount": 81227,
+    "failedSignInCount": 86,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://workday.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "2dd63557-7277-47a2-a62c-f5f26c13efe4",
+        "displayName": "Certificate 1",
+        "thumbprint": "a6093f010712f4d5799772970fca1c366dc10170",
+        "startDateTime": "2024-07-16T01:53:15Z",
+        "endDateTime": "2027-03-07T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "feb5fdcf-5de5-4477-af7e-8d8f9c158567",
+        "displayName": "Certificate 2",
+        "thumbprint": "ee03e84054ba0fcb2a756a2e646b0fdc505e3efb",
+        "startDateTime": "2024-12-19T01:53:15Z",
+        "endDateTime": "2026-09-11T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "7f8c430c-a697-49fa-a4bd-9ae1f77c3238",
+        "displayName": "Client Secret 1",
+        "hint": "***322",
+        "startDateTime": "2024-03-08T01:53:15Z",
+        "endDateTime": "2026-03-08T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 76
+      }
+    ],
+    "createdDateTime": "2023-11-21T01:53:15Z",
+    "modifiedDateTime": "2025-04-18T01:53:15Z",
+    "publisherDomain": "workday.com",
+    "notes": "Enterprise application for HR",
+    "lastAuditedDateTime": "2025-06-29T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": true
+  },
+  {
+    "id": "app-0009",
+    "appId": "a1d03299-154f-4d7d-9c55-e417b46b3756",
+    "objectId": "815e9290-06ca-4b5a-89d4-48004a91aae6",
+    "displayName": "Slack",
+    "publisherName": "Slack Technologies",
+    "applicationCategory": "Communication",
+    "homepage": "https://slack.com",
+    "criticality": "Medium",
+    "dataClassification": "Public",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": false,
+    "consentDescription": "Access to Slack services",
+    "mfaRequired": false,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "medium",
+    "allowedIPRanges": [
+      "10.220.147.29"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "ca8e5d52-921e-4080-86ef-abe39a6392c8",
+        "type": "Delegated",
+        "value": "Calendars.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-06-04T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "09c46d7a-1913-4dd8-91f5-e99a11e8e5eb",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-03-26T01:53:15Z"
+      },
+      {
+        "id": "13bd8f96-2019-43a7-be49-f8eb840296f3",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-04-30T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 960,
+    "activeUserCount": 640,
+    "lastUsedDateTime": "2025-12-05T01:53:15Z",
+    "totalSignInCount": 24282,
+    "failedSignInCount": 796,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://slack.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "b89a0584-01e8-4e38-911e-2cd8887e1b5e",
+        "displayName": "Certificate 1",
+        "thumbprint": "1e8e9ee619d038649cfa085bbf0d597cd36a5446",
+        "startDateTime": "2024-09-13T01:53:15Z",
+        "endDateTime": "2027-04-06T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "292b58bf-ed8f-4095-b8e1-bc6489af15c7",
+        "displayName": "Certificate 2",
+        "thumbprint": "0ef071ef4643425def36ad66f16284222a72cef7",
+        "startDateTime": "2024-04-19T01:53:15Z",
+        "endDateTime": "2027-05-11T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "ad530588-9e98-4a2e-8bb2-ce56888f2de2",
+        "displayName": "Client Secret 1",
+        "hint": "***722",
+        "startDateTime": "2025-10-03T01:53:15Z",
+        "endDateTime": "2026-04-01T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 100
+      },
+      {
+        "secretId": "91694a6e-e9b7-406f-b721-6f20f3ce4a79",
+        "displayName": "Client Secret 2",
+        "hint": "***353",
+        "startDateTime": "2024-03-21T01:53:15Z",
+        "endDateTime": "2025-03-21T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      }
+    ],
+    "createdDateTime": "2025-06-02T01:53:15Z",
+    "modifiedDateTime": "2025-11-11T01:53:15Z",
+    "publisherDomain": "slacktechnologies.com",
+    "notes": "Enterprise application for Communication",
+    "lastAuditedDateTime": "2025-07-17T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0010",
+    "appId": "5a4aac14-a329-4c35-8c4f-4f734c6d4a84",
+    "objectId": "27ce86fd-5962-4151-9565-908401cf6fcc",
+    "displayName": "Jira",
+    "publisherName": "Atlassian",
+    "applicationCategory": "Project Management",
+    "homepage": "https://jira.com",
+    "criticality": "Medium",
+    "dataClassification": "Highly Confidential",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADandPersonalMicrosoftAccount",
+    "hasAdminConsent": false,
+    "consentDescription": "Access to Jira services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "medium",
+    "allowedIPRanges": [
+      "10.60.242.254",
+      "10.17.144.208"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "d0d2914a-5152-4a5d-874f-914a8f5967c8",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-03-29T01:53:15Z"
+      },
+      {
+        "id": "ae4caec2-fe78-41b6-bdab-84075ce43e35",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-03-26T01:53:15Z"
+      },
+      {
+        "id": "4eecd797-5f78-4dac-8334-08efb56fdcc5",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-26T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "eabe3052-fec7-4cbe-93a3-e4828dcd228c",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-01T01:53:15Z"
+      },
+      {
+        "id": "f5cb478a-aea3-4988-b213-271b5fec27f0",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-04-17T01:53:15Z"
+      },
+      {
+        "id": "83433df6-d03d-4946-8da2-50745aa0b6bc",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2025-11-30T01:53:15Z"
+      },
+      {
+        "id": "09e1f7d8-632c-4811-823b-0d66a478dab0",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2025-03-03T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 851,
+    "activeUserCount": 548,
+    "lastUsedDateTime": "2025-11-24T01:53:15Z",
+    "totalSignInCount": 57981,
+    "failedSignInCount": 953,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://jira.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "c71286f2-414f-4704-8b6c-11f2518ed0f7",
+        "displayName": "Certificate 1",
+        "thumbprint": "f117d184e410b2e42293dd010d842df1f0fd3228",
+        "startDateTime": "2024-10-13T01:53:15Z",
+        "endDateTime": "2026-07-28T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "59de244a-8bd0-4d7b-bcb3-cdc0adf6efa7",
+        "displayName": "Client Secret 1",
+        "hint": "***197",
+        "startDateTime": "2024-03-27T01:53:15Z",
+        "endDateTime": "2024-09-23T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "b9ce2491-12a7-410c-9596-eed1576524ed",
+        "displayName": "Client Secret 2",
+        "hint": "***902",
+        "startDateTime": "2024-09-26T01:53:15Z",
+        "endDateTime": "2025-03-25T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "68d91c83-caf3-485f-ad6f-7fc7ab1d0dd1",
+        "displayName": "Client Secret 3",
+        "hint": "***644",
+        "startDateTime": "2024-08-15T01:53:15Z",
+        "endDateTime": "2026-08-15T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 236
+      }
+    ],
+    "createdDateTime": "2023-03-22T01:53:15Z",
+    "modifiedDateTime": "2025-07-30T01:53:15Z",
+    "publisherDomain": "atlassian.com",
+    "notes": "Enterprise application for Project Management",
+    "lastAuditedDateTime": "2025-09-11T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0011",
+    "appId": "8489d797-b05c-4dd8-9a1e-c1402da34445",
+    "objectId": "4fa2e43d-0e8a-4051-9308-05f2134128ba",
+    "displayName": "GitHub Enterprise",
+    "publisherName": "GitHub",
+    "applicationCategory": "Development",
+    "homepage": "https://githubenterprise.com",
+    "criticality": "Medium",
+    "dataClassification": "Highly Confidential",
+    "authType": "Legacy",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to GitHub Enterprise services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": false,
+    "riskLevel": "high",
+    "allowedIPRanges": [
+      "10.163.234.210"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "4edcffc1-2e10-4d89-84bf-3157cc1551ae",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-03-14T01:53:15Z"
+      },
+      {
+        "id": "6e74b582-2a0a-4e6a-9142-4b39c3d752b1",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-09-04T01:53:15Z"
+      },
+      {
+        "id": "22153448-8cfa-4a2a-8169-2642773e6d19",
+        "type": "Delegated",
+        "value": "User.ReadBasic.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-07-23T01:53:15Z"
+      },
+      {
+        "id": "a0277ace-7bb8-486a-ae5e-abd540454f31",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-30T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "82f68f1d-18c3-42d7-a9f4-051272a94fe5",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-11-29T01:53:15Z"
+      },
+      {
+        "id": "483509a4-91eb-40b4-9972-540d22bb610a",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-01T01:53:15Z"
+      },
+      {
+        "id": "c93b32e4-b55b-48e4-a225-11b911e4d50c",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-03-12T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 223,
+    "activeUserCount": 784,
+    "lastUsedDateTime": "2025-12-21T01:53:15Z",
+    "totalSignInCount": 67665,
+    "failedSignInCount": 152,
+    "ssoEnabled": false,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://githubenterprise.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "816d5fe8-2279-4f49-ad69-7acc9778f2f1",
+        "displayName": "Certificate 1",
+        "thumbprint": "20dfa1653bb0e734208d48a27878dce723cda46e",
+        "startDateTime": "2024-05-04T01:53:15Z",
+        "endDateTime": "2026-09-30T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "03a23838-951e-4a95-b165-2f64771a0e6e",
+        "displayName": "Certificate 2",
+        "thumbprint": "a17fa72153211f0126a421444c6cc2845a917cb4",
+        "startDateTime": "2024-11-12T01:53:15Z",
+        "endDateTime": "2027-08-14T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "d3631b0f-b227-4342-a3d0-d7614acb6a07",
+        "displayName": "Client Secret 1",
+        "hint": "***746",
+        "startDateTime": "2024-07-12T01:53:15Z",
+        "endDateTime": "2026-07-12T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 202
+      }
+    ],
+    "createdDateTime": "2025-03-23T01:53:15Z",
+    "modifiedDateTime": "2025-10-02T01:53:15Z",
+    "publisherDomain": "github.com",
+    "notes": "Enterprise application for Development",
+    "lastAuditedDateTime": "2025-07-28T01:53:15Z",
+    "complianceStatus": "NonCompliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0012",
+    "appId": "365aaf0c-e727-4952-92cf-d6728054372d",
+    "objectId": "aa5ee3e3-501c-443c-8ac0-f934aec74c65",
+    "displayName": "Figma",
+    "publisherName": "Figma",
+    "applicationCategory": "Design",
+    "homepage": "https://figma.com",
+    "criticality": "Medium",
+    "dataClassification": "Public",
+    "authType": "SAML",
+    "signInAudience": "AzureADandPersonalMicrosoftAccount",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Figma services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "192.168.188.190",
+      "10.137.131.75",
+      "172.22.126.116"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "be499ee7-c7b8-4fa3-a571-2a5d82b88654",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-05-16T01:53:15Z"
+      },
+      {
+        "id": "c2658e18-bf72-4214-a9a4-a285e475ce9c",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-22T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "b12ed309-184a-43ea-882d-b55687002cfb",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-25T01:53:15Z"
+      },
+      {
+        "id": "b02a531e-d7f0-4ea6-91c7-ee3b9a34b566",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-08-26T01:53:15Z"
+      },
+      {
+        "id": "824c6c15-9fac-419e-ac95-7a6a0d3ad418",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-01-06T01:53:15Z"
+      },
+      {
+        "id": "a8e1116a-8325-4c76-9e53-195a9afbc52b",
+        "type": "Application",
+        "value": "Directory.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-02-25T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 719,
+    "activeUserCount": 472,
+    "lastUsedDateTime": "2025-12-04T01:53:15Z",
+    "totalSignInCount": 13158,
+    "failedSignInCount": 953,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://figma.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "8a686852-76ee-4556-bb27-cec801ce6add",
+        "displayName": "Certificate 1",
+        "thumbprint": "77a5474173c540c88ed7d430d155a2ee002bf773",
+        "startDateTime": "2024-04-10T01:53:15Z",
+        "endDateTime": "2027-01-05T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "7c386f7c-3c6d-46a0-a975-17fa7c869462",
+        "displayName": "Certificate 2",
+        "thumbprint": "f8d8384fdb3b7a5a4918c164109eb6fcbc3c5a7c",
+        "startDateTime": "2024-08-27T01:53:15Z",
+        "endDateTime": "2027-12-10T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "ddfb2bda-5199-4273-8df4-5b03131c8cb3",
+        "displayName": "Client Secret 1",
+        "hint": "***945",
+        "startDateTime": "2024-12-21T01:53:15Z",
+        "endDateTime": "2025-12-21T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      }
+    ],
+    "createdDateTime": "2023-09-28T01:53:15Z",
+    "modifiedDateTime": "2025-03-17T01:53:15Z",
+    "publisherDomain": "figma.com",
+    "notes": "Enterprise application for Design",
+    "lastAuditedDateTime": "2025-10-13T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0013",
+    "appId": "c8ea7fd0-ff41-4a17-ac51-c37e092f3db1",
+    "objectId": "2e99a9e1-434a-4d15-8e2b-463a340e5aa7",
+    "displayName": "Datadog",
+    "publisherName": "Datadog",
+    "applicationCategory": "Monitoring",
+    "homepage": "https://datadog.com",
+    "criticality": "High",
+    "dataClassification": "Internal",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Datadog services",
+    "mfaRequired": false,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "10.248.77.48",
+      "192.168.117.17"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "ae1f2e7d-8fca-48b7-86ae-7c2591a282bc",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-15T01:53:15Z"
+      },
+      {
+        "id": "e4e43db3-560e-45ab-aedf-4db72e6dd07e",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2025-08-28T01:53:15Z"
+      },
+      {
+        "id": "5addea26-f5e6-4a80-9e38-8b93ec6c0c27",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-08-14T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "4faa7edf-087e-4588-9a4e-e1de2d6f5832",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-01-28T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 635,
+    "activeUserCount": 652,
+    "lastUsedDateTime": "2025-11-30T01:53:15Z",
+    "totalSignInCount": 41355,
+    "failedSignInCount": 167,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://datadog.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "0bf87e6d-686f-4fb3-a002-f7b237766745",
+        "displayName": "Certificate 1",
+        "thumbprint": "579edee9bf9d8f459c201b6daf59eb4f7a806f09",
+        "startDateTime": "2024-08-31T01:53:15Z",
+        "endDateTime": "2026-09-07T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "f13aa807-17f0-4c0f-b227-a46d4b7f099a",
+        "displayName": "Client Secret 1",
+        "hint": "***841",
+        "startDateTime": "2025-08-22T01:53:15Z",
+        "endDateTime": "2026-08-22T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 243
+      },
+      {
+        "secretId": "8dfc6995-618a-458c-9429-1712f744b7f3",
+        "displayName": "Client Secret 2",
+        "hint": "***162",
+        "startDateTime": "2024-01-25T01:53:15Z",
+        "endDateTime": "2024-07-23T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "a6933f2b-4739-486e-9323-65b63a131820",
+        "displayName": "Client Secret 3",
+        "hint": "***899",
+        "startDateTime": "2025-02-17T01:53:15Z",
+        "endDateTime": "2027-02-17T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 422
+      }
+    ],
+    "createdDateTime": "2022-07-29T01:53:15Z",
+    "modifiedDateTime": "2025-04-05T01:53:15Z",
+    "publisherDomain": "datadog.com",
+    "notes": "Enterprise application for Monitoring",
+    "lastAuditedDateTime": "2025-07-13T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0014",
+    "appId": "874b5b91-49ba-4b85-a5ec-b5e301792d6a",
+    "objectId": "9b82d072-69cd-441f-aa82-6d60b4f36062",
+    "displayName": "Zoom",
+    "publisherName": "Zoom Video Communications",
+    "applicationCategory": "Video Conferencing",
+    "homepage": "https://zoom.com",
+    "criticality": "High",
+    "dataClassification": "Public",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Zoom services",
+    "mfaRequired": false,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "192.168.238.76",
+      "192.168.181.24",
+      "172.16.119.19"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "b3711822-67b1-4be6-9c35-eb86b8a170f9",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-07-12T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "16eee198-486a-48c4-a693-eedd2ab69128",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-05-30T01:53:15Z"
+      },
+      {
+        "id": "f80186bc-856a-4262-a943-f2cd69d73f04",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-01-28T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 637,
+    "activeUserCount": 275,
+    "lastUsedDateTime": "2025-12-07T01:53:15Z",
+    "totalSignInCount": 73086,
+    "failedSignInCount": 585,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://zoom.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "c2d85bb5-72cc-4a78-acb6-4b190777ee3c",
+        "displayName": "Certificate 1",
+        "thumbprint": "4feb51f466307af491d0fe9edadbeb08c1135720",
+        "startDateTime": "2024-11-24T01:53:15Z",
+        "endDateTime": "2026-10-23T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "4bc80238-b433-412c-819d-3a92eecb382e",
+        "displayName": "Certificate 2",
+        "thumbprint": "65bb4acf9d5288746faf5a22783bc6aed2186938",
+        "startDateTime": "2024-04-26T01:53:15Z",
+        "endDateTime": "2027-03-15T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "3a5b810b-224d-41c8-90ec-b6640ff36b11",
+        "displayName": "Client Secret 1",
+        "hint": "***484",
+        "startDateTime": "2024-07-25T01:53:15Z",
+        "endDateTime": "2026-07-25T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 215
+      }
+    ],
+    "createdDateTime": "2024-03-01T01:53:15Z",
+    "modifiedDateTime": "2025-06-02T01:53:15Z",
+    "publisherDomain": "zoomvideocommunications.com",
+    "notes": "Enterprise application for Video Conferencing",
+    "lastAuditedDateTime": "2025-08-27T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0015",
+    "appId": "7327ae9f-259d-4360-9a70-def6b72128ef",
+    "objectId": "a0c7be7e-9115-4c66-947a-b18ee27ad9ae",
+    "displayName": "DocuSign",
+    "publisherName": "DocuSign",
+    "applicationCategory": "Document Management",
+    "homepage": "https://docusign.com",
+    "criticality": "High",
+    "dataClassification": "Public",
+    "authType": "SAML",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to DocuSign services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "192.168.89.214",
+      "172.23.167.217"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "40026c7d-3f99-4a3e-9363-41c0acda1abc",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-11-28T01:53:15Z"
+      },
+      {
+        "id": "5be85545-0aad-4939-9661-d701892ecfc8",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2025-09-21T01:53:15Z"
+      },
+      {
+        "id": "971b029e-5379-4984-b658-2ce0bc7ec534",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-01-28T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "b318f383-dcc1-459b-938b-5c48aefc7a9d",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-10-29T01:53:15Z"
+      },
+      {
+        "id": "8e133ae8-e692-46c4-bd1b-b9461a6ad48c",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2025-08-20T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 787,
+    "activeUserCount": 660,
+    "lastUsedDateTime": "2025-11-26T01:53:15Z",
+    "totalSignInCount": 16858,
+    "failedSignInCount": 206,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://docusign.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "1df5cabd-6d7d-4e66-ac92-445001f20d8b",
+        "displayName": "Certificate 1",
+        "thumbprint": "6eb9411881a8b22f6494069955b9078f11d3eb45",
+        "startDateTime": "2024-07-21T01:53:15Z",
+        "endDateTime": "2027-04-02T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "607d0c0c-31f2-4101-963d-aa52237f1ae7",
+        "displayName": "Client Secret 1",
+        "hint": "***725",
+        "startDateTime": "2024-05-12T01:53:15Z",
+        "endDateTime": "2025-05-12T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      },
+      {
+        "secretId": "e4cbd26f-aaa4-4c57-ac14-2f628a88c9f0",
+        "displayName": "Client Secret 2",
+        "hint": "***637",
+        "startDateTime": "2025-05-27T01:53:15Z",
+        "endDateTime": "2025-11-23T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      }
+    ],
+    "createdDateTime": "2022-12-11T01:53:15Z",
+    "modifiedDateTime": "2025-01-18T01:53:15Z",
+    "publisherDomain": "docusign.com",
+    "notes": "Enterprise application for Document Management",
+    "lastAuditedDateTime": "2025-12-14T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0016",
+    "appId": "1647d85e-b92c-4fc2-b651-152147813fb8",
+    "objectId": "92933c9f-c054-4eee-9c32-d0b007ed1644",
+    "displayName": "Okta",
+    "publisherName": "Okta",
+    "applicationCategory": "Identity",
+    "homepage": "https://okta.com",
+    "criticality": "Medium",
+    "dataClassification": "Public",
+    "authType": "SAML",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Okta services",
+    "mfaRequired": false,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "172.27.57.89",
+      "192.168.183.189"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "3e5bebd6-1154-4540-b695-a72266d2e533",
+        "type": "Delegated",
+        "value": "User.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-07-02T01:53:15Z"
+      },
+      {
+        "id": "66feccc0-1b8e-437e-94f0-e6d82bed449d",
+        "type": "Delegated",
+        "value": "Sites.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-02-28T01:53:15Z"
+      },
+      {
+        "id": "e2adb1eb-49ba-491f-892a-0a7e35f852a6",
+        "type": "Delegated",
+        "value": "Files.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-05-19T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "09bbeaba-b592-48f1-85b9-82f0cb67e382",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-09-15T01:53:15Z"
+      },
+      {
+        "id": "3b83bb88-9c70-4ed2-a4b5-253ed6bb7c62",
+        "type": "Application",
+        "value": "Group.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-11-22T01:53:15Z"
+      },
+      {
+        "id": "c9eea891-219c-41b2-bfaf-22e318fbc9bd",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-05-28T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 335,
+    "activeUserCount": 102,
+    "lastUsedDateTime": "2025-12-19T01:53:15Z",
+    "totalSignInCount": 86945,
+    "failedSignInCount": 63,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://okta.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "1e6714a8-33d7-4856-b5a3-b8982ffcc6c8",
+        "displayName": "Certificate 1",
+        "thumbprint": "3607f92cdb1ee915e550d9a9b375fc6edf26820f",
+        "startDateTime": "2024-07-16T01:53:15Z",
+        "endDateTime": "2027-04-11T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "d345c7f5-70b7-4871-aaea-8d5b33348c30",
+        "displayName": "Certificate 2",
+        "thumbprint": "8fdd19e6f772f59190ede80cc3c63e7baed19711",
+        "startDateTime": "2024-07-31T01:53:15Z",
+        "endDateTime": "2027-11-11T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "05f69149-e417-4cbc-8219-40e45f24e5a7",
+        "displayName": "Client Secret 1",
+        "hint": "***798",
+        "startDateTime": "2024-07-31T01:53:15Z",
+        "endDateTime": "2025-07-31T01:53:15Z",
+        "isExpired": true,
+        "daysUntilExpiry": 0
+      }
+    ],
+    "createdDateTime": "2021-12-13T01:53:15Z",
+    "modifiedDateTime": "2025-01-12T01:53:15Z",
+    "publisherDomain": "okta.com",
+    "notes": "Enterprise application for Identity",
+    "lastAuditedDateTime": "2025-10-11T01:53:15Z",
+    "complianceStatus": "Compliant",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0017",
+    "appId": "a09eed3e-35b6-4bbb-8eaa-33d8caa09723",
+    "objectId": "12e43dd1-f1c5-4fd3-8e3b-43aaa24f4fc2",
+    "displayName": "Box",
+    "publisherName": "Box",
+    "applicationCategory": "File Storage",
+    "homepage": "https://box.com",
+    "criticality": "High",
+    "dataClassification": "Public",
+    "authType": "ModernAuth",
+    "signInAudience": "AzureADMyOrg",
+    "hasAdminConsent": true,
+    "consentDescription": "Access to Box services",
+    "mfaRequired": false,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "none",
+    "allowedIPRanges": [
+      "192.168.52.104",
+      "192.168.60.139",
+      "192.168.107.147"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "114fbae7-42b1-49d4-84a9-58900fe04e89",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2024-07-29T01:53:15Z"
+      },
+      {
+        "id": "0a2c4f8d-544a-4f79-a2e6-1d5facd043b2",
+        "type": "Delegated",
+        "value": "Mail.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-12-18T01:53:15Z"
+      },
+      {
+        "id": "02771ec6-8957-4734-b14f-66441950610e",
+        "type": "Delegated",
+        "value": "Contacts.Read",
+        "consentType": "User",
+        "grantedDateTime": "2024-06-14T01:53:15Z"
+      },
+      {
+        "id": "bcd3d08e-a410-4c32-95f8-bcfd98a975be",
+        "type": "Delegated",
+        "value": "User.ReadBasic.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-12-27T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "a31399de-8120-4e6a-99b0-d7cd1efea2b7",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-05-04T01:53:15Z"
+      },
+      {
+        "id": "2c6a06eb-1e6f-414b-920b-1484d6ed991d",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-10-05T01:53:15Z"
+      },
+      {
+        "id": "2b3b8745-f721-42a4-8c7c-7d9cd4634a95",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-05-19T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": false,
+    "userCount": 573,
+    "activeUserCount": 443,
+    "lastUsedDateTime": "2025-11-28T01:53:15Z",
+    "totalSignInCount": 14106,
+    "failedSignInCount": 977,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "oidc",
+    "replyUrls": [
+      "https://box.com/auth/callback"
+    ],
+    "certificates": [],
+    "clientSecrets": [
+      {
+        "secretId": "849c4e58-935b-4071-8362-eaf387d528a4",
+        "displayName": "Client Secret 1",
+        "hint": "***578",
+        "startDateTime": "2025-11-18T01:53:15Z",
+        "endDateTime": "2027-11-18T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 696
+      }
+    ],
+    "createdDateTime": "2022-01-08T01:53:15Z",
+    "modifiedDateTime": "2025-07-12T01:53:15Z",
+    "publisherDomain": "box.com",
+    "notes": "Enterprise application for File Storage",
+    "lastAuditedDateTime": "2025-11-07T01:53:15Z",
+    "complianceStatus": "NotReviewed",
+    "requiresAccessReview": false
+  },
+  {
+    "id": "app-0018",
+    "appId": "ee9ba14e-3c96-42e4-b22c-127151f95df3",
+    "objectId": "5e503590-ea46-45bb-8772-4605b02bdbe4",
+    "displayName": "Dropbox Business",
+    "publisherName": "Dropbox",
+    "applicationCategory": "File Storage",
+    "homepage": "https://dropboxbusiness.com",
+    "criticality": "Medium",
+    "dataClassification": "Internal",
+    "authType": "SAML",
+    "signInAudience": "AzureADMultipleOrgs",
+    "hasAdminConsent": false,
+    "consentDescription": "Access to Dropbox Business services",
+    "mfaRequired": true,
+    "deviceComplianceRequired": false,
+    "blockLegacyAuth": true,
+    "riskLevel": "medium",
+    "allowedIPRanges": [
+      "10.198.156.61",
+      "192.168.167.91"
+    ],
+    "delegatedPermissions": [
+      {
+        "id": "535bc314-2ba5-4c1c-b7dd-d1729ab1f49b",
+        "type": "Delegated",
+        "value": "Mail.Send",
+        "consentType": "User",
+        "grantedDateTime": "2024-07-10T01:53:15Z"
+      }
+    ],
+    "applicationPermissions": [
+      {
+        "id": "42d79df7-23f3-4f1a-9150-ea9c847c80cf",
+        "type": "Application",
+        "value": "User.Read.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2025-02-19T01:53:15Z"
+      },
+      {
+        "id": "eeefcef5-0105-4315-8e2b-fa6196e5ff7c",
+        "type": "Application",
+        "value": "Calendars.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-09-27T01:53:15Z"
+      },
+      {
+        "id": "df37d9ac-fb47-4526-9792-b34ce9e9ef41",
+        "type": "Application",
+        "value": "Application.ReadWrite.All",
+        "consentType": "Admin",
+        "grantedDateTime": "2024-06-14T01:53:15Z"
+      },
+      {
+        "id": "c656d15b-fdec-4832-8a4d-e1fd43580571",
+        "type": "Application",
+        "value": "Mail.ReadWrite",
+        "consentType": "User",
+        "grantedDateTime": "2024-01-10T01:53:15Z"
+      }
+    ],
+    "hasElevatedPermissions": true,
+    "userCount": 438,
+    "activeUserCount": 740,
+    "lastUsedDateTime": "2025-12-05T01:53:15Z",
+    "totalSignInCount": 54438,
+    "failedSignInCount": 255,
+    "ssoEnabled": true,
+    "preferredSingleSignOnMode": "saml",
+    "replyUrls": [
+      "https://dropboxbusiness.com/auth/callback"
+    ],
+    "certificates": [
+      {
+        "certificateId": "f1db4276-68e0-46e5-a440-788931f63b28",
+        "displayName": "Certificate 1",
+        "thumbprint": "9b2f67f4df42830418f1fcadc756b8921a5c626d",
+        "startDateTime": "2024-08-14T01:53:15Z",
+        "endDateTime": "2027-03-25T01:53:15Z",
+        "usage": "Verify"
+      },
+      {
+        "certificateId": "178f3587-5de5-41ee-bf4e-f8fe2ee8a2a6",
+        "displayName": "Certificate 2",
+        "thumbprint": "78187312b3070af22cb58827a7ed280c4f6c1614",
+        "startDateTime": "2024-07-07T01:53:15Z",
+        "endDateTime": "2027-11-15T01:53:15Z",
+        "usage": "Verify"
+      }
+    ],
+    "clientSecrets": [
+      {
+        "secretId": "04492e9c-786d-4b4c-a8f6-8a44a9700251",
+        "displayName": "Client Secret 1",
+        "hint": "***796",
+        "startDateTime": "2025-08-09T01:53:15Z",
+        "endDateTime": "2027-08-09T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 595
+      },
+      {
+        "secretId": "428928c4-5d16-46ab-be0c-ae0ad0bd4125",
+        "displayName": "Client Secret 2",
+        "hint": "***174",
+        "startDateTime": "2025-11-19T01:53:15Z",
+        "endDateTime": "2026-05-18T01:53:15Z",
+        "isExpired": false,
+        "daysUntilExpiry": 147
+      }
+    ],
+    "createdDateTime": "2023-08-05T01:53:15Z",
+    "modifiedDateTime": "2025-02-21T01:53:15Z",
+    "publisherDomain": "dropbox.com",
+    "notes": "Enterprise application for File Storage",
+    "lastAuditedDateTime": "2025-07-07T01:53:15Z",
+    "complianceStatus": "NotReviewed",
+    "requiresAccessReview": false
+  }
+]

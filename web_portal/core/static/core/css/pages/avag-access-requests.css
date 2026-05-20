@@ -1,0 +1,91 @@
+/**
+ * AVAGuard — Access Requests Styles
+ * Template: admin/access_requests.html
+ * =========================================================
+ */
+
+.avag-table-user-name {
+    font-weight: 500;
+    color: var(--avag-text-primary);
+}
+
+.avag-table-user-email {
+    font-size: 12px;
+    color: var(--avag-text-muted);
+}
+
+.avag-table-link {
+    color: var(--avag-accent-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+.avag-table-link:hover {
+    opacity: 0.8;
+}
+
+.avag-table-reason {
+    max-width: 300px;
+    word-break: break-word;
+}
+
+.avag-action-group {
+    display: flex;
+    gap: 8px;
+}
+
+.avag-btn-approve {
+    padding: 6px 12px;
+    font-size: 12px;
+    background: linear-gradient(135deg, var(--avag-accent-primary), var(--avag-accent-success));
+    color: var(--avag-text-inverse);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+.avag-btn-approve:hover {
+    transform: translateY(-1px);
+}
+
+.avag-btn-deny {
+    padding: 6px 12px;
+    font-size: 12px;
+    border: 1px solid var(--avag-accent-danger);
+    background: transparent;
+    color: var(--avag-accent-danger);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.avag-btn-deny:hover {
+    background: rgba(255, 107, 107, 0.1);
+}
+
+.avag-btn-deny-submit {
+    background: var(--avag-accent-danger);
+    border: none;
+    color: var(--avag-text-primary);
+}
+.avag-btn-deny-submit:hover {
+    background: #ff5252;
+}
+
+/* Deny Modal specific styles */
+.avag-modal-textarea {
+    width: 100%;
+    background: #252550;
+    border: 1px solid var(--avag-border-color);
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    height: 100px;
+    box-sizing: border-box;
+    font-family: inherit;
+    resize: vertical;
+}
+.avag-modal-textarea:focus {
+    outline: none;
+    border-color: var(--avag-accent-danger);
+}

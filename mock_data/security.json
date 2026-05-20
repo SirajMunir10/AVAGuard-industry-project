@@ -1,0 +1,759 @@
+{
+  "globalSettings": {
+    "tenantId": "b2ba9a0f-5838-4215-bcd6-6b955811e7c7",
+    "tenantName": "MockCorp",
+    "securityDefaultsEnabled": false,
+    "legacyAuthBlocked": true,
+    "mfaEnforcementLevel": "selective",
+    "mfaRegistrationCampaignEnabled": true,
+    "mfaRememberDeviceDays": 14,
+    "deviceComplianceRequired": true,
+    "deviceComplianceGracePeriodDays": 7,
+    "zeroTrustEnabled": true,
+    "continuousAccessEvaluation": true,
+    "deviceTrustValidation": true,
+    "passwordExpiryDays": 90,
+    "minPasswordLength": 12,
+    "passwordComplexityRequired": true,
+    "passwordHistoryCount": 24,
+    "bannedPasswordProtection": true,
+    "sessionTimeoutHours": 12,
+    "persistentBrowserSession": false,
+    "requireReauthenticationForSensitiveApps": true,
+    "guestAccessRestriction": "RestrictGuestsToB2bUsers",
+    "guestInvitationsAllowed": true,
+    "guestInviterRoles": [
+      "Global Administrator",
+      "User Administrator"
+    ],
+    "usersCanRegisterApps": false,
+    "selfServicePasswordReset": true,
+    "selfServiceGroupCreation": false,
+    "auditLogRetentionDays": 90,
+    "signInLogRetentionDays": 30,
+    "exportAuditLogs": true
+  },
+  "conditionalAccessPolicies": [
+    {
+      "id": "cap-001",
+      "displayName": "Require MFA for All Users",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeUsers": [
+            "All"
+          ]
+        },
+        "applications": {
+          "includeApplications": [
+            "All"
+          ]
+        },
+        "locations": {
+          "includeLocations": [
+            "All"
+          ]
+        }
+      },
+      "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+          "mfa"
+        ]
+      },
+      "sessionControls": null,
+      "createdDateTime": "2024-02-27T01:53:15Z",
+      "modifiedDateTime": "2025-12-14T01:53:15Z"
+    },
+    {
+      "id": "cap-002",
+      "displayName": "Block Legacy Authentication",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeUsers": [
+            "All"
+          ]
+        },
+        "applications": {
+          "includeApplications": [
+            "All"
+          ]
+        },
+        "clientAppTypes": [
+          "exchangeActiveSync",
+          "other"
+        ]
+      },
+      "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+          "block"
+        ]
+      },
+      "sessionControls": null,
+      "createdDateTime": "2024-07-18T01:53:15Z",
+      "modifiedDateTime": "2025-12-16T01:53:15Z"
+    },
+    {
+      "id": "cap-003",
+      "displayName": "Require Compliant Device for Privileged Users",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeRoles": [
+            "Global Administrator",
+            "Security Administrator"
+          ]
+        },
+        "applications": {
+          "includeApplications": [
+            "All"
+          ]
+        }
+      },
+      "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+          "compliantDevice",
+          "domainJoinedDevice"
+        ]
+      },
+      "sessionControls": null,
+      "createdDateTime": "2025-04-21T01:53:15Z",
+      "modifiedDateTime": "2025-11-30T01:53:15Z"
+    },
+    {
+      "id": "cap-004",
+      "displayName": "Require MFA for Guest Users",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeGuestsOrExternalUsers": true
+        },
+        "applications": {
+          "includeApplications": [
+            "All"
+          ]
+        }
+      },
+      "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+          "mfa"
+        ]
+      },
+      "sessionControls": null,
+      "createdDateTime": "2025-04-24T01:53:15Z",
+      "modifiedDateTime": "2025-12-20T01:53:15Z"
+    },
+    {
+      "id": "cap-005",
+      "displayName": "Block Access from Untrusted Locations",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeUsers": [
+            "All"
+          ]
+        },
+        "applications": {
+          "includeApplications": [
+            "Office365"
+          ]
+        },
+        "locations": {
+          "includeLocations": [
+            "All"
+          ],
+          "excludeLocations": [
+            "AllTrusted"
+          ]
+        }
+      },
+      "grantControls": {
+        "operator": "AND",
+        "builtInControls": [
+          "mfa",
+          "compliantDevice"
+        ]
+      },
+      "sessionControls": {
+        "signInFrequency": {
+          "value": 4,
+          "type": "hours"
+        }
+      },
+      "createdDateTime": "2025-08-21T01:53:15Z",
+      "modifiedDateTime": "2025-11-22T01:53:15Z"
+    },
+    {
+      "id": "cap-006",
+      "displayName": "Require MFA for Azure Management",
+      "state": "enabled",
+      "conditions": {
+        "users": {
+          "includeUsers": [
+            "All"
+          ]
+        },
+        "applications": {
+          "includeApplications": [
+            "AzureManagement"
+          ]
+        }
+      },
+      "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+          "mfa"
+        ]
+      },
+      "sessionControls": null,
+      "createdDateTime": "2024-09-20T01:53:15Z",
+      "modifiedDateTime": "2025-11-25T01:53:15Z"
+    }
+  ],
+  "riskEvents": [
+    {
+      "riskEventId": "4565587d-3162-45a3-b4d6-f9b2f8e1a354",
+      "riskType": "suspiciousAPITraffic",
+      "riskLevel": "high",
+      "riskState": "detected",
+      "detectedDateTime": "2025-12-18T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-21T01:53:15Z",
+      "userPrincipalName": "user-000164",
+      "ipAddress": "213.131.105.47",
+      "location": "Russia",
+      "additionalInfo": "Election each western."
+    },
+    {
+      "riskEventId": "59ac2708-5b91-4164-98e1-0b8c9ef10e70",
+      "riskType": "passwordSpray",
+      "riskLevel": "medium",
+      "riskState": "atRisk",
+      "detectedDateTime": "2025-12-15T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-15T01:53:15Z",
+      "userPrincipalName": "user-000129",
+      "ipAddress": "163.227.61.58",
+      "location": "China",
+      "additionalInfo": "Church better itself environmental thus third rate."
+    },
+    {
+      "riskEventId": "ece96284-3765-458c-9fd3-3291e4208d93",
+      "riskType": "activityFromAnonymousIPAddress",
+      "riskLevel": "medium",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-12-15T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-20T01:53:15Z",
+      "userPrincipalName": "user-000861",
+      "ipAddress": "194.75.13.237",
+      "location": "Nigeria",
+      "additionalInfo": "Capital say power special increase he."
+    },
+    {
+      "riskEventId": "d0711c1e-afa7-44f8-8e90-f1ef7c4dca88",
+      "riskType": "impossibleTravel",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-12-14T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-15T01:53:15Z",
+      "userPrincipalName": "user-000667",
+      "ipAddress": "150.186.17.10",
+      "location": "United States",
+      "additionalInfo": "How suffer drive scene."
+    },
+    {
+      "riskEventId": "8bb0c337-5952-4cf8-b07c-3cd4a88450da",
+      "riskType": "activityFromAnonymousIPAddress",
+      "riskLevel": "medium",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-12-12T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-16T01:53:15Z",
+      "userPrincipalName": "user-000916",
+      "ipAddress": "196.75.237.204",
+      "location": "Unknown",
+      "additionalInfo": "Let she government enough address whether collection."
+    },
+    {
+      "riskEventId": "b3d50bdd-4d96-4fa6-8acb-b125f0ffaa12",
+      "riskType": "passwordSpray",
+      "riskLevel": "low",
+      "riskState": "dismissed",
+      "detectedDateTime": "2025-12-08T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-10T01:53:15Z",
+      "userPrincipalName": "user-000249",
+      "ipAddress": "38.177.139.200",
+      "location": "Russia",
+      "additionalInfo": "Thank most action station director."
+    },
+    {
+      "riskEventId": "f52b6c9f-01d5-4981-b106-148ef1bfbc15",
+      "riskType": "leakedCredentials",
+      "riskLevel": "high",
+      "riskState": "detected",
+      "detectedDateTime": "2025-12-07T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-12T01:53:15Z",
+      "userPrincipalName": "user-000676",
+      "ipAddress": "203.103.133.39",
+      "location": "Russia",
+      "additionalInfo": "Outside once sing debate newspaper establish care."
+    },
+    {
+      "riskEventId": "ba7da07d-e54f-4ef6-b6ac-27076e564295",
+      "riskType": "leakedCredentials",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-12-07T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-09T01:53:15Z",
+      "userPrincipalName": "user-000278",
+      "ipAddress": "155.84.173.135",
+      "location": "Russia",
+      "additionalInfo": "Southern catch magazine worry door each technology."
+    },
+    {
+      "riskEventId": "893fd79f-8a75-4cc5-badf-6bb4b4242491",
+      "riskType": "passwordSpray",
+      "riskLevel": "medium",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-12-01T01:53:15Z",
+      "lastUpdatedDateTime": "2025-12-05T01:53:15Z",
+      "userPrincipalName": "user-000541",
+      "ipAddress": "175.28.245.96",
+      "location": "Nigeria",
+      "additionalInfo": "Through rate yes."
+    },
+    {
+      "riskEventId": "9959bf44-8d36-4211-b8f7-9fd5a1b39d2c",
+      "riskType": "anomalousUserActivity",
+      "riskLevel": "medium",
+      "riskState": "atRisk",
+      "detectedDateTime": "2025-11-21T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-25T01:53:15Z",
+      "userPrincipalName": "user-000344",
+      "ipAddress": "145.103.196.42",
+      "location": "Unknown",
+      "additionalInfo": "Receive material important rise check federal boy."
+    },
+    {
+      "riskEventId": "ae8481f2-2129-45c0-91ea-941d5fe93d6d",
+      "riskType": "suspiciousAPITraffic",
+      "riskLevel": "high",
+      "riskState": "dismissed",
+      "detectedDateTime": "2025-11-18T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-21T01:53:15Z",
+      "userPrincipalName": "user-000121",
+      "ipAddress": "187.123.222.80",
+      "location": "Nigeria",
+      "additionalInfo": "So such top social bill."
+    },
+    {
+      "riskEventId": "956512fb-1fac-45b7-9d28-0942e5c28c94",
+      "riskType": "anomalousUserActivity",
+      "riskLevel": "high",
+      "riskState": "detected",
+      "detectedDateTime": "2025-11-16T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-20T01:53:15Z",
+      "userPrincipalName": "user-000362",
+      "ipAddress": "137.128.101.85",
+      "location": "United States",
+      "additionalInfo": "Tax note raise less ask debate night."
+    },
+    {
+      "riskEventId": "f4c45128-ec9c-45c8-a326-46a85b93b70d",
+      "riskType": "impossibleTravel",
+      "riskLevel": "low",
+      "riskState": "dismissed",
+      "detectedDateTime": "2025-11-14T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-17T01:53:15Z",
+      "userPrincipalName": "user-000213",
+      "ipAddress": "194.212.100.78",
+      "location": "Unknown",
+      "additionalInfo": "Vote time act red."
+    },
+    {
+      "riskEventId": "3fca4775-a1c8-4047-a1a0-09c107bd47a5",
+      "riskType": "activityFromAnonymousIPAddress",
+      "riskLevel": "low",
+      "riskState": "detected",
+      "detectedDateTime": "2025-11-13T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-15T01:53:15Z",
+      "userPrincipalName": "user-000397",
+      "ipAddress": "195.3.167.22",
+      "location": "Russia",
+      "additionalInfo": "Enjoy treat can free."
+    },
+    {
+      "riskEventId": "23aaff44-c255-4c36-882b-3d046507abb0",
+      "riskType": "impossibleTravel",
+      "riskLevel": "low",
+      "riskState": "atRisk",
+      "detectedDateTime": "2025-11-11T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-15T01:53:15Z",
+      "userPrincipalName": "user-000561",
+      "ipAddress": "18.99.138.224",
+      "location": "Nigeria",
+      "additionalInfo": "Need only view city last."
+    },
+    {
+      "riskEventId": "ef07be6e-e7a4-4c48-8479-fe0ac64b4c7f",
+      "riskType": "suspiciousInboxManipulationRules",
+      "riskLevel": "high",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-11-11T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-12T01:53:15Z",
+      "userPrincipalName": "user-000553",
+      "ipAddress": "148.84.47.146",
+      "location": "Nigeria",
+      "additionalInfo": "Practice yet gun common."
+    },
+    {
+      "riskEventId": "b0e6648f-0c98-4036-a054-d7dbbee5be8e",
+      "riskType": "anomalousUserActivity",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-11-11T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-17T01:53:15Z",
+      "userPrincipalName": "user-000830",
+      "ipAddress": "132.209.1.35",
+      "location": "Russia",
+      "additionalInfo": "Defense offer know enter Congress."
+    },
+    {
+      "riskEventId": "1b0a0b42-0978-488e-b2c0-82784d3b82d6",
+      "riskType": "suspiciousAPITraffic",
+      "riskLevel": "low",
+      "riskState": "detected",
+      "detectedDateTime": "2025-11-05T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-07T01:53:15Z",
+      "userPrincipalName": "user-000194",
+      "ipAddress": "208.164.214.211",
+      "location": "Russia",
+      "additionalInfo": "By development if."
+    },
+    {
+      "riskEventId": "72827a79-2b27-44fc-9abe-0d16296fc293",
+      "riskType": "malwareInfectedIPAddress",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-11-01T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-02T01:53:15Z",
+      "userPrincipalName": "user-000336",
+      "ipAddress": "162.116.91.247",
+      "location": "China",
+      "additionalInfo": "Assume wind become Democrat."
+    },
+    {
+      "riskEventId": "007c01fe-95ca-48d1-a191-64fefa50842d",
+      "riskType": "leakedCredentials",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-11-01T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-08T01:53:15Z",
+      "userPrincipalName": "user-000213",
+      "ipAddress": "209.228.182.46",
+      "location": "Nigeria",
+      "additionalInfo": "All ten offer people similar newspaper anything."
+    },
+    {
+      "riskEventId": "1264d9cf-36fa-435c-9415-5110bbb321db",
+      "riskType": "anonymizedIPAddress",
+      "riskLevel": "high",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-10-30T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-06T01:53:15Z",
+      "userPrincipalName": "user-000637",
+      "ipAddress": "14.158.162.62",
+      "location": "United States",
+      "additionalInfo": "Study toward wide walk data."
+    },
+    {
+      "riskEventId": "58864cd7-216a-4889-bd5a-a82aee48f0b4",
+      "riskType": "anonymizedIPAddress",
+      "riskLevel": "critical",
+      "riskState": "dismissed",
+      "detectedDateTime": "2025-10-30T01:53:15Z",
+      "lastUpdatedDateTime": "2025-11-02T01:53:15Z",
+      "userPrincipalName": "user-000843",
+      "ipAddress": "212.189.159.112",
+      "location": "Unknown",
+      "additionalInfo": "Recently job various mission."
+    },
+    {
+      "riskEventId": "5f13639d-6be8-406c-9819-6c89cb9331c6",
+      "riskType": "impossibleTravel",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-10-28T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-28T01:53:15Z",
+      "userPrincipalName": "user-000913",
+      "ipAddress": "133.225.152.35",
+      "location": "China",
+      "additionalInfo": "Serious fire exactly."
+    },
+    {
+      "riskEventId": "919012f9-be0c-4d2c-832c-cbbf7a67dd7f",
+      "riskType": "leakedCredentials",
+      "riskLevel": "medium",
+      "riskState": "detected",
+      "detectedDateTime": "2025-10-27T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-30T01:53:15Z",
+      "userPrincipalName": "user-000579",
+      "ipAddress": "93.134.240.103",
+      "location": "Russia",
+      "additionalInfo": "Could prepare owner last along practice trip."
+    },
+    {
+      "riskEventId": "2302980a-fe55-4668-af74-eb0f38acae32",
+      "riskType": "suspiciousInboxManipulationRules",
+      "riskLevel": "medium",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-10-27T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-28T01:53:15Z",
+      "userPrincipalName": "user-000306",
+      "ipAddress": "194.179.173.127",
+      "location": "Russia",
+      "additionalInfo": "What dream very teacher usually go."
+    },
+    {
+      "riskEventId": "7e484ef0-9784-45d9-b36f-f9356922b9d6",
+      "riskType": "newCountry",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-10-26T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-28T01:53:15Z",
+      "userPrincipalName": "user-000468",
+      "ipAddress": "177.39.50.140",
+      "location": "Nigeria",
+      "additionalInfo": "Cup pay past nature."
+    },
+    {
+      "riskEventId": "ba7ab858-ee66-4cf0-a2bd-e1b1a2e67b32",
+      "riskType": "anonymizedIPAddress",
+      "riskLevel": "medium",
+      "riskState": "dismissed",
+      "detectedDateTime": "2025-10-24T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-29T01:53:15Z",
+      "userPrincipalName": "user-000483",
+      "ipAddress": "193.60.139.167",
+      "location": "China",
+      "additionalInfo": "Perform require buy effort minute stuff."
+    },
+    {
+      "riskEventId": "271c81d3-62e4-4f77-8ceb-ad195607bc25",
+      "riskType": "impossibleTravel",
+      "riskLevel": "low",
+      "riskState": "remediated",
+      "detectedDateTime": "2025-10-23T01:53:15Z",
+      "lastUpdatedDateTime": "2025-10-29T01:53:15Z",
+      "userPrincipalName": "user-000104",
+      "ipAddress": "64.56.227.54",
+      "location": "United States",
+      "additionalInfo": "Particular issue which car."
+    }
+  ],
+  "breakGlassAccounts": [
+    {
+      "id": "user-breakglass-001",
+      "objectId": "84ab01ef-b395-42dd-afec-0954f037accc",
+      "userPrincipalName": "emergencyaccess1@mockcorp.com",
+      "displayName": "Emergency Access Account 1",
+      "accountEnabled": true,
+      "passwordProfile": {
+        "password": "***REDACTED***",
+        "forceChangePasswordNextSignIn": false
+      },
+      "roles": [
+        {
+          "roleId": "34ab76ef-6110-434e-bca8-72df4783d168",
+          "roleName": "Global Administrator",
+          "isPermanent": true
+        }
+      ],
+      "mfaRequired": false,
+      "excludedFromConditionalAccess": true,
+      "lastSignInDateTime": null,
+      "monitoringEnabled": true,
+      "alertOnUse": true,
+      "secureStorageLocation": "Physical safe in security office",
+      "reviewFrequency": "Quarterly",
+      "lastReviewedDate": "2025-11-11",
+      "createdDateTime": "2023-02-24T01:53:15Z"
+    },
+    {
+      "id": "user-breakglass-002",
+      "objectId": "d987d086-6753-4584-bb56-42481e960e77",
+      "userPrincipalName": "emergencyaccess2@mockcorp.com",
+      "displayName": "Emergency Access Account 2",
+      "accountEnabled": true,
+      "passwordProfile": {
+        "password": "***REDACTED***",
+        "forceChangePasswordNextSignIn": false
+      },
+      "roles": [
+        {
+          "roleId": "1f9cb81b-e31e-4b26-a4d5-0113550c13ed",
+          "roleName": "Global Administrator",
+          "isPermanent": true
+        }
+      ],
+      "mfaRequired": false,
+      "excludedFromConditionalAccess": true,
+      "lastSignInDateTime": null,
+      "monitoringEnabled": true,
+      "alertOnUse": true,
+      "secureStorageLocation": "Physical safe in security office",
+      "reviewFrequency": "Quarterly",
+      "lastReviewedDate": "2025-10-29",
+      "createdDateTime": "2021-03-24T01:53:15Z"
+    }
+  ],
+  "identityProtection": {
+    "userRiskPolicy": {
+      "state": "enabled",
+      "riskLevel": "high",
+      "action": "requirePasswordChange",
+      "excludedUsers": [
+        "breakglass-001",
+        "breakglass-002"
+      ]
+    },
+    "signInRiskPolicy": {
+      "state": "enabled",
+      "riskLevel": "medium",
+      "action": "requireMFA",
+      "excludedUsers": [
+        "breakglass-001",
+        "breakglass-002"
+      ]
+    },
+    "mfaRegistrationPolicy": {
+      "state": "enabled",
+      "requireRegistration": true,
+      "gracePeriodDays": 14
+    },
+    "riskyUsers": 22,
+    "riskySignIns": 85,
+    "vulnerabilities": 22
+  },
+  "threatDetection": {
+    "alerts": [
+      {
+        "alertId": "2f992ee9-6377-44fb-94e1-3df8d383f49a",
+        "severity": "High",
+        "status": "InProgress",
+        "title": "Suspicious inbox rule created",
+        "detectedDateTime": "2025-12-10T01:53:15Z",
+        "category": "Persistence"
+      },
+      {
+        "alertId": "d7cdb197-34e8-4130-a1e3-c65bc3d5634a",
+        "severity": "High",
+        "status": "InProgress",
+        "title": "Mass file download detected",
+        "detectedDateTime": "2025-12-18T01:53:15Z",
+        "category": "PrivilegeEscalation"
+      },
+      {
+        "alertId": "743936ab-d29d-4f35-9bc9-666746d01f97",
+        "severity": "High",
+        "status": "InProgress",
+        "title": "Mass file download detected",
+        "detectedDateTime": "2025-11-29T01:53:15Z",
+        "category": "Persistence"
+      },
+      {
+        "alertId": "a8edf243-bfc9-4e34-a4ec-370744f537de",
+        "severity": "Medium",
+        "status": "New",
+        "title": "Unusual sign-in activity detected",
+        "detectedDateTime": "2025-11-28T01:53:15Z",
+        "category": "CredentialAccess"
+      },
+      {
+        "alertId": "0b07a7bc-6944-4076-bb5d-552f8c082ab0",
+        "severity": "High",
+        "status": "InProgress",
+        "title": "Unusual sign-in activity detected",
+        "detectedDateTime": "2025-12-06T01:53:15Z",
+        "category": "InitialAccess"
+      },
+      {
+        "alertId": "a36af64e-3b24-404e-8285-8c2fc90f85ef",
+        "severity": "Low",
+        "status": "InProgress",
+        "title": "Unusual sign-in activity detected",
+        "detectedDateTime": "2025-11-30T01:53:15Z",
+        "category": "PrivilegeEscalation"
+      },
+      {
+        "alertId": "92b6c73c-6d8d-4dfb-b4a8-7b1d294add9b",
+        "severity": "Medium",
+        "status": "New",
+        "title": "Potential account compromise",
+        "detectedDateTime": "2025-12-07T01:53:15Z",
+        "category": "InitialAccess"
+      },
+      {
+        "alertId": "ad05893c-8855-4532-97e0-64310f16e79b",
+        "severity": "Low",
+        "status": "Resolved",
+        "title": "Suspicious inbox rule created",
+        "detectedDateTime": "2025-12-06T01:53:15Z",
+        "category": "Persistence"
+      },
+      {
+        "alertId": "3bf99146-6c64-48f1-9498-a09437820010",
+        "severity": "Critical",
+        "status": "Resolved",
+        "title": "Suspicious inbox rule created",
+        "detectedDateTime": "2025-12-17T01:53:15Z",
+        "category": "InitialAccess"
+      },
+      {
+        "alertId": "5a16b5ad-b66b-4758-8a68-004af4419971",
+        "severity": "High",
+        "status": "Resolved",
+        "title": "Unusual sign-in activity detected",
+        "detectedDateTime": "2025-12-18T01:53:15Z",
+        "category": "InitialAccess"
+      },
+      {
+        "alertId": "fd6aaf27-a405-4f86-9a5e-218ba31f1f83",
+        "severity": "Critical",
+        "status": "Resolved",
+        "title": "Unusual application access",
+        "detectedDateTime": "2025-11-23T01:53:15Z",
+        "category": "CredentialAccess"
+      },
+      {
+        "alertId": "e7a986ca-01d5-471b-bf14-6c0b88412e90",
+        "severity": "High",
+        "status": "Resolved",
+        "title": "Unusual sign-in activity detected",
+        "detectedDateTime": "2025-11-28T01:53:15Z",
+        "category": "PrivilegeEscalation"
+      }
+    ],
+    "advancedThreatProtection": {
+      "enabled": true,
+      "suspiciousActivityDetection": true,
+      "malwareDetection": true,
+      "phishingDetection": true
+    }
+  },
+  "privilegedIdentityManagement": {
+    "enabled": true,
+    "eligibleAssignments": 12,
+    "activeAssignments": 16,
+    "requireJustification": true,
+    "requireApproval": true,
+    "requireMFA": true,
+    "maxActivationDuration": "8 hours",
+    "notificationSettings": {
+      "adminActivation": true,
+      "eligibilityExpiration": true,
+      "roleAssignmentAlert": true
+    }
+  }
+}

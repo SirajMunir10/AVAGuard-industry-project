@@ -1,0 +1,75 @@
+{
+  "mfa_adoption": {
+    "overall": 54.6,
+    "privileged": 66.60746003552399,
+    "registered_count": 546,
+    "total_count": 1000
+  },
+  "compliance_rate": {
+    "overall": 35.266666666666666,
+    "compliant_count": 529,
+    "total_count": 1500,
+    "by_os": {
+      "iOS": {
+        "rate": 46.62379421221865,
+        "compliant": 145,
+        "total": 311
+      },
+      "Windows": {
+        "rate": 21.196581196581196,
+        "compliant": 124,
+        "total": 585
+      },
+      "macOS": {
+        "rate": 41.45658263305322,
+        "compliant": 148,
+        "total": 357
+      },
+      "Android": {
+        "rate": 45.22613065326633,
+        "compliant": 90,
+        "total": 199
+      },
+      "Linux": {
+        "rate": 45.83333333333333,
+        "compliant": 22,
+        "total": 48
+      }
+    }
+  },
+  "user_risk_distribution": {
+    "none": 546,
+    "high": 169,
+    "low": 182,
+    "critical": 103
+  },
+  "device_risk_distribution": {
+    "low": 504,
+    "medium": 472,
+    "none": 254,
+    "high": 238,
+    "critical": 32
+  },
+  "app_risk_distribution": {
+    "high": 3,
+    "medium": 3,
+    "low": 2,
+    "critical": 3,
+    "none": 7
+  },
+  "user_status_distribution": {
+    "Active": 741,
+    "Onboarding": 49,
+    "Offboarding": 82,
+    "Terminated": 105,
+    "Suspended": 12,
+    "OnLeave": 11
+  },
+  "device_os_distribution": {
+    "iOS": 311,
+    "Windows": 585,
+    "macOS": 357,
+    "Android": 199,
+    "Linux": 48
+  }
+}

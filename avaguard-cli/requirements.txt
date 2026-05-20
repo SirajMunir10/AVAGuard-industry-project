@@ -1,0 +1,4 @@
+# Dependencies are managed centrally.
+# Install everything from the project root:
+#   pip install -r requirements.txt
+-r ../requirements.txt

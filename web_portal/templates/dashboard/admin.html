@@ -1,0 +1,714 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Super Admin Dashboard - AVAGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Premium Dashboard Styling */
+    :root {
+        --glass-bg: rgba(26, 26, 46, 0.6);
+        --glass-border: rgba(42, 42, 74, 0.4);
+    }
+
+    [data-theme="light"] {
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(224, 224, 232, 0.6);
+    }
+
+    .admin-dashboard {
+        animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glassmorphism Cards */
+    .premium-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--avag-shadow-card);
+        transition: all var(--transition-normal);
+        overflow: hidden;
+    }
+
+    .premium-card:hover {
+        border-color: var(--avag-accent-primary);
+        box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+        transform: translateY(-2px);
+    }
+
+    /* Tab Styling */
+    .dashboard-tabs {
+        background: var(--avag-bg-input);
+        padding: 6px;
+        border-radius: 12px;
+        display: inline-flex;
+        gap: 4px;
+        margin-bottom: 24px;
+    }
+
+    .tab-btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        background: transparent;
+        color: var(--avag-text-secondary);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .tab-btn:hover {
+        color: var(--avag-text-primary);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+        background: var(--avag-accent-primary);
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    }
+
+    /* Stats Grid */
+    .premium-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Animations for data loading */
+    .data-row {
+        transition: transform 0.2s;
+    }
+    .data-row:hover {
+        transform: scale(1.01) translateX(5px);
+        background: rgba(var(--avag-accent-primary-rgb), 0.03);
+    }
+
+    .status-pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 8px;
+        position: relative;
+    }
+
+    .status-pulse::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: inherit;
+        animation: pulse 2s infinite;
+        opacity: 0.5;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.5; }
+        100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* Custom scrollbar for cards */
+    .scroll-container::-webkit-scrollbar {
+        width: 4px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+        background: var(--avag-border-color);
+        border-radius: 2px;
+    }
+</style>
+{% endblock %}
+
+{% block page_title %}Super Admin Overview{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <!-- Dashboard Tabs -->
+    <div class="dashboard-tabs">
+        <button class="tab-btn active" data-target="dashboard1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Security Overview
+        </button>
+        <button class="tab-btn" data-target="dashboard2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Device Health
+        </button>
+        <button class="tab-btn" data-target="dashboard3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            User Intelligence
+        </button>
+    </div>
+
+    <!-- DASHBOARD 1: Security Overview -->
+    <div id="dashboard1" class="dashboard-tab-content active" style="display: block;">
+        <!-- Security Alert Banner -->
+        {% if security_alerts %}
+        <div class="premium-card avag-mb-24" style="border-left: 4px solid var(--avag-accent-danger); background: linear-gradient(90deg, rgba(255,107,107,0.05) 0%, transparent 100%);">
+            <div style="padding: 16px 24px; display: flex; align-items: center; gap: 16px;">
+                <div style="width: 40px; height: 40px; background: rgba(255,107,107,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--avag-accent-danger);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                </div>
+                <div style="flex: 1;">
+                    <h4 style="margin: 0; font-size: 15px; font-weight: 600;">Critical Security Alerts Detected</h4>
+                    <div style="font-size: 13px; color: var(--avag-text-secondary); margin-top: 4px; display: flex; gap: 20px;">
+                        {% if failed_logins > 0 %}<span>• <strong>{{ failed_logins }}</strong> suspicious login attempts</span>{% endif %}
+                        {% if users_no_2fa > 0 %}<span>• <strong>{{ users_no_2fa }}</strong> accounts without MFA</span>{% endif %}
+                        {% if expiring_accounts > 0 %}<span>• <strong>{{ expiring_accounts }}</strong> expiring accounts</span>{% endif %}
+                    </div>
+                </div>
+                <a href="{% url 'audit_logs' %}?action=FAIL" class="btn btn-primary btn-sm">Take Action</a>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Stats Grid -->
+        <div class="premium-stats-grid">
+            <div class="premium-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span style="font-size: 13px; color: var(--avag-text-secondary); font-weight: 500;">Total Users</span>
+                        <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ total_users }}</div>
+                    </div>
+                    <div style="color: var(--avag-accent-primary);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+                </div>
+                <div style="font-size: 12px; color: var(--avag-accent-success); display: flex; align-items: center; gap: 4px; margin-top: 8px;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                    {{ active_users }} Active
+                </div>
+            </div>
+
+            <div class="premium-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span style="font-size: 13px; color: var(--avag-text-secondary); font-weight: 500;">Device Health</span>
+                        <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ stats.avg_score|floatformat:1 }}%</div>
+                    </div>
+                    <div style="color: var(--avag-accent-success);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+                </div>
+                <div style="font-size: 12px; color: var(--avag-text-secondary); margin-top: 8px;">Across {{ stats.total_scans }} endpoints</div>
+            </div>
+
+            <div class="premium-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span style="font-size: 13px; color: var(--avag-text-secondary); font-weight: 500;">Active Sessions</span>
+                        <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ active_sessions }}</div>
+                    </div>
+                    <div style="color: var(--avag-accent-info);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+                </div>
+                <div style="font-size: 12px; color: var(--avag-text-secondary); margin-top: 8px;">Real-time desktop agents</div>
+            </div>
+
+            <div class="premium-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span style="font-size: 13px; color: var(--avag-text-secondary); font-weight: 500;">Security Scorecard</span>
+                        <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ stats.pass_rate|floatformat:1 }}%</div>
+                    </div>
+                    <div style="color: var(--avag-accent-warning);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                </div>
+                <div style="font-size: 12px; color: var(--avag-text-secondary); margin-top: 8px;">Compliance success rate</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+            <!-- Compliance Trend -->
+            <div class="premium-card" style="padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0; font-size: 16px; font-weight: 600;">Enterprise Compliance Trend</h3>
+                    <div style="font-size: 12px; color: var(--avag-text-muted);">Last 4 Weeks</div>
+                </div>
+                <div style="height: 300px;">
+                    <canvas id="adminTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Common Failures -->
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 16px; font-weight: 600;">Top Failure Vectors</h3>
+                <div class="scroll-container" style="max-height: 300px; overflow-y: auto;">
+                    {% for failure in common_failures %}
+                    <div class="data-row" style="padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 13px; font-weight: 500;">{{ failure.name }}</div>
+                            <div style="background: var(--avag-border-color); height: 4px; border-radius: 2px; margin-top: 8px; overflow: hidden;">
+                                <div style="background: var(--avag-accent-danger); height: 100%; width: {{ failure.percentage }}%;"></div>
+                            </div>
+                        </div>
+                        <span style="font-size: 12px; font-weight: 600; color: var(--avag-accent-danger); margin-left: 16px;">{{ failure.count }}</span>
+                    </div>
+                    {% empty %}
+                    <div style="text-align: center; padding: 40px; color: var(--avag-text-muted);">No major failures recorded</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Scans -->
+        <div class="premium-card" style="margin-top: 24px;">
+            <div style="padding: 20px 24px; border-bottom: 1px solid var(--avag-border-color); display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; font-size: 16px; font-weight: 600;">Recent Compliance Events</h3>
+                <a href="{% url 'scans' %}" style="font-size: 13px; color: var(--avag-accent-primary); text-decoration: none;">View Detailed Logs →</a>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Scan Date</th>
+                            <th>Identity</th>
+                            <th>Status</th>
+                            <th>Score</th>
+                            <th>Checks</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scan in recent_scans %}
+                        <tr class="data-row">
+                            <td style="font-size: 13px; color: var(--avag-text-secondary);">{{ scan.scan_timestamp|date:"M d, H:i" }}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(var(--avag-accent-primary-rgb), 0.1); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--avag-accent-primary);">
+                                        {{ scan.uploaded_by.first_name|slice:":1"|default:"?" }}
+                                    </div>
+                                    <span style="font-size: 13px;">{{ scan.uploaded_by.email }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge {% if scan.overall_score >= 80 %}pass{% elif scan.overall_score >= 50 %}warning{% else %}fail{% endif %}">
+                                    {% if scan.overall_score >= 80 %}Compliant{% elif scan.overall_score >= 50 %}At Risk{% else %}Critical{% endif %}
+                                </span>
+                            </td>
+                            <td style="font-weight: 600;">{{ scan.overall_score }}%</td>
+                            <td style="font-size: 12px;">{{ scan.passed_count }} / {{ scan.total_checks }}</td>
+                            <td style="text-align: right;"><a href="{% url 'scan_detail' scan.id %}" class="btn btn-secondary btn-sm">Inspect</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- End Dashboard 1 -->
+
+    <!-- DASHBOARD 2: Device & Endpoint Health -->
+    <div id="dashboard2" class="dashboard-tab-content" style="display: none;">
+        <div class="premium-stats-grid">
+            <div class="premium-card" style="padding: 24px; border-top: 4px solid var(--avag-accent-primary);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Total Endpoints</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ total_devices_scanned }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">{{ scans_last_7d }} scanned this week</div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-top: 4px solid var(--avag-accent-success);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Hardened Devices</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-success);">{{ score_low }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">Score ≥ 90%</div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-top: 4px solid var(--avag-accent-warning);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Exposure Points</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-warning);">{{ score_medium }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">Score 70-89%</div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-top: 4px solid var(--avag-accent-danger);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Critical Exposure</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-danger);">{{ score_critical }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">Score < 50%</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 24px;">
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">Risk Distribution</h3>
+                <div style="height: 220px;"><canvas id="riskDonut"></canvas></div>
+            </div>
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">Environment Health</h3>
+                <div style="height: 220px;"><canvas id="envBar"></canvas></div>
+            </div>
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">12-Week Compliance Velocity</h3>
+                <div style="height: 220px;"><canvas id="envTrendLine"></canvas></div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-top: 24px;">
+            <div class="premium-card">
+                <div style="padding: 20px 24px; border-bottom: 1px solid var(--avag-border-color); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; font-size: 15px; font-weight: 600;">Stale Desktop Agents</h3>
+                    <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: rgba(255,107,107,0.1); color: var(--avag-accent-danger);">Last Scan > 7 Days</span>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead><tr><th>Agent Hostname</th><th>OS Platform</th><th>Last Contact</th><th>Score</th></tr></thead>
+                        <tbody>
+                        {% for agent in stale_agents %}
+                        <tr class="data-row">
+                            <td style="font-weight: 500; font-size: 13px;">{{ agent.environment }}</td>
+                            <td><span style="font-size: 12px; color: var(--avag-text-secondary);">{{ agent.environment|slice:":7" }}</span></td>
+                            <td style="font-size: 12px; color: var(--avag-text-muted);">{{ agent.scan_timestamp|date:"M d, Y" }}</td>
+                            <td><span class="status-badge {% if agent.overall_score >= 80 %}pass{% elif agent.overall_score >= 50 %}warning{% else %}fail{% endif %}">{{ agent.overall_score|floatformat:0 }}%</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" style="text-align: center; padding: 40px; color: var(--avag-text-muted);">All agents reporting healthy ✓</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">Agent Last-Seen Velocity</h3>
+                <div style="margin-top: 30px;">
+                    {% with total=scans_last_7d|add:scans_7_30d|add:scans_older %}
+                    {% if total > 0 %}
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span>Active (< 7d)</span><strong>{{ scans_last_7d }}</strong></div>
+                        <div style="background: var(--avag-bg-input); border-radius: 10px; height: 10px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #10b981, #00ff88); height: 100%; width: {% widthratio scans_last_7d total 100 %}%;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span>Inactive (7-30d)</span><strong>{{ scans_7_30d }}</strong></div>
+                        <div style="background: var(--avag-bg-input); border-radius: 10px; height: 10px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #f59e0b, #ffd93d); height: 100%; width: {% widthratio scans_7_30d total 100 %}%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px;"><span>Stale (> 30d)</span><strong>{{ scans_older }}</strong></div>
+                        <div style="background: var(--avag-bg-input); border-radius: 10px; height: 10px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #ef4444, #ff6b6b); height: 100%; width: {% widthratio scans_older total 100 %}%;"></div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p style="text-align: center; color: var(--avag-text-muted); padding: 40px 0;">Insufficient history for breakdown</p>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Dashboard 2 -->
+
+    <!-- DASHBOARD 3: User & Activity Intelligence -->
+    <div id="dashboard3" class="dashboard-tab-content" style="display: none;">
+        <div class="premium-stats-grid">
+            <div class="premium-card" style="padding: 24px; border-bottom: 3px solid var(--avag-accent-primary);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Total Managed Identities</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0;">{{ total_users }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">{{ active_users }} verified active</div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-bottom: 3px solid var(--avag-accent-success);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">MFA Enrolment Rate</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-success);">{{ mfa_pct }}%</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">{{ mfa_enabled_count }} secure identities</div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-bottom: 3px solid var(--avag-accent-danger);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Identity Risk (No MFA)</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-danger);">{{ mfa_disabled_count }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);"><a href="{% url 'user_management' %}?mfa_disabled=true" style="color: var(--avag-accent-danger); text-decoration: none;">Remediate Now →</a></div>
+            </div>
+            <div class="premium-card" style="padding: 24px; border-bottom: 3px solid var(--avag-accent-warning);">
+                <span style="font-size: 13px; color: var(--avag-text-secondary);">Auth Failures (24h)</span>
+                <div style="font-size: 28px; font-weight: 700; margin: 4px 0; color: var(--avag-accent-warning);">{{ failed_logins }}</div>
+                <div style="font-size: 12px; color: var(--avag-text-muted);">Suspicious auth attempts</div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">Identity Role Mix</h3>
+                <div style="height: 220px;"><canvas id="roleDonut"></canvas></div>
+            </div>
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">Hourly Access Velocity</h3>
+                <div style="height: 220px;"><canvas id="loginHourBar"></canvas></div>
+            </div>
+            <div class="premium-card" style="padding: 24px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 15px; font-weight: 600;">MFA Adoption Lifecycle</h3>
+                <div style="height: 220px;"><canvas id="mfaTrendLine"></canvas></div>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+            <div class="premium-card">
+                <div style="padding: 20px 24px; border-bottom: 1px solid var(--avag-border-color); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; font-size: 15px; font-weight: 600;">Unsecured Identities (MFA Required)</h3>
+                </div>
+                <div class="scroll-container" style="max-height: 300px; overflow-y: auto;">
+                    <table class="data-table">
+                        <thead><tr><th>User Identity</th><th>Role</th><th>Status</th><th>Risk Level</th></tr></thead>
+                        <tbody>
+                        {% for u in recent_users %}
+                        {% if not u.mfa_enabled %}
+                        <tr class="data-row">
+                            <td style="font-size: 13px;">{{ u.email }}</td>
+                            <td><span style="font-size: 11px; opacity: 0.8;">{{ u.role }}</span></td>
+                            <td><span class="status-badge fail">Disabled</span></td>
+                            <td><span style="color: var(--avag-accent-danger); font-weight: 600; font-size: 12px;">High Risk</span></td>
+                        </tr>
+                        {% endif %}
+                        {% empty %}
+                        <tr><td colspan="4" style="text-align: center; padding: 40px; color: var(--avag-text-muted);">No insecure accounts found</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="premium-card">
+                <div style="padding: 20px 24px; border-bottom: 1px solid var(--avag-border-color); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0; font-size: 15px; font-weight: 600;">Global Security Audit Feed</h3>
+                    <a href="{% url 'audit_logs' %}" style="font-size: 12px; color: var(--avag-accent-primary);">View All Events</a>
+                </div>
+                <div class="scroll-container" style="max-height: 300px; overflow-y: auto;">
+                    <table class="data-table">
+                        <thead><tr><th>Timestamp</th><th>Identity</th><th>Event Action</th><th>Origin IP</th></tr></thead>
+                        <tbody>
+                        {% for log in audit_logs %}
+                        <tr class="data-row">
+                            <td style="font-size: 11px; color: var(--avag-text-muted);">{{ log.timestamp|date:"M d H:i" }}</td>
+                            <td style="font-size: 12px; max-width: 150px; overflow: hidden; text-overflow: ellipsis;">{{ log.user.email|default:"System" }}</td>
+                            <td><span class="status-badge {% if 'FAIL' in log.action %}fail{% elif 'LOGIN' in log.action %}pass{% else %}info{% endif %}" style="font-size: 10px;">{{ log.action }}</span></td>
+                            <td style="font-size: 11px; color: var(--avag-text-muted);">{{ log.ip_address|default:"-" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" style="text-align: center; padding: 40px; color: var(--avag-text-muted);">Feed is empty</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Dashboard 3 -->
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ── Tab Invalidation & State ──────────────────────────────────────────
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.dashboard-tab-content');
+
+    function switchTab(targetId) {
+        tabBtns.forEach(b => {
+            b.classList.remove('active');
+            if(b.getAttribute('data-target') === targetId) b.classList.add('active');
+        });
+        tabContents.forEach(c => {
+            c.style.display = (c.id === targetId) ? 'block' : 'none';
+        });
+        // Store in URL hash without jumping
+        history.replaceState(null, null, '#' + targetId);
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.getAttribute('data-target')));
+    });
+
+    // Check URL hash for initial tab
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+        switchTab(hash);
+    }
+
+    // ── Global Chart Config ──────────────────────────────────────────────
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.color = getComputedStyle(document.body).getPropertyValue('--avag-text-secondary');
+    const gridColor = getComputedStyle(document.body).getPropertyValue('--avag-border-color');
+
+    // ── Dashboard 1: Trend Chart ──────────────────────────────────────────
+    const trendCtx = document.getElementById('adminTrendChart');
+    if (trendCtx) {
+        new Chart(trendCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: {{ trend_labels|safe }},
+                datasets: [{
+                    label: 'Enterprise Score',
+                    data: {{ trend_data|safe }},
+                    borderColor: '#00d4ff',
+                    backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#00d4ff',
+                    pointBorderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { min: 0, max: 100, grid: { color: gridColor }, ticks: { stepSize: 20 } }
+                }
+            }
+        });
+    }
+
+    // ── Dashboard 2: Device Charts ────────────────────────────────────────
+    const riskDonutCtx = document.getElementById('riskDonut');
+    if (riskDonutCtx) {
+        new Chart(riskDonutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Critical', 'High', 'Medium', 'Low'],
+                datasets: [{ 
+                    data: [{{ score_critical }}, {{ score_high }}, {{ score_medium }}, {{ score_low }}], 
+                    backgroundColor: ['#ff6b6b','#f59e0b','#3b82f6','#00ff88'], 
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                cutout: '75%', 
+                plugins: { 
+                    legend: { position: 'bottom', labels: { boxWidth: 10, padding: 20, font: { size: 11 } } } 
+                } 
+            }
+        });
+    }
+
+    const envBarCtx = document.getElementById('envBar');
+    if (envBarCtx) {
+        const envLabels = {{ env_trend_labels|safe }}.slice(-5);
+        const envData   = {{ env_trend_data|safe }}.slice(-5);
+        new Chart(envBarCtx, {
+            type: 'bar',
+            data: {
+                labels: envLabels,
+                datasets: [{ 
+                    label: 'Score', 
+                    data: envData, 
+                    backgroundColor: 'rgba(0, 212, 255, 0.6)', 
+                    borderRadius: 6,
+                    hoverBackgroundColor: '#00d4ff'
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { min: 0, max: 100, grid: { color: gridColor } }
+                }
+            }
+        });
+    }
+
+    const envTrendCtx = document.getElementById('envTrendLine');
+    if (envTrendCtx) {
+        new Chart(envTrendCtx, {
+            type: 'line',
+            data: {
+                labels: {{ env_trend_labels|safe }},
+                datasets: [{ 
+                    label: 'Stability', 
+                    data: {{ env_trend_data|safe }}, 
+                    borderColor: '#00ff88', 
+                    backgroundColor: 'rgba(0, 255, 136, 0.05)', 
+                    borderWidth: 2, 
+                    fill: true, 
+                    tension: 0.3, 
+                    pointRadius: 0 
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { min: 0, max: 100, grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    // ── Dashboard 3: Identity Charts ──────────────────────────────────────
+    const roleDonutCtx = document.getElementById('roleDonut');
+    if (roleDonutCtx) {
+        new Chart(roleDonutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ role_labels|safe }},
+                datasets: [{ 
+                    data: {{ role_counts_data|safe }}, 
+                    backgroundColor: ['#8b5cf6','#00d4ff','#00ff88','#ffd93d','#ff6b6b'], 
+                    borderWidth: 0 
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, font: { size: 10 } } } } }
+        });
+    }
+
+    const loginHourCtx = document.getElementById('loginHourBar');
+    if (loginHourCtx) {
+        const hourData = {{ login_by_hour_data|safe }};
+        new Chart(loginHourCtx, {
+            type: 'bar',
+            data: {
+                labels: Array.from({length: 24}, (_, i) => i + ':00'),
+                datasets: [{ 
+                    label: 'Logins', 
+                    data: hourData, 
+                    backgroundColor: 'rgba(139, 92, 246, 0.5)',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6 } },
+                    y: { grid: { color: gridColor }, ticks: { stepSize: 5 } }
+                }
+            }
+        });
+    }
+
+    const mfaTrendCtx = document.getElementById('mfaTrendLine');
+    if (mfaTrendCtx) {
+        new Chart(mfaTrendCtx, {
+            type: 'line',
+            data: {
+                labels: {{ mfa_trend_labels|safe }},
+                datasets: [{ 
+                    label: 'MFA %', 
+                    data: {{ mfa_trend_data|safe }}, 
+                    borderColor: '#8b5cf6', 
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)', 
+                    borderWidth: 2, 
+                    fill: true, 
+                    tension: 0.4 
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { min: 0, max: 100, grid: { color: gridColor } }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

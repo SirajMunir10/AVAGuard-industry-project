@@ -1,0 +1,326 @@
+/**
+ * AVAGuard — Audit Logs Page Styles
+ * Template: admin/audit_logs.html
+ * =========================================================
+ */
+
+/* ── Stats Summary ── */
+.audit-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.audit-stat {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.audit-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--avag-text-primary);
+    margin-bottom: 4px;
+}
+
+.audit-stat-value.logins { color: var(--avag-accent-primary); }
+.audit-stat-value.failures { color: var(--avag-accent-danger); }
+.audit-stat-value.actions { color: var(--avag-accent-success); }
+
+.audit-stat-label {
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Filters Card ── */
+.filters-card {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.filters-card .filters-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.filters-card .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filters-card .filter-group label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--avag-text-secondary);
+}
+
+.filters-card .filter-group input,
+.filters-card .filter-group select {
+    padding: 10px 14px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 8px;
+    color: var(--avag-text-primary);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.filters-card .filter-group input:focus,
+.filters-card .filter-group select:focus {
+    outline: none;
+    border-color: var(--avag-accent-primary);
+}
+
+/* ── Quick Filters ── */
+.quick-filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--avag-border-color);
+}
+
+.quick-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 20px;
+    color: var(--avag-text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.quick-filter-btn:hover {
+    border-color: var(--avag-accent-primary);
+    color: var(--avag-accent-primary);
+}
+
+.quick-filter-btn.active {
+    background: rgba(0, 212, 255, 0.15);
+    border-color: var(--avag-accent-primary);
+    color: var(--avag-accent-primary);
+}
+
+.quick-filter-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ── Logs Card ── */
+.logs-card {
+    background: var(--avag-bg-card);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+
+.logs-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--avag-text-primary);
+    margin: 0;
+}
+
+.logs-title svg {
+    color: var(--avag-accent-primary);
+}
+
+.logs-count {
+    background: var(--avag-bg-input);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+    margin-left: 10px;
+}
+
+/* ── Logs Table ── */
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logs-table th,
+.logs-table td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--avag-border-color);
+}
+
+.logs-table th {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--avag-text-secondary);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.logs-table td {
+    color: var(--avag-text-primary);
+    font-size: 13px;
+}
+
+.logs-table tbody tr {
+    transition: background 0.2s;
+}
+
+.logs-table tbody tr:hover {
+    background: rgba(0, 212, 255, 0.03);
+}
+
+.logs-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Failed login row highlight */
+.logs-table tbody tr.failed-login {
+    background: rgba(255, 107, 107, 0.05);
+}
+
+.logs-table tbody tr.failed-login:hover {
+    background: rgba(255, 107, 107, 0.08);
+}
+
+/* ── User Cell (audit context) ── */
+.logs-table .user-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar-sm {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--avag-accent-primary), var(--avag-accent-success));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--avag-text-inverse);
+    flex-shrink: 0;
+}
+
+/* ── Action Badge ── */
+.action-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.action-badge.login { background: rgba(0, 212, 255, 0.15); color: var(--avag-accent-primary); }
+.action-badge.logout { background: rgba(136, 136, 136, 0.15); color: var(--avag-text-muted); }
+.action-badge.fail { background: rgba(255, 107, 107, 0.15); color: var(--avag-accent-danger); }
+.action-badge.create,
+.action-badge.approve { background: rgba(0, 255, 136, 0.15); color: var(--avag-accent-success); }
+.action-badge.update,
+.action-badge.change { background: rgba(255, 217, 61, 0.15); color: var(--avag-accent-warning); }
+.action-badge.delete,
+.action-badge.revoke { background: rgba(255, 107, 107, 0.15); color: var(--avag-accent-danger); }
+.action-badge.default { background: rgba(136, 136, 136, 0.15); color: var(--avag-text-muted); }
+
+/* ── Details Cell ── */
+.details-cell {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--avag-text-secondary);
+}
+
+/* ── IP Address ── */
+.ip-address {
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+}
+
+/* ── Timestamp ── */
+.timestamp {
+    white-space: nowrap;
+    font-size: 12px;
+    color: var(--avag-text-secondary);
+}
+
+/* ── Pagination (shared with sessions) ── */
+.logs-card .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    border-top: 1px solid var(--avag-border-color);
+}
+
+.logs-card .btn-page {
+    padding: 8px 14px;
+    background: var(--avag-bg-input);
+    border: 1px solid var(--avag-border-color);
+    border-radius: 6px;
+    color: var(--avag-text-primary);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.logs-card .btn-page:hover {
+    background: var(--avag-accent-primary);
+    border-color: var(--avag-accent-primary);
+    color: var(--avag-text-inverse);
+}
+
+.logs-card .page-info {
+    padding: 8px 16px;
+    color: var(--avag-text-secondary);
+}
+
+/* ── Empty State ── */
+.logs-table .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--avag-text-secondary);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767px) {
+    .avag-audit-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .avag-audit-filters { flex-direction: column; width: 100%; }
+    .avag-search-input, .avag-select { width: 100%; }
+    .avag-audit-table-container { overflow-x: auto; }
+    .avag-audit-table { min-width: 800px; }
+}

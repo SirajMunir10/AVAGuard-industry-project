@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Identity - AVAGuard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/css/auth.css' %}">
+    <script src="{% static 'core/js/theme.js' %}"></script>
+</head>
+<body class="avag-auth-body">
+    <div class="avag-auth-card" style="position: relative;">
+        <button id="avag-theme-toggle" onclick="AVAToggleTheme()" style="position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--avag-text-secondary); cursor: pointer; padding: 8px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: background 0.2s;"></button>
+        <div class="avag-auth-logo">
+            <div class="avag-auth-logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+            </div>
+            <h1>AVAGuard</h1>
+            <p>Verify Your Identity</p>
+        </div>
+
+        {% if messages %}
+        <div class="avag-auth-messages">
+            {% for message in messages %}
+            <div class="avag-auth-message {% if message.tags == 'error' %}avag-auth-message--error{% elif message.tags == 'success' %}avag-auth-message--success{% else %}avag-auth-message--info{% endif %}">
+                {% if message.tags == 'error' %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                {% elif message.tags == 'success' %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                {% endif %}
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if mfa_method == 'totp' %}
+        <!-- TOTP Verification -->
+        <div class="avag-auth-center">
+            <span class="avag-auth-method-badge avag-auth-method-badge--totp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avag-icon-align-2-4"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Authenticator App</span>
+        </div>
+        <div class="avag-auth-otp-info">
+            <p>Enter the 6-digit code from your authenticator app</p>
+            <p class="avag-auth-otp-email">{{ email }}</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="avag-auth-form-group">
+                <label for="code">Verification Code</label>
+                <input type="text" id="code" name="code" class="avag-auth-otp-input"
+                       placeholder="000000" maxlength="6" pattern="\d{6}"
+                       autocomplete="one-time-code" autofocus required>
+            </div>
+            <button type="submit" class="avag-auth-btn">Verify & Login</button>
+        </form>
+
+        <!-- Fallback to Email OTP -->
+        <form method="post" class="avag-auth-mt-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_email_otp">
+            <button type="submit" class="avag-auth-btn avag-auth-btn--outline">
+                Can't access your app? Use Email Code instead
+            </button>
+        </form>
+
+        {% else %}
+        <!-- Email OTP Verification -->
+        <div class="avag-auth-center">
+            <span class="avag-auth-method-badge avag-auth-method-badge--email"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avag-icon-align-2-4"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Email Verification</span>
+        </div>
+        <div class="avag-auth-otp-info">
+            <p>A verification code has been sent to:</p>
+            <p class="avag-auth-otp-email">{{ email }}</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="avag-auth-form-group">
+                <label for="code">Verification Code</label>
+                <input type="text" id="code" name="code" class="avag-auth-otp-input"
+                       placeholder="000000" maxlength="6" pattern="\d{6}"
+                       autocomplete="one-time-code" autofocus required>
+            </div>
+            <div class="avag-auth-form-actions">
+                <button type="submit" class="avag-auth-btn">Verify & Login</button>
+                <button type="submit" name="action" value="send_email_otp" class="avag-auth-btn avag-auth-btn--outline" formnovalidate>Resend Code</button>
+            </div>
+        </form>
+        {% endif %}
+
+        <a href="{% url 'login' %}" class="avag-auth-back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to login
+        </a>
+    </div>
+</body>
+</html>

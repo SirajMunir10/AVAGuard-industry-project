@@ -1,0 +1,1 @@
+recursive-include avaguard_core/templates *.j2

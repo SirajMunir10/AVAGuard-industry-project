@@ -1,0 +1,169 @@
+# AVAGuard Project - .gitignore
+
+# ==============================================================================
+# Sibling / Unrelated Projects (NOT part of AVAGuard)
+# ==============================================================================
+CIS_AutomationV2/
+CIS_AutmationV2/
+ll-finetuning-main/
+ll-fintuning-main/
+CLI (old)/
+rag-train/
+
+# ==============================================================================
+# Temp Scripts & Audit Artifacts
+# ==============================================================================
+script_step*.py
+audit.ps1
+audit_output.txt
+final_*.log
+AVAGuard_SRS_Document.txt
+AVAMockData.json
+Mockdata.py
+scripts/extract.py
+read_report.py
+report_text.txt.py
+project_report_analysis.docx
+*.pptx
+
+PLAN.md
+PROGRESS.md
+UI.md
+frontend.md
+treeinfo.md
+
+# Allow .gitkeep tracking globally
+!.gitkeep
+
+# ==============================================================================
+# Python
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+bin/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.manifest
+*.spec
+
+# ==============================================================================
+# Virtual Environments
+# ==============================================================================
+venv/
+venv_test/
+venv_test_2/
+.venv/
+ENV/
+env/
+.env.local
+
+# ==============================================================================
+# IDE / Editor
+# ==============================================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+.spyderproject
+.spyproject
+
+# ==============================================================================
+# Databases (Users create fresh copies via migrations)
+# ==============================================================================
+*.db
+*.sqlite3
+avaguard.db
+avaguard_enterprise.db
+web_portal/db.sqlite3
+web_portal/backups/
+
+# ==============================================================================
+# Logs
+# ==============================================================================
+*.log
+logs/*.log
+desktop_app/output/logs/*.log
+web_portal/logs/*.log
+web_portal/output/logs/*.log
+output/logs/*.log
+generator.log
+
+# ==============================================================================
+# Generated / Combined Code Files
+# ==============================================================================
+docs/
+AVAGuard_Combined_Code.txt
+combined_project_code2.txt
+avaguard-cli/AvaguardCli.txt
+avaguard-core/AvaguardCore.txt
+desktop_app/AvaguardDesktop.txt
+web_portal/Avaguardwebportal.txt
+
+# ==============================================================================
+# Configuration Files (User must create their own from .example)
+# ==============================================================================
+config.ini
+avaguard-cli/config.ini
+web_portal/.env
+.env
+!.env.example
+!web_portal/.env.example
+
+# ==============================================================================
+# Output / Reports
+# ==============================================================================
+output/
+desktop_app/output/
+
+# ==============================================================================
+# OS Files
+# ==============================================================================
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*~
+
+# ==============================================================================
+# Test / Coverage
+# ==============================================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ==============================================================================
+# Distribution / Packaging
+# ==============================================================================
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ==============================================================================
+# Jupyter Notebooks
+# ==============================================================================
+.ipynb_checkpoints/
+
+# ==============================================================================
+# Other
+# ==============================================================================
+*.mo
+*.pot
+combine_code.py
+**/combine.py
+**/Avaguard*.txt

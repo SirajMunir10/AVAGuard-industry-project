@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AVAGuard Report - {{ report_type }}{% endblock %}
+
+{% block page_title %}{{ report_type }}{% endblock %}
+
+{% block content %}
+<div class="report-header avag-mb-30" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h2 style="margin: 0; color: var(--avag-text-primary);">{{ report_type }}</h2>
+        <p style="color: var(--avag-text-secondary); margin-top: 5px;">Date Range: Last {{ date_range }} days | Generated: {{ generated_at|date:"M d, Y H:i" }}</p>
+    </div>
+    <div class="actions">
+        <!-- Allows printing from this view as well -->
+        <button onclick="window.print()" class="btn btn-primary">Print / Save PDF</button>
+    </div>
+</div>
+
+<div class="stats-grid avag-mb-30">
+    <div class="stat-card">
+        <div class="stat-label">Total Scans Evaluated</div>
+        <div class="stat-value">{{ stats.total }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Average Compliance Score</div>
+        <div class="stat-value">{{ stats.avg_score|floatformat:1 }}%</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Risk Status</div>
+        <div class="stat-value" style="color: {% if stats.avg_score >= 80 %}var(--avag-accent-success){% elif stats.avg_score >= 60 %}var(--avag-accent-warning){% else %}var(--avag-accent-danger){% endif %}">
+            {% if stats.avg_score >= 80 %}Secure{% elif stats.avg_score >= 60 %}Needs Improvement{% else %}Critical Risk{% endif %}
+        </div>
+    </div>
+</div>
+
+{% if report_type == 'Executive Summary' %}
+    {% if top_failures %}
+    <div class="chart-card avag-mb-30">
+        <h3 class="chart-title">Top 5 Critical Failures</h3>
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Check Title</th>
+                        <th>Failure Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for failure in top_failures %}
+                    <tr>
+                        <td>{{ failure.title }}</td>
+                        <td><span class="status-badge fail">{{ failure.count }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+{% if report_type == 'Risk Assessment' %}
+    <div class="avag-grid-half avag-mb-30">
+        <div class="chart-card">
+            <h3 class="chart-title">Failure Breakdown by Severity</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Severity</th>
+                            <th>Failure Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for severity in severity_counts %}
+                        <tr>
+                            <td>{{ severity.severity }}</td>
+                            <td><span class="status-badge fail">{{ severity.count }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center">No failures found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h3 class="chart-title">Failure Breakdown by Category</h3>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Failure Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cat in category_counts %}
+                        <tr>
+                            <td>{{ cat.category|default:"Uncategorized" }}</td>
+                            <td><span class="status-badge fail">{{ cat.count }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center">No failures found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if report_type == 'Executive Summary' or report_type == 'Full Compliance Report' %}
+<div class="chart-card avag-mb-30">
+    <h3 class="chart-title">Detailed Scan History</h3>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Scan ID</th>
+                    <th>Score</th>
+                    <th>Checks Passed</th>
+                    <th>Checks Failed</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scan in scans %}
+                <tr>
+                    <td>{{ scan.scan_timestamp|date:"M d, Y H:i" }}</td>
+                    <td>{{ scan.id|slice:":8" }}</td>
+                    <td>{{ scan.overall_score|floatformat:1 }}%</td>
+                    <td>{{ scan.passed_count }}</td>
+                    <td>{{ scan.failed_count }}</td>
+                    <td>
+                        {% if scan.overall_score >= 80 %}
+                        <span class="status-badge pass">COMPLIANT</span>
+                        {% elif scan.overall_score >= 60 %}
+                        <span class="status-badge warning">WARNING</span>
+                        {% else %}
+                        <span class="status-badge fail">AT RISK</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No scans found for this period.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if report_type == 'Full Compliance Report' %}
+<div class="chart-card">
+    <h3 class="chart-title">All Check Results</h3>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Scan Date</th>
+                    <th>Check Title</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in all_results %}
+                <tr>
+                    <td>{{ result.scan.scan_timestamp|date:"M d, Y" }}</td>
+                    <td>{{ result.title }}</td>
+                    <td>{{ result.severity }}</td>
+                    <td>
+                        {% if result.status == 'PASS' %}
+                        <span class="status-badge pass">PASS</span>
+                        {% elif result.status == 'WARNING' %}
+                        <span class="status-badge warning">WARN</span>
+                        {% else %}
+                        <span class="status-badge fail">FAIL</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No detailed results found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

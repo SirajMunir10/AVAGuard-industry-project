@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AVAGuard Portal{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+    <!-- Fonts (Google Fonts — allowed by CSP HTTP Headher) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Theme Script (Must load first to prevent FOUC) -->
+    <script src="{% static 'core/js/theme.js' %}?v=2.0"></script>
+
+    <!-- Lucide Icons — self-hosted (v0.475.0) -->
+    <script src="{% static 'vendor/lucide/lucide.min.js' %}?v=2.0"></script>
+
+    <!-- Chart.js — self-hosted (v4.4.8) -->
+    <script src="{% static 'vendor/chartjs/chart.umd.min.js' %}?v=2.0"></script>
+
+    <!-- Breakpoint Tokens -->
+    <link rel="stylesheet" href="{% static 'core/css/_breakpoints.css' %}?v=2.0">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}?v=2.0">
+    <!-- Component Styles (Modal, Drawer, Toast) -->
+    <link rel="stylesheet" href="{% static 'core/css/components.css' %}?v=2.0">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+
+<body>
+    <div class="app-container">
+        <!-- Collapsible Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="{% url 'dashboard' %}" class="logo">
+                    <span class="logo-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                    </span>
+                    <span class="logo-text">AVAGuard</span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle" title="Toggle Sidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+            </div>
+
+            <nav class="nav-menu">
+                <!-- Main Navigation -->
+                <a href="{% url 'dashboard' %}" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}" data-tooltip="Dashboard">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    </span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="{% url 'scans' %}" class="nav-item {% if active_page == 'scans' %}active{% endif %}" data-tooltip="Scan History">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </span>
+                    <span class="nav-text">Scan History</span>
+                </a>
+                <a href="{% url 'reports' %}" class="nav-item {% if active_page == 'reports' %}active{% endif %}" data-tooltip="Reports">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    </span>
+                    <span class="nav-text">Reports</span>
+                </a>
+                {% if user.role != 'VIEWER' %}
+                <a href="{% url 'policies' %}" class="nav-item {% if active_page == 'policies' %}active{% endif %}" data-tooltip="Policies">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"/><path d="M15 3v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
+                    </span>
+                    <span class="nav-text">Policies</span>
+                </a>
+                {% endif %}
+                
+                <!-- Admin Section -->
+                {% if user.is_authenticated and user.role in 'SUPER_ADMIN,IT_ADMIN,AUDITOR' %}
+                <div class="nav-divider"></div>
+                <div class="nav-section-title"><span>Administration</span></div>
+                {% endif %}
+                
+                <!-- Super Admin Only -->
+                {% if user.is_authenticated and user.role == 'SUPER_ADMIN' %}
+                <a href="{% url 'user_management' %}" class="nav-item {% if active_page == 'users' %}active{% endif %}" data-tooltip="User Management">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </span>
+                    <span class="nav-text">User Management</span>
+                </a>
+                {% endif %}
+                
+                <!-- Super Admin & IT Admin -->
+                {% if user.is_authenticated and user.role in 'SUPER_ADMIN,IT_ADMIN' %}
+                <a href="{% url 'active_sessions' %}" class="nav-item {% if active_page == 'sessions' %}active{% endif %}" data-tooltip="Active Sessions">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    </span>
+                    <span class="nav-text">Active Sessions</span>
+                </a>
+                <a href="{% url 'audit_logs' %}" class="nav-item {% if active_page == 'audit' %}active{% endif %}" data-tooltip="Audit Logs">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M22 13a18.15 18.15 0 0 1-20 0"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                    </span>
+                    <span class="nav-text">Audit Logs</span>
+                </a>
+                {% endif %}
+
+                <!-- Auditor -->
+                {% if user.is_authenticated and user.role == 'AUDITOR' %}
+                <a href="{% url 'audit_logs' %}" class="nav-item {% if active_page == 'audit' %}active{% endif %}" data-tooltip="Audit Trail">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M22 13a18.15 18.15 0 0 1-20 0"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+                    </span>
+                    <span class="nav-text">Audit Trail</span>
+                </a>
+                {% endif %}
+
+
+                
+                <!-- Connect Desktop App (Admin roles only) -->
+                {% if user.role == 'SUPER_ADMIN' or user.role == 'IT_ADMIN' %}
+                <div class="nav-divider"></div>
+                <a href="{% url 'authorize_device' %}" class="nav-item {% if active_page == 'authorize_device' %}active{% endif %}" data-tooltip="Connect App">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    </span>
+                    <span class="nav-text">Connect App</span>
+                </a>
+                {% endif %}
+                
+                <a href="{% url 'settings' %}" class="nav-item {% if active_page == 'settings' %}active{% endif %}" data-tooltip="Settings">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </span>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="nav-item logout-btn" data-tooltip="Logout">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                    </span>
+                    <span class="nav-text">Logout</span>
+                </a>
+                {% else %}
+                <a href="{% url 'login' %}" class="nav-item" data-tooltip="Login">
+                    <span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                    </span>
+                    <span class="nav-text">Login</span>
+                </a>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="navbar-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <h2 class="navbar-page-title">{% block page_title %}{% endblock %}</h2>
+                </div>
+                
+                <div class="navbar-right">
+                    {% block header_actions %}{% endblock %}
+                                    {% if user.is_authenticated %}
+                    <!-- Theme Toggle -->
+                    <button id="avag-theme-toggle" class="navbar-item" title="Switch Theme" onclick="AVAToggleTheme()"></button>
+ 
+                    <!-- Notifications -->
+                    <a href="{% url 'notifications' %}" class="navbar-item" title="System Notifications">
+                        <span class="nav-icon" style="position: relative;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            {% if user.has_unread_notifications %}
+                            <span class="notification-badge"></span>
+                            {% endif %}
+                        </span>
+                    </a>
+ 
+                    <!-- Profile -->
+                    <a href="{% url 'settings' %}" class="navbar-profile" title="Account Settings">
+                        <span class="navbar-user-name">{{ user.full_name|default:user.email }}</span>
+                        <div class="navbar-avatar">
+                            {{ user.first_name|slice:":1"|upper|default:user.email|slice:":1"|upper }}
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+            </header>
+
+            {% if user.is_authenticated and user.is_nearing_expiry %}
+            <div class="global-warning-banner" style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning-color); padding: 12px 20px; margin: 20px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong>Warning:</strong> Your account will expire on {{ user.expires_at|date:"M d, Y" }}.
+                </div>
+                {% if not user.extension_requested %}
+                <button class="avag-btn-header" onclick="document.getElementById('requestExtensionForm').submit();" style="border: 1px solid var(--warning-color); color: var(--warning-color); background: transparent; padding: 6px 12px; cursor: pointer; border-radius: 4px;">Request Extension</button>
+                <form id="requestExtensionForm" action="{% url 'request_extension' %}" method="post" style="display:none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                    <input type="hidden" name="reason" value="Proactive extension request from dashboard">
+                </form>
+                {% else %}
+                <span style="font-size: 12px; opacity: 0.7;">Extension Requested ({{ user.get_extension_request_status_display }})</span>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {% block extra_content %}{% endblock %}
+
+    <!-- Core JavaScript -->
+    <script src="{% static 'core/js/toast.js' %}?v=2.0"></script>
+    <script src="{% static 'core/js/modal_system.js' %}?v=2.0"></script>
+    <script src="{% static 'core/js/drawer.js' %}?v=2.0"></script>
+    <script src="{% static 'core/js/pagination.js' %}?v=2.0"></script>
+    <script src="{% static 'core/js/main.js' %}?v=2.0"></script>
+
+    <!-- Global Django Messages → Toast Bridge -->
+    {% if messages %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for message in messages %}
+        Toast.show('{{ message|escapejs }}', '{% if message.tags == "error" %}error{% elif message.tags == "warning" %}warning{% elif message.tags == "success" %}success{% else %}info{% endif %}');
+        {% endfor %}
+    });
+    </script>
+    {% endif %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

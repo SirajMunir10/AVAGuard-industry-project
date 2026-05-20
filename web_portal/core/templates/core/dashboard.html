@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Security Operations Center{% endblock %}
+{% block subtitle %}Real-time compliance monitoring and threat analysis{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <div class="glass-card">
+        <div class="text-label">Total Controls</div>
+        <div class="text-value">{{ total_checks }}</div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">Active Policies</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="text-label">Compliance Score</div>
+        <div class="text-value text-safe">80%</div>
+        <div class="progress-bar" style="height: 4px; background: rgba(255,255,255,0.1); margin-top: 10px; border-radius: 2px;">
+            <div style="width: 80%; height: 100%; background: var(--accent-safe); border-radius: 2px; box-shadow: var(--glow-safe);"></div>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <div class="text-label">Critical Failures</div>
+        <div class="text-value text-danger">5</div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">Requires Attention</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="text-label">Assets Monitored</div>
+        <div class="text-value">1,003</div>
+        <div style="font-size: 0.8rem; color: var(--text-secondary);">Users & Devices</div>
+    </div>
+</div>
+
+<div class="chart-grid">
+    <div class="glass-card">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">Compliance Trend (7 Days)</h3>
+        <canvas id="trendChart" height="120"></canvas>
+    </div>
+
+    <div class="glass-card">
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">Risk Distribution</h3>
+        <div style="position: relative; height: 200px;">
+            <canvas id="riskChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 1. Trend Chart (Line) ---
+    const ctxTrend = document.getElementById('trendChart').getContext('2d');
+    
+    // Create gradient for the line
+    let gradient = ctxTrend.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)'); // Cyan
+    gradient.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
+
+    new Chart(ctxTrend, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Compliance Score',
+                data: [65, 70, 72, 68, 75, 78, 80],
+                borderColor: '#06b6d4',
+                backgroundColor: gradient,
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#0f172a',
+                pointBorderColor: '#06b6d4'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
+
+    // --- 2. Risk Chart (Doughnut) ---
+    const ctxRisk = document.getElementById('riskChart').getContext('2d');
+    new Chart(ctxRisk, {
+        type: 'doughnut',
+        data: {
+            labels: ['Identity', 'Devices', 'Network'],
+            datasets: [{
+                data: [12, 5, 3],
+                backgroundColor: ['#06b6d4', '#f59e0b', '#f43f5e'], // Cyan, Amber, Rose
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { position: 'right', labels: { color: '#94a3b8' } } 
+            },
+            cutout: '70%'
+        }
+    });
+</script>
+{% endblock %}

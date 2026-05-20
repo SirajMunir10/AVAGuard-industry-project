@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Audit Logs - AVAGuard{% endblock %}
+
+{% block page_title %}Audit Logs{% endblock %}
+
+{% block header_actions %}
+<div class="header-actions" style="display: flex; gap: 12px; align-items: center; margin-right: 16px;">
+    <button class="navbar-item" onclick="window.print()" title="Print Logs">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+    </button>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="audit-logs-container">
+    <!-- Filter Section -->
+    <div class="chart-card">
+        <form method="get" class="avag-filters-row">
+            <div class="avag-filter-group">
+                <label class="form-label">Action</label>
+                <input type="text" name="action" value="{{ action_filter }}" placeholder="e.g. LOGIN" class="form-input">
+            </div>
+            
+            <div class="avag-filter-group">
+                <label class="form-label">User</label>
+                <select name="user_id" class="form-input">
+                    <option value="">All Users</option>
+                    {% for u in users %}
+                    <option value="{{ u.id }}" {% if user_filter == u.id|stringformat:"s" %}selected{% endif %}>{{ u.email }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="avag-filter-group">
+                <label class="form-label">Role</label>
+                <select name="role" class="form-input">
+                    <option value="">All Roles</option>
+                    {% for val, label in role_choices %}
+                    <option value="{{ val }}" {% if role_filter == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="avag-filter-group">
+                <label class="form-label">Timeframe</label>
+                <select name="date_range" class="form-input" onchange="toggleCustomDates(this)">
+                    <option value="all" {% if date_range == 'all' %}selected{% endif %}>All Time</option>
+                    <option value="today" {% if date_range == 'today' %}selected{% endif %}>Today</option>
+                    <option value="7" {% if date_range == '7' %}selected{% endif %}>Last 7 Days</option>
+                    <option value="30" {% if date_range == '30' %}selected{% endif %}>Last 30 Days</option>
+                    <option value="90" {% if date_range == '90' %}selected{% endif %}>Last 90 Days</option>
+                    <option value="custom" {% if date_range == 'custom' %}selected{% endif %}>Custom Range</option>
+                </select>
+            </div>
+
+            <div id="customDates" class="avag-filter-group" style="{% if date_range != 'custom' %}display: none;{% else %}display: flex;{% endif %} min-width: 320px;">
+                <label class="form-label">Range (From — To)</label>
+                <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                    <input type="date" name="date_from" value="{{ date_from }}" class="form-input" style="flex: 1; min-width: 130px;">
+                    <span style="color: var(--avag-text-secondary); flex-shrink: 0;">to</span>
+                    <input type="date" name="date_to" value="{{ date_to }}" class="form-input" style="flex: 1; min-width: 130px;">
+                </div>
+            </div>
+
+            <div class="avag-filter-group" style="flex: 0 0 auto;">
+                <label class="form-label" style="visibility: hidden;">Apply</label>
+                <button type="submit" class="btn btn-primary" style="height: 42px; padding: 0 24px;">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="chart-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 class="chart-title" style="margin-bottom: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+                System Activity Log
+            </h3>
+            <span style="font-size: 13px; color: var(--avag-text-secondary);">Total: {{ action_count }} entries</span>
+        </div>
+        
+        <div class="table-container">
+            <table class="data-table" id="auditLogsTable">
+                <thead>
+                    <tr>
+                        <th class="sortable-header" onclick="sortAuditLogs(0, 'date', this)">Timestamp</th>
+                        <th class="sortable-header" onclick="sortAuditLogs(1, 'text', this)">User</th>
+                        <th class="sortable-header" onclick="sortAuditLogs(2, 'text', this)">Action</th>
+                        <th>Details</th>
+                        <th>IP Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in audit_logs %}
+                    <tr>
+                        <td style="white-space: nowrap; font-size: 13px; color: var(--avag-text-secondary);">{{ log.timestamp|date:"M d, Y H:i:s" }}</td>
+                        <td style="color: var(--avag-text-primary);">{{ log.user.email|default:"System" }}</td>
+                        <td>
+                            <span class="status-badge {% if 'FAIL' in log.action %}fail{% elif 'CREATED' in log.action or 'LOGIN' in log.action %}pass{% else %}warning{% endif %}">
+                                {{ log.action }}
+                            </span>
+                        </td>
+                        <td style="font-size: 13px; color: var(--avag-text-secondary);">{{ log.details|default:"-" }}</td>
+                        <td style="font-family: monospace; font-size: 12px; color: var(--avag-text-muted);">{{ log.ip_address|default:"-" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state" style="padding: 40px;">
+                                <p class="empty-state-title">No logs found</p>
+                                <p class="empty-state-text">Adjust your filters or check back later.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="auditPagination" class="pagination-container"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/pages/avag-audit.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Standardized client-side pagination
+        initPagination('auditLogsTable', 'auditPagination', 25);
+    });
+
+    function sortAuditLogs(col, type, header) {
+        const pagination = window.AVA_PAGINATION_auditLogsTable;
+        if (pagination) {
+            const isAsc = !header.classList.contains('asc');
+            document.querySelectorAll('.sortable-header').forEach(h => h.classList.remove('asc', 'desc'));
+            header.classList.add(isAsc ? 'asc' : 'desc');
+            pagination.sort(col, type, isAsc);
+        }
+    }
+</script>
+{% endblock %}

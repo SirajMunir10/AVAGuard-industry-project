@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Policies - AVAGuard{% endblock %}
+
+{% block page_title %}Security Policies{% endblock %}
+
+{% block header_actions %}
+<div class="header-actions" style="display: flex; gap: 12px; align-items: center; margin-right: 16px;">
+    <button class="navbar-item" title="Add New Security Policy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Policy Explanation -->
+<div class="info-card" style="background: rgba(var(--avag-accent-primary-rgb), 0.1); border-left: 4px solid var(--avag-accent-primary); padding: 20px; margin-bottom: 30px; border-radius: 8px;">
+    <h3 style="color: var(--avag-accent-primary); margin-top: 0; margin-bottom: 10px; font-size: 1.1em; display: flex; align-items: center; gap: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        About AVAGuard Policies
+    </h3>
+    <p style="margin-bottom: 10px; line-height: 1.5; color: var(--avag-text-primary);">Policies define the compliance rules enforced by AVAGuard agents. Use this configuration to:</p>
+    <ul style="margin-bottom: 15px; padding-left: 20px; line-height: 1.6; color: var(--avag-text-secondary);">
+        <li><strong>Define Compliance Rules:</strong> Select which CIS, HIPAA, or Custom checks are active during desktop scans.</li>
+        <li><strong>Enforce Standards:</strong> Set severity levels (Critical, High, Medium) and pass/fail thresholds.</li>
+        <li><strong>Manage Exceptions:</strong> Temporarily disable specific checks or create organization-specific rules.</li>
+    </ul>
+    <p style="font-size: 0.9em; margin-bottom: 0; color: var(--avag-text-muted);"><em>Note: Policy changes are automatically synchronized to desktop agents during their next scan cycle.</em></p>
+</div>
+
+<!-- Policy Categories -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <span class="stat-label">Active Policies</span>
+            <div class="stat-icon primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8Z"/><path d="M15 3v4a2 2 0 0 0 2 2h4"/><path d="M9 12h6"/><path d="M9 16h6"/></svg>
+            </div>
+        </div>
+        <div class="stat-value">{{ active_policies|default:"24" }}</div>
+        <div class="stat-change">Enabled checks</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <span class="stat-label">Disabled</span>
+            <div class="stat-icon warning">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </div>
+        </div>
+        <div class="stat-value">{{ disabled_policies|default:"3" }}</div>
+        <div class="stat-change">Temporarily paused</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <span class="stat-label">Custom Rules</span>
+            <div class="stat-icon success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+        </div>
+        <div class="stat-value">{{ custom_rules|default:"5" }}</div>
+        <div class="stat-change">Organization-specific</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-header">
+            <span class="stat-label">Frameworks</span>
+            <div class="stat-icon primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+        </div>
+        <div class="stat-value">{{ frameworks|default:"4" }}</div>
+        <div class="stat-change">PCI, ISO, HIPAA, SOC2</div>
+    </div>
+</div>
+
+<!-- Policy List -->
+<div class="chart-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 class="chart-title" style="margin-bottom: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            Policy Configuration
+        </h3>
+        {% if can_edit %}
+        <button class="btn btn-primary" style="padding: 8px 16px; font-size: 14px;" onclick="openPolicyModal('add')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Policy
+        </button>
+        {% endif %}
+    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Policy Name</th>
+                <th>Category</th>
+                <th>Severity</th>
+                <th>Framework</th>
+                <th>Status</th>
+                {% if can_edit %}<th>Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for policy in policies %}
+            <tr>
+                <td style="color: var(--avag-text-primary);">{{ policy.name }}
+                    {% if policy.is_custom %}<span class="status-badge" style="background: rgba(0,0,0,0.1); color: var(--avag-text-secondary); border: none; font-size: 10px; margin-left: 5px;">Custom</span>{% endif %}
+                </td>
+                <td>{{ policy.get_category_display }}</td>
+                <td>
+                    <span class="status-badge {% if policy.severity == 'CRITICAL' or policy.severity == 'HIGH' %}fail{% elif policy.severity == 'MEDIUM' %}warning{% else %}pass{% endif %}">
+                        {{ policy.get_severity_display }}
+                    </span>
+                </td>
+                <td>{{ policy.get_framework_display }}</td>
+                <td>
+                    {% if policy.is_active %}
+                    <span style="color: var(--avag-accent-success);">● Active</span>
+                    {% else %}
+                    <span style="color: var(--avag-text-secondary);">○ Disabled</span>
+                    {% endif %}
+                </td>
+                {% if can_edit %}
+                <td>
+                    <button type="button" class="btn btn-sm btn-secondary" style="padding: 4px 8px; margin-right: 8px; border: none; background: transparent; color: var(--avag-accent-primary);" onclick="openPolicyModal('edit', '{{ policy.id }}', '{{ policy.name|escapejs }}', '{{ policy.description|escapejs }}', '{{ policy.category }}', '{{ policy.severity }}', '{{ policy.framework }}', '{{ policy.status }}')">Edit</button>
+                    <form method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="toggle_policy">
+                        <input type="hidden" name="policy_id" value="{{ policy.id }}">
+                        <button type="submit" class="btn btn-sm btn-secondary" style="padding: 4px 8px; border: none; background: transparent; color: {% if policy.is_active %}var(--avag-accent-danger){% else %}var(--avag-accent-success){% endif %};">
+                            {% if policy.is_active %}Disable{% else %}Enable{% endif %}
+                        </button>
+                    </form>
+                </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="{% if can_edit %}6{% else %}5{% endif %}" style="text-align: center; color: var(--avag-text-secondary); padding: 30px;">
+                    No policies found. {% if can_edit %}Click 'Add Policy' to get started.{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block extra_content %}
+<!-- Policy Modal -->
+<div id="policyModal" class="avag-modal" style="display: none; position: fixed; inset: 0; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.55); align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(2px);">
+    <div class="avag-modal-content" style="background: var(--avag-bg-card); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; border: 1px solid var(--avag-border-color); box-shadow: 0 20px 60px rgba(0,0,0,0.25); margin: 16px;">
+        <h3 id="policyModalTitle" style="margin-top: 0; color: var(--avag-text-primary);">Add Policy</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="action" id="policyAction" value="add_policy">
+            <input type="hidden" name="policy_id" id="policyId" value="">
+            
+            <div class="form-group avag-mb-15">
+                <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Policy Name</label>
+                <input type="text" name="name" id="policyName" required style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;">
+            </div>
+            
+            <div class="form-group avag-mb-15">
+                <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Description</label>
+                <textarea name="description" id="policyDescription" rows="3" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;"></textarea>
+            </div>
+            
+            <div class="avag-grid-half" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Category</label>
+                    <select name="category" id="policyCategory" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;">
+                        {% for val, display in CATEGORY_CHOICES %}
+                        <option value="{{ val }}" style="color: #000;">{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Severity</label>
+                    <select name="severity" id="policySeverity" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;">
+                        {% for val, display in SEVERITY_CHOICES %}
+                        <option value="{{ val }}" style="color: #000;">{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <div class="avag-grid-half" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Framework</label>
+                    <select name="framework" id="policyFramework" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;">
+                        {% for val, display in FRAMEWORK_CHOICES %}
+                        <option value="{{ val }}" style="color: #000;">{{ display }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 5px; color: var(--avag-text-secondary);">Status</label>
+                    <select name="status" id="policyStatus" style="width: 100%; padding: 10px; background: rgba(0,0,0,0.1); border: 1px solid var(--avag-border-color); color: var(--avag-text-primary); border-radius: 6px;">
+                        <option value="ACTIVE" style="color: #000;">Active</option>
+                        <option value="DISABLED" style="color: #000;">Disabled</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button type="button" class="btn btn-secondary" onclick="closePolicyModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save Policy</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function openPolicyModal(mode, id, name, description, category, severity, framework, status) {
+        const modal = document.getElementById('policyModal');
+        const title = document.getElementById('policyModalTitle');
+        const actionInput = document.getElementById('policyAction');
+        
+        if (mode === 'add') {
+            title.textContent = 'Add Policy';
+            actionInput.value = 'add_policy';
+            document.getElementById('policyId').value = '';
+            document.getElementById('policyName').value = '';
+            document.getElementById('policyDescription').value = '';
+            document.getElementById('policyCategory').value = 'System';
+            document.getElementById('policySeverity').value = 'MEDIUM';
+            document.getElementById('policyFramework').value = 'CIS';
+            document.getElementById('policyStatus').value = 'ACTIVE';
+        } else if (mode === 'edit') {
+            title.textContent = 'Edit Policy';
+            actionInput.value = 'edit_policy';
+            document.getElementById('policyId').value = id;
+            document.getElementById('policyName').value = name;
+            document.getElementById('policyDescription').value = description;
+            document.getElementById('policyCategory').value = category;
+            document.getElementById('policySeverity').value = severity;
+            document.getElementById('policyFramework').value = framework;
+            document.getElementById('policyStatus').value = status;
+        }
+        
+        modal.style.display = 'flex';
+    }
+    
+    function closePolicyModal() {
+        document.getElementById('policyModal').style.display = 'none';
+    }
+    
+    // Close modal on click outside
+    document.getElementById('policyModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePolicyModal();
+        }
+    });
+</script>
+{% endblock %}

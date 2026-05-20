@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Authorize Device - AVAGuard{% endblock %}
+{% block page_title %}Authorize Device{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/avag-authorize-device.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="authorize-container">
+    <div class="authorize-card">
+        <div class="icon">
+            {% if device_auth.status == 'APPROVED' %}
+            ✅
+            {% elif device_auth.status == 'EXPIRED' %}
+            ⏰
+            {% elif device_auth.status == 'REVOKED' %}
+            🚫
+            {% else %}
+            🖥️
+            {% endif %}
+        </div>
+        
+        <h1>
+            {% if device_auth.status == 'APPROVED' %}
+            Device Authorized
+            {% elif device_auth.status == 'EXPIRED' %}
+            Token Expired
+            {% elif device_auth.status == 'REVOKED' %}
+            Session Revoked
+            {% elif device_auth %}
+            Authorize Desktop App
+            {% else %}
+            Connect App
+            {% endif %}
+        </h1>
+        
+        {% if device_auth %}
+        <div class="token-display">
+            <span class="label">Device Token:</span>
+            <code>{{ device_token|truncatechars:20 }}</code>
+        </div>
+        {% endif %}
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if show_input_form %}
+        <p class="description">
+            To link your desktop application, please enter the authorization token displayed in the app.
+        </p>
+        
+        <form method="get" class="authorize-form">
+            <div class="form-group">
+                <input type="text" name="token" placeholder="Enter Token (e.g., a1b2-c3d4...)" 
+                       class="form-input authorize-form-input" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg authorize-form-btn-full">
+                Verify Token
+            </button>
+        </form>
+        
+        {% elif device_auth.status == 'PENDING' %}
+        <p class="description">
+            A desktop application is requesting access to your AVAGuard account.
+            Click the button below to authorize this connection.
+        </p>
+        
+        <form method="post" class="authorize-form">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">
+                ✓ Approve This Device
+            </button>
+        </form>
+        
+        <p class="warning">
+            ⚠️ Only approve if you initiated this request from the desktop app.
+        </p>
+        
+        {% elif device_auth.status == 'APPROVED' %}
+        <p class="success-message">
+            This device has been authorized. You can close this window and return to the desktop app.
+        </p>
+        <div class="approved-info">
+            <p><strong>User:</strong> {{ request.user.email }}</p>
+            <p><strong>Approved:</strong> {{ device_auth.approved_at|date:"M d, Y H:i" }}</p>
+        </div>
+        
+        {% elif device_auth.status == 'EXPIRED' %}
+        <p class="error-message">
+            This authorization token has expired. Please restart the desktop application and try again.
+        </p>
+        
+        {% elif device_auth.status == 'REVOKED' %}
+        <p class="error-message">
+            This session has been revoked by an administrator. Please contact your IT department.
+        </p>
+        {% endif %}
+        
+        <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

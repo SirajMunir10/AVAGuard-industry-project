@@ -1,0 +1,399 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Management - AVAGuard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/pages/avag-users.css' %}">
+{% endblock %}
+
+{% block page_title %}User Management{% endblock %}
+
+
+
+{% block content %}
+<!-- Active Filter Indicator -->
+{% if active_filter_label %}
+<div class="filter-indicator" style="background: rgba(0, 136, 204, 0.1); border: 1px solid var(--avag-accent-primary); border-radius: 8px; padding: 12px 20px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 10px; color: var(--avag-accent-primary); font-weight: 500;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Active Filter: {{ active_filter_label }}
+    </div>
+    <a href="{% url 'user_management' %}" style="font-size: 13px; color: var(--avag-text-secondary); text-decoration: none;">Clear Filter</a>
+</div>
+{% endif %}
+
+<!-- Header with Search & Filters -->
+<div class="users-header">
+    <div class="header-left">
+        <!-- Search Bar -->
+        <div class="search-box">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="Search by name or email..." 
+                   autocomplete="off"
+                   onkeyup="filterTable()">
+        </div>
+        
+        <!-- Add User Button -->
+        <button class="btn btn-primary add-user-btn" onclick="openCreateUserDrawer()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                <line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/>
+            </svg>
+            Add User
+        </button>
+    </div>
+    
+    <div class="header-right">
+        <!-- Status Toggle -->
+        <div class="status-toggle">
+            <button type="button" id="filterAll" class="active" onclick="setFilter('all')">All</button>
+            <button type="button" id="filterActive" onclick="setFilter('active')">Active</button>
+            <button type="button" id="filterDisabled" onclick="setFilter('disabled')">Disabled</button>
+        </div>
+    </div>
+</div>
+
+
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Bulk Actions Bar -->
+<div class="bulk-actions-bar" id="bulkActionsBar">
+    <div class="selected-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span><span id="selectedCount">0</span> users selected</span>
+    </div>
+    <div class="bulk-btns">
+        <button class="btn btn-secondary btn-sm" onclick="bulkAction('force_reset')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Force Reset
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="bulkAction('enable_2fa')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>
+            </svg>
+            Enable 2FA
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="bulkAction('deactivate')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
+            </svg>
+            Deactivate
+        </button>
+    </div>
+</div>
+
+<!-- Users Table -->
+<div class="users-card">
+    <div class="users-card-header">
+        <h3 class="users-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Organization Users
+            <span class="users-count" id="usersCount">{{ users|length }}</span>
+        </h3>
+    </div>
+    
+    <div class="table-container">
+        <table id="usersTable" class="users-table">
+            <thead>
+            <tr>
+                <th class="checkbox-cell">
+                    <input type="checkbox" id="selectAll" onchange="toggleSelectAll()" title="Select all">
+                </th>
+                <th class="sortable-header" onclick="sortTable(1, 'text', this)">
+                    User
+                    <div class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </th>
+                <th class="sortable-header" onclick="sortTable(2, 'text', this)">
+                    Role
+                    <div class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </th>
+                <th>Department</th>
+                <th>MFA</th>
+                <th>Security</th>
+                <th class="sortable-header" onclick="sortTable(6, 'text', this)">
+                    Status
+                    <div class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </th>
+                <th class="sortable-header" onclick="sortTable(7, 'date', this)">
+                    Last Login
+                    <div class="sort-icon">
+                        <svg class="up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                        <svg class="down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>
+                    </div>
+                </th>
+                <th>Manage</th>
+            </tr>
+        </thead>
+        <tbody id="usersTableBody">
+            {% for user in users %}
+            <tr data-user-id="{{ user.id }}" 
+                data-user-name="{{ user.full_name }}"
+                data-user-email="{{ user.email }}"
+                data-user-first="{{ user.first_name }}"
+                data-user-last="{{ user.last_name }}"
+                data-user-role="{{ user.role }}"
+                data-user-role-display="{{ user.get_role_display }}"
+                data-user-department="{{ user.department }}"
+                data-user-mfa="{{ user.mfa_enabled|yesno:'true,false' }}"
+                data-user-totp="{{ user.mfa_secret|yesno:'true,false' }}"
+                data-user-active="{{ user.is_active|yesno:'true,false' }}"
+                data-user-security="{{ user.security_score }}"
+                data-user-expires="{{ user.expires_at|date:'Y-m-d'|default:'' }}"
+                data-user-force-change="{{ user.password_change_required|yesno:'true,false' }}"
+                data-user-created="{{ user.created_at|date:'c' }}"
+                data-user-lastlogin="{{ user.last_login|date:'c'|default:'' }}"
+                class="{% if not user.is_active %}user-disabled{% endif %}">
+                <td class="checkbox-cell">
+                    {% if user.id != request.user.id %}
+                    <input type="checkbox" class="user-checkbox" value="{{ user.id }}" onchange="updateBulkBar()">
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="user-cell">
+                        <div class="user-avatar">
+                            {{ user.first_name|slice:":1"|upper|default:user.email|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name">{{ user.full_name }}</span>
+                            <span class="user-email">{{ user.email }}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="role-badge role-{{ user.role|lower }}">
+                        {{ user.get_role_display }}
+                    </span>
+                </td>
+                <td>
+                    {{ user.department|default:"—" }}
+                </td>
+                <td>
+                    {% if user.mfa_enabled %}
+                    <span class="mfa-badge totp" title="MFA Enabled">
+                        Enabled
+                    </span>
+                    {% else %}
+                    <span class="mfa-badge off" title="MFA Disabled">Off</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="security-badge {{ user.security_score }}">
+                        <span class="dot"></span>
+                        {% if user.security_score == 'green' %}Secure
+                        {% elif user.security_score == 'yellow' %}Moderate
+                        {% else %}At Risk{% endif %}
+                    </span>
+                </td>
+                <td>
+                    {% if user.is_expired %}
+                    <span class="user-status expired">
+                        <span class="status-dot"></span> Expired
+                    </span>
+                    {% elif user.is_active %}
+                    <span class="user-status active">
+                        <span class="status-dot"></span> Active
+                    </span>
+                    {% else %}
+                    <span class="user-status disabled">
+                        <span class="status-dot"></span> Disabled
+                    </span>
+                    {% endif %}
+                </td>
+                <td data-sort-value="{{ user.last_login|date:'c'|default:'1970-01-01T00:00:00' }}">
+                    {% if user.last_login %}
+                    <span title="{{ user.last_login|date:'N j, Y H:i' }}">{{ user.last_login|timesince }} ago</span>
+                    {% else %}
+                    <span class="avag-text-secondary">Never</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.id != request.user.id %}
+                    <button class="manage-btn" onclick="openUserDrawer(this.closest('tr'))" title="Edit user">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                        Manage
+                    </button>
+                    <a href="{% url 'user_sessions_detail' user.id %}" class="manage-btn" title="Investigate user" style="margin-left:6px; border-color: var(--avag-accent-primary); color: var(--avag-accent-primary); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        Investigate
+                    </a>
+                    {% else %}
+                    <span style="font-size:12px; color:var(--avag-text-secondary);">You</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <p>No users found</p>
+                    <p>Add your first user to get started.</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    <div id="paginationContainer"></div>
+</div>
+
+<!-- Create User Drawer Overlay -->
+<div class="drawer-overlay" id="createUserOverlay" onclick="closeCreateUserDrawer()"></div>
+
+<!-- Create User Drawer -->
+<div id="createUserDrawer" class="side-drawer">
+    <div class="drawer-header">
+        <div class="drawer-header-content">
+            <div class="drawer-header-info">
+                <h2 class="drawer-title">Create New User</h2>
+                <span class="drawer-subtitle">Add a new user to the organization</span>
+            </div>
+        </div>
+        <button class="drawer-close" onclick="closeCreateUserDrawer()">&times;</button>
+    </div>
+    <div class="drawer-body" style="padding: 24px 32px;">
+        <form method="post" id="createUserForm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create">
+            
+            <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input type="email" name="email" class="form-input" required>
+            </div>
+            
+            <div class="avag-grid-half">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" name="first_name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" name="last_name" class="form-input">
+                </div>
+            </div>
+            
+            <div class="avag-grid-half">
+                <div class="form-group">
+                    <label class="form-label">Role *</label>
+                    <select name="role" class="form-select" required>
+                        {% for value, label in role_choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Department</label>
+                    <input type="text" name="department" class="form-input">
+                </div>
+            </div>
+            
+            <div class="avag-grid-half">
+                <div class="form-group">
+                    <label class="form-label">Password *</label>
+                    <input type="password" name="password" class="form-input" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password *</label>
+                    <input type="password" name="confirm_password" class="form-input" required minlength="8">
+                </div>
+            </div>
+            
+            <div class="avag-mt-10">
+                <p class="avag-font-13 avag-mb-0 avag-text-warning">
+                    <strong>Note:</strong> User will be prompted to change this password on first login.
+                </p>
+            </div>
+            
+            <div class="drawer-control-destructive" style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; border-top: none;">
+                <button type="button" class="btn btn-secondary" onclick="closeCreateUserDrawer()">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Side-Drawer (Phase 2) -->
+<div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
+<div id="userDrawer" class="side-drawer" role="dialog" aria-modal="true" aria-label="User Management Drawer">
+    <div class="drawer-body"></div>
+</div>
+
+<!-- Account Expiry Modal -->
+<div id="expiryModal" class="modal">
+    <div class="modal-content">
+        <div class="avag-flex-between avag-mb-20">
+            <h2 class="avag-font-18 avag-mb-0 avag-text-white">Set Account Expiry</h2>
+            <button class="btn btn-icon avag-btn-icon-clear" onclick="closeModal('expiryModal')" aria-label="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+            </button>
+        </div>
+        
+        <p class="avag-font-13 avag-mb-20 avag-text-secondary">
+            Set an expiration date for <strong id="expiryUserEmail" class="avag-text-white"></strong>. The account will automatically lose access at midnight (UTC) on the selected date.
+        </p>
+        
+        <div class="form-group avag-mb-20">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" id="expiryDate" class="form-input avag-w-100 avag-color-scheme-dark">
+        </div>
+        
+        <div class="avag-flex-between avag-mt-20">
+            <button type="button" class="btn btn-secondary avag-d-none" onclick="clearExpiry()" id="btnClearExpiry">Remove Expiry</button>
+            <div class="avag-flex-row-gap16 avag-ml-auto">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('expiryModal')">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveExpiry()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/user_management.js' %}"></script>
+<script>
+    window.AVA = window.AVA || {};
+    window.AVA.csrfToken = '{{ csrf_token }}';
+</script>
+<script src="{% static 'core/js/pages/avag-users.js' %}"></script>
+{% endblock %}
