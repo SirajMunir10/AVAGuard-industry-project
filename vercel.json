@@ -1,10 +1,7 @@
 {
   "functions": {
     "api/vercel_app.py": {
-      "includeFiles": [
-        "avaguard-core/**",
-        "web_portal/**"
-      ]
+      "includeFiles": "{avaguard-core,web_portal}/**"
     }
   },
   "rewrites": [
