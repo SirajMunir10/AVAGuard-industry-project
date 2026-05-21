@@ -32,7 +32,3 @@ Jinja2>=3.1.0
 
 # === Production/Serverless Requirements ===
 whitenoise>=6.5.0
-
-# === Local Package Integrations ===
-# Installs avaguard-core relative to the api/ folder
-../avaguard-core
