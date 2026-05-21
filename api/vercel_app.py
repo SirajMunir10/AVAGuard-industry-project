@@ -1,9 +1,9 @@
 import os
 import sys
 
-# Get the path of the web_portal directory and root directory
-web_portal_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.dirname(web_portal_dir)
+# Get the path of the project root directory
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+web_portal_dir = os.path.join(root_dir, 'web_portal')
 
 # Add directories to system path so Django and Core imports work
 sys.path.append(web_portal_dir)
